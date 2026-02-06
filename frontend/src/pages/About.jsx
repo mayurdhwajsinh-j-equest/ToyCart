@@ -1,13 +1,12 @@
-import "./Home.css";
 
-function Home() {
+function About() {
   return (
     <main className="home">
       <section className="hero">
-        <h1>Welcome to home page</h1>
+        <h1>Welcome to about page</h1>
       </section>
     </main>
   );
 }
 
-export default Home;
+export default About;
