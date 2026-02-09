@@ -2,63 +2,51 @@
   background-color: #f7ffb4;
 }
 
-/* ---------------- HERO ---------------- */
-
 .home-hero {
-  min-height: 150vh;
+  min-height: 100vh;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   padding: 80px 100px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  background-image: url('../../public/images/Swiggle.png');
 }
 
-.hero-content {
-  max-width: 520px;
+.hero-title-wrapper {
+  text-align: center;
 }
 
-.hero-content h1 {
-  font-size: 72px;
+.hero-title {
+  font-size: 164px;
   font-weight: 900;
-  line-height: 1.05;
-  color: #1f4f6b;
-  margin-bottom: 24px;
+  line-height: 1.1; 
+  margin: 40px;
+  color: #255F83;
+  display: inline-block;
 }
 
-.hero-content p {
+.hero-title .highlight1 {
+  margin-right: 40px; 
+}
+.hero-title .highlight2 {
+  margin-left: 40px; 
+}
+
+.hero-content-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+  top: -100px; 
+}
+
+.hero-text p {
   font-size: 16px;
   color: #1f4f6b;
-  margin-bottom: 32px;
+  line-height: 1.5;
 }
-
-.hero-buttons {
-  display: flex;
-  gap: 16px;
-}
-
-.btn-outline {
-  background: transparent;
-  border: 2px solid #1f4f6b;
-  color: #1f4f6b;
-  padding: 12px 22px;
-  border-radius: 6px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background: #f3f8a6;
-  border: none;
-  color: #1f4f6b;
-  padding: 12px 22px;
-  border-radius: 6px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-/* ---------------- BOX ---------------- */
 
 .hero-box-wrapper {
   flex: 1;
@@ -71,6 +59,30 @@
   position: relative;
   width: 420px;
   height: 420px;
+}
+
+.box-with-dino {
+  position: relative;
+  display: inline-block;
+  width: 260px;
+  height: auto;
+}
+
+.closed-box {
+  display: block;
+  width: 130%;
+  height: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.dinosaur-img {
+  position: absolute;
+  bottom: 70%;
+  left: 25%;
+  width: 120px;
+  height: auto;
+  z-index: 1;
 }
 
 .box {
@@ -101,8 +113,37 @@
   transform: translateY(0) scale(1);
 }
 
-/* ---------------- PILE ---------------- */
+/* Hero buttons */
+.hero-buttons,
+.hero-buttons-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  margin-left: 135px;
+}
 
+.btn-outline {
+  background: transparent;
+  border: 2px solid #1f4f6b;
+  color: #1f4f6b;
+  padding: 12px 22px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #f3f8a6;
+  border: none;
+  color: #1f4f6b;
+  padding: 12px 22px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Pile section */
 .pile-section {
   display: flex;
   justify-content: center;
@@ -113,82 +154,106 @@
   max-width: 100%;
 }
 
-/* ---------------- WORKFLOW ---------------- */
-
+/* Workflow section */
 .workflow {
-  max-width: 960px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 80px 20px;
+  padding: 100px 20px;
   color: #2f4f6f;
 }
 
 .workflow-title {
-  font-size: 2.8rem;
-  font-weight: 800;
+  font-size: 96px;
+  font-weight: bolder;
   text-align: center;
-  margin-bottom: 40px;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  color: #255F83;
 }
 
 .workflow-content {
   display: flex;
-  gap: 30px;
+  align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  gap: 0;
+  position: relative;
 }
 
+/* Workflow phone */
 .workflow-phone {
-  background: #f9a6e6;
-  padding: 40px 30px;
-  border-radius: 8px;
-  flex: 1 1 320px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  width: 500px;
+  padding: 60px 40px;
+  z-index: 0;
+  flex-shrink: 0;
 }
 
 .phone-image {
-  max-width: 160px;
-  margin-bottom: 30px;
+  display: block;
+  position: relative;
+  z-index: 0;
+  margin-bottom: 40px;
 }
 
 .workflow-actions {
+  position: absolute;
+  left: 50%;
+  bottom: 80px;
+  transform: translateX(-50%);
   display: flex;
-  gap: 10px;
+  gap: 16px;
+  z-index: 1;
 }
 
 .btn {
-  background: #d7d9de;
+  background: #cfd2d8;
   border: none;
-  padding: 8px 18px;
+  padding: 12px 37px;
   border-radius: 4px;
   font-weight: 600;
+  font-size: 16px;
   cursor: pointer;
-  color: #2f4f6f;
+  color: #255F83;
 }
 
 .btn-active {
-  background: #ffffaa;
+  background: #F7FFB4;
   font-weight: 700;
 }
 
+/* Workflow steps */
 .workflow-steps {
-  background: #ded9ff;
-  border-radius: 8px;
-  padding: 30px;
-  max-width: 460px;
-  flex: 1 1 400px;
+  background: #dcd6f7;
+  border-radius: 10px;
+  margin-top: 120px;
+  padding: 40px 36px;
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 3;
 }
 
 .workflow-steps ol {
   list-style: none;
   padding: 0;
+  margin: 0 0 30px 0;
   counter-reset: step;
 }
 
 .workflow-steps li {
   position: relative;
-  padding-left: 35px;
-  margin-bottom: 24px;
+  padding-left: 48px;
+  margin-bottom: 30px;
+  font-size: 15px;
+}
+
+.workflow-steps li:last-child {
+  margin-bottom: 0;
 }
 
 .workflow-steps li::before {
@@ -196,28 +261,48 @@
   content: counter(step);
   position: absolute;
   left: 0;
-  width: 22px;
-  height: 22px;
-  background: #b2b3ff;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  background: #DECCFE;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
+  font-size: 18px;
+  color: #255F83;
+}
+
+.workflow-steps strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #255F83;
+}
+
+.workflow-steps p {
+  color: #255F83;
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0;
 }
 
 .btn-start {
   width: 100%;
-  background: #ffffaa;
+  background: #F7FFB4;
+  color: #255F83;
+  font-size: 17px;
   border: none;
-  padding: 12px;
+  padding: 16px;
   font-weight: 700;
   border-radius: 4px;
   cursor: pointer;
+  margin-top: 0;
 }
 
-/* ---------------- RESPONSIVE ---------------- */
-
+/* Responsive */
 @media (max-width: 1024px) {
   .home-hero {
     flex-direction: column;

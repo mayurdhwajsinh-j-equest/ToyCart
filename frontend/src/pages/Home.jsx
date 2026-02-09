@@ -1,70 +1,50 @@
-import { useEffect, useRef } from "react";
 import "./Home.css";
 
 import boxClosed from "../../public/images/box-closed.png";
 import boxOpen from "../../public/images/box-open.png";
-import swiggle from "../../public/images/Swiggle.png";
+import dinosaur from "../../public/images/dinosaur.png";
 import pilePhoto from "../../public/images/photo-pile.png";
 import workflowPhone from "../../public/images/Video.png";
 
 function Home() {
-  const boxRef = useRef(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!boxRef.current) return;
-
-      const rect = boxRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      if (rect.top < windowHeight * 0.6) {
-        boxRef.current.classList.add("open");
-      } else {
-        boxRef.current.classList.remove("open");
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <>
       <div className="home-wrapper">
-        <section
-          className="home-hero"
-          style={{ backgroundImage: `url(${swiggle})` }}
-        >
-          <div className="hero-content">
-            <h1>
+        <section className="home-hero">
+          <div className="hero-title-wrapper">
+            <h1 className="hero-title">
               Share toys
               <br />
-              Grow minds
+              <span className="highlight1">Grow</span> <span className="highlight2">minds</span>
             </h1>
+          </div>
 
-            <p>
-              A world of play without the waste.
-              <br />
-              Open up endless learning possibilities
-              <br />
-              by renting our pre-loved toys.
-            </p>
+          <div className="hero-content-wrapper">
+            <div className="hero-text">
+              <p>
+                A world of play without the waste.
+                <br />
+                Open up endless learning possibilities
+                <br />
+                by renting our pre-loved toys.
+              </p>
+            </div>
+
+            <div className="hero-box-wrapper">
+              <div className="box-with-dino">
+                <img src={dinosaur} alt="Dinosaur" className="dinosaur-img" />
+                <img src={boxClosed} alt="Closed box" className="closed-box" />
+              </div>
+            </div>
+
 
             <div className="hero-buttons">
               <button className="btn-outline">Browse toys</button>
               <button className="btn-primary">Start your toy box</button>
             </div>
           </div>
-
-          <div className="hero-box-wrapper">
-            <div className="hero-box" ref={boxRef}>
-              <img src={boxClosed} alt="Closed box" className="box box-closed" />
-              <img src={boxOpen} alt="Open box" className="box box-open" />
-            </div>
-          </div>
         </section>
+
 
         <section className="pile-section">
           <img src={pilePhoto} alt="Pile of toys" className="pile-photo" />
