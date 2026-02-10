@@ -1,3 +1,5 @@
+import "./Collection.css";
+
 function Collection() {
     return (
         <main className="home">

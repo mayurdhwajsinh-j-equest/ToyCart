@@ -1,3 +1,5 @@
+import "./Product.css";
+
 function Product() {
     return (
         <main className="home">
