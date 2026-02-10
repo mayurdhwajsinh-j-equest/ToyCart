@@ -5,6 +5,10 @@
     color: #255F83;
 }
 
+.callout a{
+    font-weight: bold;
+}
+
 .callout-left{
     display: flex;
     justify-content: flex-start;

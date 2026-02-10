@@ -1,8 +1,9 @@
 import "./Home.css";
 
+import Callout from "../components/Callout/Callout.jsx";
+import Textbox from "../components/Textbox/Textbox.jsx";
 import boxClosed from "../../public/images/box-closed.png";
 import boxOpen from "../../public/images/box-open.png";
-import Callout from "../components/Callout/Callout.jsx";
 import puppy from "../../public/images/puppy.png";
 import simpleFlamingo from "../../public/images/simple-flamingo.png";
 import beaver from "../../public/images/beaver.png";
@@ -13,6 +14,10 @@ import dinosaur1 from "../../public/images/dinosaur1.png";
 import pilePhoto from "../../public/images/photo-pile.png";
 import workflowPhone from "../../public/images/Video.png";
 import ball from "../../public/images/ball.png";
+import toyimg from "../../public/images/toy-img.png";
+import beaver2 from "../../public/images/beaver2.png";
+import slideBaby from "../../public/images/slideBaby-big.png";
+import small1 from "../../public/images/small-img1.png";
 
 function Home() {
   return (
@@ -43,7 +48,7 @@ function Home() {
                 <img src={dinosaur} alt="Dinosaur" className="dinosaur-img" />
                 <img src={boxClosed} alt="Closed box" className="closed-box" />
                 <p className="scrollTo">Scroll to open the box</p>
-                <img src={arrowdown} alt="arrow-down img" className="arrow-down"/>
+                <img src={arrowdown} alt="arrow-down img" className="arrow-down" />
               </div>
             </div>
 
@@ -151,6 +156,127 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <section className="time-for-toys">
+        <div className="time-for-toys__top">
+          <img src={beaver2} alt="beaver2 img" className="beaver2-img" />
+          <h2 className="time-for-toys__title">It's time for the toys</h2>
+        </div>
+        <p className="time-for-toys__label">We categorise our toy collection by <a href="#" className="play-style">Play style</a> and <a href="#" className="age">Age</a></p>
+        <div className="toys-grid">
+          <div className="toy-card">
+            <img src={toyimg} alt="Toy 1" className="toy-image" />
+            <p>Pritend play</p>
+          </div>
+          <div className="toy-card">
+            <img src={toyimg} alt="Toy 2" className="toy-image" />
+            <p>Construction</p>
+          </div>
+          <div className="toy-card">
+            <img src={toyimg} alt="Toy 3" className="toy-image" />
+            <p>STEM</p>
+          </div>
+          <div className="toy-card">
+            <img src={toyimg} alt="Toy 4" className="toy-image" />
+            <p>Messy</p>
+          </div>
+          <div className="toy-card">
+            <img src={toyimg} alt="Toy 5" className="toy-image" />
+            <p>Open ended</p>
+          </div>
+          <div className="toy-card">
+            <img src={toyimg} alt="Toy 6" className="toy-image" />
+            <p>Open ended</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="safety-section">
+        <div className="safety-content">
+          <div className="safety-image">
+            <img src={slideBaby} alt="Safety1" className="safety-img1" />
+            <img src={small1} alt="Safety2" className="safety-img2" />
+          </div>
+          <div className="safety-text">
+            <Textbox
+              h2text="Sparkling & child-safe, every time."
+              ptext="Massa faucibus cras dignissim convallis donec scelerisque eget placerat sit. Luctus morbi et mi vitae massa mattis velit. Amet dignissim quis diam massa lectus velit non. Faucibus sagittis posuere ultrices."
+              linkText="Read our safety policy"
+              linkHref="#"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* <section className="sustainability-section">
+        <h2>We have saved</h2>
+        <div className="impact-stats">
+          <div className="stat">
+            <h3>1000+ Toys</h3>
+            <p>From landfills</p>
+          </div>
+          <div className="stat">
+            <h3>50k+ Hours</h3>
+            <p>Of playtime</p>
+          </div>
+          <div className="stat">
+            <h3>100k+ CO2</h3>
+            <p>Kg emissions saved</p>
+          </div>
+        </div>
+        <p className="sustainability-text">
+          <span className="highlight">We have saved</span> toys from landfills so far
+        </p>
+      </section>
+
+      <section className="gift-section">
+        <div className="gift-content">
+          <div className="gift-image">
+            <img src="" alt="Gift of endless play" className="gift-img" />
+          </div>
+          <div className="gift-text">
+            <h2>The gift of endless play</h2>
+            <p>
+              Give the gift that keeps on giving. A ToyCart subscription
+              opens a world of possibilities for child development, creativity,
+              and joyful moments that matter.
+            </p>
+            <button className="btn-gift">Gift a subscription</button>
+          </div>
+        </div>
+      </section>
+
+
+      <section className="blog-section">
+        <h2>Blogs & News</h2>
+        <div className="blog-grid">
+          <article className="blog-card">
+            <img src="" alt="Blog 1" className="blog-image" />
+            <h3>Blog Post Title</h3>
+            <p>Short description of the blog post goes here...</p>
+            <a href="#" className="read-more">Read more →</a>
+          </article>
+          <article className="blog-card">
+            <img src="" alt="Blog 2" className="blog-image" />
+            <h3>Blog Post Title</h3>
+            <p>Short description of the blog post goes here...</p>
+            <a href="#" className="read-more">Read more →</a>
+          </article>
+          <article className="blog-card">
+            <img src="" alt="Blog 3" className="blog-image" />
+            <h3>Blog Post Title</h3>
+            <p>Short description of the blog post goes here...</p>
+            <a href="#" className="read-more">Read more →</a>
+          </article>
+          <article className="blog-card">
+            <img src="" alt="Blog 4" className="blog-image" />
+            <h3>Blog Post Title</h3>
+            <p>Short description of the blog post goes here...</p>
+            <a href="#" className="read-more">Read more →</a>
+          </article>
+        </div>
+      </section> */}
+
     </>
   );
 }

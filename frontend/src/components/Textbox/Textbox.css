@@ -1,0 +1,35 @@
+.textbox{
+    display: flex;
+    flex-direction: column;
+    text-align: flex-start;
+    max-width: 407px;
+    gap : 5px;
+    color: #255F83;
+    }
+
+
+.textbox h2 {
+    font-size: 64px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.textbox p {
+    font-size: 16px;
+    line-height: 23px;
+    font-weight: 400;
+}
+
+.textbox a {
+    font-size: 16px;
+    color: #255F83;
+    text-decoration: none;
+    display: inline-block;
+    background-color: #F7FFB4;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease;
+    max-width: fit-content;
+}
