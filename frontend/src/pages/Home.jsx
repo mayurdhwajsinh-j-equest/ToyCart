@@ -18,6 +18,11 @@ import toyimg from "../../public/images/toy-img.png";
 import beaver2 from "../../public/images/beaver2.png";
 import slideBaby from "../../public/images/slideBaby-big.png";
 import small1 from "../../public/images/small-img1.png";
+import small2 from "../../public/images/small-img2.png";
+import small3 from "../../public/images/small-img3.png";
+import gift1 from "../../public/images/big-img2.png";
+import commitment1 from "../../public/images/big-img3.png";
+import babyteddy from "../../public/images/baby-teddy.png";
 
 function Home() {
   return (
@@ -208,44 +213,86 @@ function Home() {
         </div>
       </section>
 
-      {/* <section className="sustainability-section">
-        <h2>We have saved</h2>
-        <div className="impact-stats">
-          <div className="stat">
-            <h3>1000+ Toys</h3>
-            <p>From landfills</p>
+      <section className="sollicit-section">
+        <div className="sollicit-content">
+          <div className="sollicit-image">
+            <img src={babyteddy} alt="Baby teddy toy" className="sollicit-img1" />
           </div>
-          <div className="stat">
-            <h3>50k+ Hours</h3>
-            <p>Of playtime</p>
-          </div>
-          <div className="stat">
-            <h3>100k+ CO2</h3>
-            <p>Kg emissions saved</p>
+
+          <div className="sollicit-text">
+            <div className="sollicit-text__top">
+              <h2>Sollicit udin donec</h2>
+            </div>
+            <div className="sollicit-text__bottom">
+
+              <p className="sollicit-text__content">
+                Aliquet nunc enim egestas non gravida. Nec sed massa purus lacus.
+                Tortor ornare pretium non sagittis eu aliquam.
+              </p>
+
+              <a href="#" className="sollicit-link">Visit marketplace</a>
+            </div>
           </div>
         </div>
-        <p className="sustainability-text">
-          <span className="highlight">We have saved</span> toys from landfills so far
-        </p>
+      </section>
+
+
+      <section className="commitment-section">
+        <div className="commitment-content">
+          <div className="commitment-text">
+            <Textbox
+              h2text="Short term commitment"
+              ptext="Massa faucibus cras dignissim convallis donec scelerisque eget placerat sit. Luctus morbi et mi vitae massa mattis velit. Amet dignissim quis diam massa lectus velit non. Faucibus sagittis posuere ultrices."
+              linkText="Short term renting"
+              linkHref="#"
+            />
+          </div>
+          <div className="commitment-image">
+            <img src={commitment1} alt="commitment img1" className="commitment-img1" />
+            <img src={small3} alt="commitment img2" className="commitment-img2" />
+          </div>
+        </div>
+      </section>
+
+      <section className="sustainability-section">
+        <div className="sustainability-section__top">
+          <div>
+            <h2>We have saved</h2>
+          </div>
+          <div></div>
+        </div>
+        <div className="sustainability-section__center">
+          <h2>toys from landfill so far</h2>
+        </div>
+        <div className="sustainability-section__bottom">
+          <div>
+            <p>Elit et libero turpis integer nam neque. Feugiat tellus non arcu vitae eget urna aliquam. Nisl sit eu massa sed mollis tellus commodo. Id at viverra.</p>
+          </div>
+          <div className="">
+            <a href="#">Our impact</a>
+          </div>
+        </div>
       </section>
 
       <section className="gift-section">
         <div className="gift-content">
           <div className="gift-image">
-            <img src="" alt="Gift of endless play" className="gift-img" />
+            <img src={gift1} alt="Gift of endless play" className="gift-img1" />
+            <img src={small2} alt="Gift of endless play" className="gift-img2" />
           </div>
           <div className="gift-text">
-            <h2>The gift of endless play</h2>
-            <p>
-              Give the gift that keeps on giving. A ToyCart subscription
-              opens a world of possibilities for child development, creativity,
-              and joyful moments that matter.
-            </p>
-            <button className="btn-gift">Gift a subscription</button>
+            <Textbox
+              h2text="The gift of endless play"
+              ptext="Massa faucibus cras dignissim convallis donec scelerisque eget placerat sit. Luctus morbi et mi vitae massa mattis velit. Amet dignissim quis diam massa lectus velit non. Faucibus sagittis posuere ultrices."
+              linkText="Gifting with Whirli"
+              linkHref="#"
+            />
           </div>
         </div>
       </section>
 
+
+      {/*
 
       <section className="blog-section">
         <h2>Blogs & News</h2>
