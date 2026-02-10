@@ -8,6 +8,7 @@ import puppy from "../../public/images/puppy.png";
 import simpleFlamingo from "../../public/images/simple-flamingo.png";
 import beaver from "../../public/images/beaver.png";
 import moveup from "../assets/moveup.svg";
+import staticon from "../assets/stat-icon.svg";
 import arrowdown from "../assets/arrow-down.svg";
 import dinosaur from "../../public/images/dinosaur.png";
 import dinosaur1 from "../../public/images/dinosaur1.png";
@@ -253,23 +254,28 @@ function Home() {
           </div>
         </div>
       </section>
-
       <section className="sustainability-section">
-        <div className="sustainability-section__top">
-          <div>
-            <h2>We have saved</h2>
+        <div className="sustainability-content">
+          <div className="sustainability-section__top">
+            <div className="sustainability-section__top-h2">
+              <h2>We have saved</h2>
+            </div>
+            <div>
+              <p className="sustainability-section__top-img">
+                <img src={staticon} alt="stat icon" className="stat-icon" />
+                2,980,032</p>
+            </div>
           </div>
-          <div></div>
-        </div>
-        <div className="sustainability-section__center">
-          <h2>toys from landfill so far</h2>
-        </div>
-        <div className="sustainability-section__bottom">
-          <div>
-            <p>Elit et libero turpis integer nam neque. Feugiat tellus non arcu vitae eget urna aliquam. Nisl sit eu massa sed mollis tellus commodo. Id at viverra.</p>
+          <div className="sustainability-section__center">
+            <h2>toys from landfill so far</h2>
           </div>
-          <div className="">
-            <a href="#">Our impact</a>
+          <div className="sustainability-section__bottom">
+            <div>
+              <p className="sustainability-section__bottom-p">Elit et libero turpis integer nam neque. Feugiat tellus non arcu vitae eget urna aliquam. Nisl sit eu massa sed mollis tellus commodo. Id at viverra.</p>
+            </div>
+            <div className="sustainability-section__bottom-btn">
+              <a href="#">Our impact</a>
+            </div>
           </div>
         </div>
       </section>
@@ -290,39 +296,13 @@ function Home() {
           </div>
         </div>
       </section>
+      <br></br>
+      <section className="featured-section">
+          <div className="featured-content">
+              <h2>As featured in...</h2>
 
-
-      {/*
-
-      <section className="blog-section">
-        <h2>Blogs & News</h2>
-        <div className="blog-grid">
-          <article className="blog-card">
-            <img src="" alt="Blog 1" className="blog-image" />
-            <h3>Blog Post Title</h3>
-            <p>Short description of the blog post goes here...</p>
-            <a href="#" className="read-more">Read more →</a>
-          </article>
-          <article className="blog-card">
-            <img src="" alt="Blog 2" className="blog-image" />
-            <h3>Blog Post Title</h3>
-            <p>Short description of the blog post goes here...</p>
-            <a href="#" className="read-more">Read more →</a>
-          </article>
-          <article className="blog-card">
-            <img src="" alt="Blog 3" className="blog-image" />
-            <h3>Blog Post Title</h3>
-            <p>Short description of the blog post goes here...</p>
-            <a href="#" className="read-more">Read more →</a>
-          </article>
-          <article className="blog-card">
-            <img src="" alt="Blog 4" className="blog-image" />
-            <h3>Blog Post Title</h3>
-            <p>Short description of the blog post goes here...</p>
-            <a href="#" className="read-more">Read more →</a>
-          </article>
-        </div>
-      </section> */}
+          </div>
+      </section>
 
     </>
   );

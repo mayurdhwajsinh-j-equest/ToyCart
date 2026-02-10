@@ -615,59 +615,104 @@
   text-decoration: none;
 }
 
-
-/* ========== SUSTAINABILITY SECTION ========== */
-/* .sustainability-section {
-  background: linear-gradient(135deg, #f3f8a6 0%, #f8d7f3 100%);
-  padding: 100px 40px;
-  text-align: center;
+.sustainability-section
+{
+  background-color: #F1CED4;
 }
 
-.sustainability-section h2 {
+.sustainability-content
+{
+  padding: 124px 203px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sustainability-section__top
+{
+  display: flex;
+}
+
+.sustainability-section__top-h2 h2,.sustainability-section__center h2
+{
   font-size: 64px;
-  font-weight: 900;
+  font-weight: bolder;
   color: #255F83;
-  margin-bottom: 60px;
+  margin: 0;
+  padding : 0px 30px;
+  max-width: fit-content;
+  min-height: 84px;
+  background-color: #F7FFB4;
 }
 
-.impact-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
-  max-width: 1000px;
-  margin: 0 auto 60px;
+.sustainability-section__top-h2 h2
+{
+  margin-left: 150px;
 }
 
-.stat {
-  background: white;
-  padding: 40px 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+.sustainability-section__center
+{
+  margin: 26px;
+  margin-left: 400px;
 }
 
-.stat h3 {
-  font-size: 36px;
-  font-weight: 900;
+.sustainability-section__top-img
+{
+  background-color: #255F83;
+  font-size: 32px;
+  font-weight: bolder;
+  color: #FFFFFF;
+  padding: 6px 12px;
+  display: flex;
+  gap: 25px;
+  margin: 10px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+}
+
+.sustainability-section__bottom
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-left: 50px;
+}
+
+.sustainability-section__bottom-p
+{
+  max-width: 549px;
   color: #255F83;
-  margin-bottom: 10px;
-}
-
-.stat p {
   font-size: 16px;
-  color: #666;
 }
 
-.sustainability-text {
-  font-size: 20px;
-  color: #255F83;
-  font-weight: 600;
+.sustainability-section__bottom-btn a
+{
+  color: #FFFFFF;
+  margin: 34px;
+  background-color: #255F83;
+  display: inline-block;
+  
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
 }
 
-.sustainability-text .highlight {
-  font-weight: 900;
-  color: #255F83;
-} */
+.featured-section
+{
+  background-color: #DECCFE;
+}
 
+.featured-content
+{
+  background-repeat: no-repeat;
+  padding: 164px 10px;
+  background-position: top center;
+  background-size: 100% 100%;
+  background-image: url('../../public/images/Swiggle3.png');
+}
 
 @media (max-width: 1024px) {
   .home-hero {
