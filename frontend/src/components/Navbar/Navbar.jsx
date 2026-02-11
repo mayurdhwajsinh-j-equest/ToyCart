@@ -19,7 +19,7 @@ function Navbar() {
                 <ul className="nav-center">
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/about">About</Link></li>
-                    <li><Link to="/collection">Collection</Link></li>
+                    <li><Link to="/Alltoys">Alltoys</Link></li>
                     <li><Link to="/product">Product</Link></li>
                 </ul>
                 <div className="nav-right">

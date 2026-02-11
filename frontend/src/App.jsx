@@ -2,7 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Collection from "./pages/Collection";
+// import Collection from "./pages/Collection";
+import Alltoys from "./pages/Alltoys";
 import Product from "./pages/Product";
 import Footer from "./components/Footer/Footer";
 
@@ -14,7 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/collection" element={<Collection />} />
+        <Route path="/Alltoys" element={<Alltoys />} />
         <Route path="/product" element={<Product />} />
       </Routes>
 

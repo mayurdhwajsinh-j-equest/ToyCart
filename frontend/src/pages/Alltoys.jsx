@@ -1,10 +1,16 @@
 import Actioncard from "../components/Actioncard/Actioncard.jsx";
+import arrow from "../assets/arrow.svg"
 import "./Alltoys.css";
 
 function Alltoys() {
   return (
     <main className="home">
       <section className="hero">
+        <div className="hero-content">
+          <p className="hero-content__p1">Browse toys  <span><img src={arrow} alt="arrow icon" className="arrow-icon"/></span>  All toys</p>
+          <h1 className="hero-content__h1">All toys</h1>
+          <p className="hero-content__p2">Nam leo porta sit id aliquam in lobortis vitae consequat. Massa purus orci volutpat duis parturient. Ut nunc id bibe. Massa egestas arcu blandit a. Suspen disse lectus.</p>
+        </div>
       </section>
       <section className="toy-actions">
         <Actioncard

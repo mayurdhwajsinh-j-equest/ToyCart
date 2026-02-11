@@ -1,3 +1,37 @@
+.hero-content
+{
+  background-color: #F7FFB4;
+  padding: 80px 609px 80px 121px;
+}
+
+.hero-content__p1
+{
+  color: #482583;
+}
+
+.arrow-icon
+{
+  margin-left: 2px;
+  margin-right: 2px;
+  
+}
+
+.hero-content__h1
+{
+  color: #255F83;
+  font-size: 64px;
+  margin: 0;
+  font-weight: bolder;
+}
+
+.hero-content__p2
+{
+  color: #255F83;
+  max-width: 635px; 
+  font-size: 16px;
+  line-height: 23px;
+}
+
 .toy-actions {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -5,3 +39,4 @@
   padding: 150px 350px;
   background: #e8ddff;
 }
+
