@@ -24,6 +24,10 @@ import small3 from "../../public/images/small-img3.png";
 import gift1 from "../../public/images/big-img2.png";
 import commitment1 from "../../public/images/big-img3.png";
 import babyteddy from "../../public/images/baby-teddy.png";
+import marqueelogo1 from "../../public/images/marquee-logo1.png";
+import marqueelogo2 from "../../public/images/marquee-logo2.png";
+import marqueelogo3 from "../../public/images/marquee-logo3.png";
+import marqueelogo4 from "../../public/images/marquee-logo4.png";
 
 function Home() {
   return (
@@ -213,7 +217,6 @@ function Home() {
           </div>
         </div>
       </section>
-
       <section className="sollicit-section">
         <div className="sollicit-content">
           <div className="sollicit-image">
@@ -236,8 +239,6 @@ function Home() {
           </div>
         </div>
       </section>
-
-
       <section className="commitment-section">
         <div className="commitment-content">
           <div className="commitment-text">
@@ -279,7 +280,6 @@ function Home() {
           </div>
         </div>
       </section>
-
       <section className="gift-section">
         <div className="gift-content">
           <div className="gift-image">
@@ -298,10 +298,43 @@ function Home() {
       </section>
       <br></br>
       <section className="featured-section">
-          <div className="featured-content">
-              <h2>As featured in...</h2>
+        <div className="featured-content">
+          <div className="featured-content__text">
+            <h2 className="featured-content__h2">As featured in...</h2>
+            <p className="featured-content__p">Pssst.. click on the cards to learn more!</p>
+            <div className="marquee">
+              <div className="marquee-track">
+                <div className="marquee-slider__box">
+                  <img src={marqueelogo1} alt="logo" />
+                </div>
+                <div className="marquee-slider__box">
+                  <img src={marqueelogo2} alt="logo" />
+                </div>
+                <div className="marquee-slider__box">
+                  <img src={marqueelogo3} alt="logo" />
+                </div>
+                <div className="marquee-slider__box">
+                  <img src={marqueelogo4} alt="logo" />
+                </div>
+
+                {/* Duplicate same items again */}
+                <div className="marquee-slider__box">
+                  <img src={marqueelogo1} alt="logo" />
+                </div>
+                <div className="marquee-slider__box">
+                  <img src={marqueelogo2} alt="logo" />
+                </div>
+                <div className="marquee-slider__box">
+                  <img src={marqueelogo3} alt="logo" />
+                </div>
+                <div className="marquee-slider__box">
+                  <img src={marqueelogo4} alt="logo" />
+                </div>
+              </div>
+            </div>
 
           </div>
+        </div>
       </section>
 
     </>

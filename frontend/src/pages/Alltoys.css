@@ -1,0 +1,7 @@
+.toy-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 150px 350px;
+  background: #e8ddff;
+}

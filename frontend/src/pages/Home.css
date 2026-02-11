@@ -491,7 +491,6 @@
   background: #F6E1E4;
 }
 
-
 .safety-content, .gift-content, .commitment-content{
   display: flex;
   min-height: 700px;
@@ -692,7 +691,6 @@
   margin: 34px;
   background-color: #255F83;
   display: inline-block;
-  
   padding: 8px 16px;
   border-radius: 4px;
   font-size: 16px;
@@ -703,16 +701,73 @@
 .featured-section
 {
   background-color: #DECCFE;
+  padding: 104px 0px;
+
 }
 
 .featured-content
 {
+  padding: 164px 100px;
   background-repeat: no-repeat;
-  padding: 164px 10px;
   background-position: top center;
   background-size: 100% 100%;
   background-image: url('../../public/images/Swiggle3.png');
 }
+
+.featured-content__text
+{
+  padding: 100px;
+  max-width: 1607px;
+  text-align: center;
+  color: #255F83;
+}
+
+.featured-content__h2
+{
+  font-size: 64px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.marquee {
+  overflow: hidden;
+  width: 100%;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  animation: scroll 20s linear infinite;
+}
+
+.marquee-slider__box {
+  flex: 0 0 auto;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-slider__box
+{
+  background-color: #FFFFFF;
+  border-radius: 0.5rem;
+  min-width: 307px;
+  padding: 30px;
+}
+
+.last
+{
+  background-color: #255F83;
+  color: #FFFFFF;
+}
+
 
 @media (max-width: 1024px) {
   .home-hero {
