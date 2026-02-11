@@ -1,0 +1,25 @@
+.review-content
+{
+    background-color: #DECCFE;
+    max-width: 310px;
+    border-radius: 10px;
+}
+
+.review-msg__title
+{
+    color: #255F83;
+    font-size: 20px;
+}
+
+.review-msg__text
+{
+    color: #255F83;
+    font-size: 16px;
+    max-width: 262px;
+}
+
+.review-msg__fanname
+{
+    color: #255F83;
+    font-size: 16px;
+}

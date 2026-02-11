@@ -296,7 +296,6 @@ function Home() {
           </div>
         </div>
       </section>
-      <br></br>
       <section className="featured-section">
         <div className="featured-content">
           <div className="featured-content__text">
