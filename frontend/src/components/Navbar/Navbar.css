@@ -33,6 +33,12 @@ body {
   font-size: 20px;
   color: #0b4ea2;
   text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.logo:hover {
+  color: #255F83;
+  transform: scale(1.05);
 }
 
 .nav-center {
@@ -47,6 +53,28 @@ body {
   color: #255F83;
   font-weight: 500;
   font-size: 18px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Smooth underline animation */
+.nav-center a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #255F83;
+  transition: width 0.3s ease;
+}
+
+.nav-center a:hover {
+  color: #0b4ea2;
+}
+
+.nav-center a:hover::after {
+  width: 100%;
 }
 
 .nav-right {
@@ -59,6 +87,11 @@ body {
   border: none;
   cursor: pointer;
   padding: 4px;
+  transition: transform 0.3s ease;
+}
+
+.icon-btn:hover {
+  transform: translateY(-2px) scale(1.1);
 }
 
 .icon-btn img {

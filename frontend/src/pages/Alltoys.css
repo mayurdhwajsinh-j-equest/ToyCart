@@ -40,3 +40,38 @@
   background: #e8ddff;
 }
 
+.fan-content__top-h2
+{
+  font-size: 64px;
+  color: #255F83;
+  font-weight: bolder;
+  padding: 148px 0 0 121px;
+}
+
+.fan-img1, .fan-img8
+{
+  max-width: 227px;
+  max-height: 280px;
+  border-radius: 10px;
+}
+
+.fan-content__center,.fan-content__bottom
+{
+  display: flex;
+  padding: 10px 120px;
+  gap: 17px;
+}
+
+.fan-content__bottom
+{
+  margin-bottom: 204px;
+  margin-left: 100px;
+}
+
+.fan-content__bottom-img
+{
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+

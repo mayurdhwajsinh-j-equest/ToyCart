@@ -1,4 +1,3 @@
-
 .card {
   border-radius: 16px;
   padding: 48px 32px;
@@ -36,28 +35,32 @@
   cursor: pointer;
   background-color: #255F83;
   color: #FFFFFF;
+  transition: all 0.3s ease;
 }
 
+.card button:hover {
+  background-color: #1b4763;
+  transform: translateY(-3px);
+}
 
 /* Variants */
- .card--yellow {
+.card--yellow {
   background: #fff45a;
-}  
+}
 
 .card--white {
   background: #ffffff;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-.card--white p{
-    color: #482583;
+.card--white p {
+  color: #482583;
 }
 
 .card--pink {
   background: #ff9fd4;
 }
 
-/* Responsive */
 @media (max-width: 900px) {
   .toy-actions {
     grid-template-columns: 1fr;

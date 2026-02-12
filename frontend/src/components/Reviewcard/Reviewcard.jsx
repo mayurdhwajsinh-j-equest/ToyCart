@@ -1,6 +1,5 @@
 import "./Reviewcard.css";
-
-
+import reviewstar from "../../../public/images/review-star.png";
 
 function Reviewcard({ msgTitle, msgText, fanName }) {
     return (

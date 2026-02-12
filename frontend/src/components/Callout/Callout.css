@@ -7,6 +7,13 @@
 
 .callout a{
     font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect Added */
+.callout a:hover{
+    color: #1b4763;
+    text-decoration: underline;
 }
 
 .callout-left{
@@ -14,6 +21,7 @@
     justify-content: flex-start;
     margin-left: 400px;
 }
+
 .callout-right{
     display: flex;
     flex-direction: column-reverse;

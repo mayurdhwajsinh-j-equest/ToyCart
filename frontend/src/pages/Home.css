@@ -1,3 +1,8 @@
+html {
+  scroll-behavior: smooth;
+}
+
+
 .home-wrapper {
   background-color: #f7ffb4;
 }
@@ -766,6 +771,49 @@
 {
   background-color: #255F83;
   color: #FFFFFF;
+}
+
+.btn-outline,
+.btn-primary,
+.btn,
+.btn-start,
+.sollicit-link,
+.sustainability-section__bottom-btn a {
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background-color: #255F83;
+  color: #FFFFFF;
+  transform: translateY(-4px);
+}
+
+.btn-primary:hover {
+  background-color: #255F83;
+  color: #FFFFFF;
+  transform: translateY(-4px);
+}
+
+.btn:hover {
+  background-color: #255F83;
+  color: #FFFFFF;
+  transform: translateY(-4px);
+}
+
+.btn-start:hover {
+  background-color: #255F83;
+  color: #FFFFFF;
+  transform: translateY(-4px);
+}
+
+.sollicit-link:hover {
+  background-color: #1b4763;
+  transform: translateY(-4px);
+}
+
+.sustainability-section__bottom-btn a:hover {
+  background-color: #1b4763;
+  transform: translateY(-4px);
 }
 
 

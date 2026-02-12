@@ -25,40 +25,41 @@ function Alltoys() {
     <section className="fan-section">
       <div className="fan-content">
         <div className="fan-content__top">
-          <h2>Our smallest fans</h2>
+          <h2 className="fan-content__top-h2">Our smallest fans</h2>
         </div>
-        <div>
-          <img src={fanimg1} alt="fan image1" className="fan-img1"/>
+        <div className="fan-content__center">
+          <img src={fanimg1} alt="fan image1" className="fan-img1" />
           <Reviewcard
-              msgTitle="Thank you whirli!!"
-              msgText="It’s been wonderful for my three kids to play with so many different toys in such an environmentally friendly and cost effective way. "
-              fanName="– Jessica Lucey, Mum of three"
+            msgTitle="Thank you whirli!!"
+            msgText="It’s been wonderful for my three kids to play with so many different toys in such an environmentally friendly and cost effective way. "
+            fanName="– Jessica Lucey, Mum of three"
           />
-          <img src={fanimg2} alt="fan image2" className="fan-img2"/>
+          <img src={fanimg2} alt="fan image2" className="fan-img2" />
           <Reviewcard
-              msgTitle="Thank you whirli!!"
-              msgText="It’s been wonderful for my three kids to play with so many different toys in such an environmentally friendly and cost effective way. "
-              fanName="– Jessica Lucey, Mum of three"
+            msgTitle="What a great idea!"
+            msgText="Children get bored of toys so quickly and we were able to send back and get different toys whenever we wanted easily. Their customer service is also 10/10..."
+            fanName="– Jennifer Mello, Mum of two"
           />
-          <img src={fanimg3} alt="fan image3" className="fan-img3"/>
+          <img src={fanimg3} alt="fan image3" className="fan-img3" />
         </div>
-        <div>
+        <div className="fan-content__bottom">
           <Reviewcard
-              msgTitle="Thank you whirli!!"
-              msgText="It’s been wonderful for my three kids to play with so many different toys in such an environmentally friendly and cost effective way. "
-              fanName="– Jessica Lucey, Mum of three"
+            msgTitle="Thank you whirli!!"
+            msgText="It’s been wonderful for my three kids to play with so many different toys in such an environmentally friendly and cost effective way. "
+            fanName="– Jessica Lucey, Mum of three"
           />
-          <img src={fanimg4} alt="fan image4" className="fan-img4"/>
-          <img src={fanimg5} alt="fan image5" className="fan-img5"/>
-          <img src={fanimg6} alt="fan image6" className="fan-img6"/>
-          <img src={fanimg7} alt="fan image7" className="fan-img7"/>
+          <img src={fanimg4} alt="fan image4" className="fan-img4" />
+          <img src={fanimg5} alt="fan image5" className="fan-img5" />
+          <div className="fan-content__bottom-img">
+            <img src={fanimg6} alt="fan image6" className="fan-img6" />
+            <img src={fanimg7} alt="fan image7" className="fan-img7" />
+          </div>
           <Reviewcard
-              msgTitle="Thank you whirli!!"
-              msgText="It’s been wonderful for my three kids to play with so many different toys in such an environmentally friendly and cost effective way. "
-              fanName="– Jessica Lucey, Mum of three"
+            msgTitle="Thank you whirli!!"
+            msgText="It’s been wonderful for my three kids to play with so many different toys in such an environmentally friendly and cost effective way. "
+            fanName="– Jessica Lucey, Mum of three"
           />
-          <img src={fanimg8} alt="fan image8" className="fan-img8"/>
-
+          <img src={fanimg8} alt="fan image8" className="fan-img8" />
         </div>
       </div>
     </section>
