@@ -2,6 +2,11 @@ html {
   scroll-behavior: smooth;
 }
 
+.hero-title,.workflow-title,.time-for-toys__title,.sustainability-section__top-h2,.sustainability-section__center
+{
+  font-family: 'raleway'  !important;
+  font-weight: bolder; 
+}
 
 .home-wrapper {
   background-color: #f7ffb4;
@@ -794,9 +799,9 @@ html {
   transform: translateY(-4px);
 }
 
-.btn:hover {
-  background-color: #255F83;
+.btn:hover,.btn-active:hover{
   color: #FFFFFF;
+  background-color: #255F83;
   transform: translateY(-4px);
 }
 

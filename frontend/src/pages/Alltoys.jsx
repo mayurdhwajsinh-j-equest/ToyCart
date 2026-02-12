@@ -9,8 +9,12 @@ import fanimg5 from "../../public/images/fan-img5.png";
 import fanimg6 from "../../public/images/fan-img6.png";
 import fanimg7 from "../../public/images/fan-img7.png";
 import fanimg8 from "../../public/images/fan-img8.png";
+// import "../../public/images/product1-img.png";
+import productsData from "../products.json";
+
 
 import Reviewcard from "../components/Reviewcard/Reviewcard.jsx";
+import Productcard from "../components/Productcard/Productcard.jsx";
 
 function Alltoys() {
   return (<>
@@ -19,6 +23,50 @@ function Alltoys() {
         <p className="hero-content__p1">Browse toys  <span><img src={arrow} alt="arrow icon" className="arrow-icon" /></span>  All toys</p>
         <h1 className="hero-content__h1">All toys</h1>
         <p className="hero-content__p2">Nam leo porta sit id aliquam in lobortis vitae consequat. Massa purus orci volutpat duis parturient. Ut nunc id bibe. Massa egestas arcu blandit a. Suspen disse lectus.</p>
+      </div>
+    </section>
+
+    {/* <section className="product-section">
+      <div className="product-section__content">
+        <Productcard
+          ProductImage={product1}
+          ProductName=" this is product1 "
+          Price="100"
+        />
+        <Productcard
+          ProductImage={product1}
+          ProductName="demo1"
+          Price="100"
+        /> <Productcard
+          ProductImage={product1}
+          ProductName="demo1"
+          Price="100"
+        /> <Productcard
+          ProductImage={product1}
+          ProductName="demo1"
+          Price="100"
+        /> <Productcard
+          ProductImage={product1}
+          ProductName="demo1"
+          Price="100"
+        /> <Productcard
+          ProductImage={product1}
+          ProductName="demo1"
+          Price="100"
+        />
+      </div>
+    </section> */}
+
+    <section className="product-section">
+      <div className="product-section__content">
+        {productsData.map((product) => (
+          <Productcard
+            key={product.id}    
+            ProductImage={product.ProductImage}
+            ProductName={product.ProductName}
+            Price={product.Price}
+            />
+          ))}
       </div>
     </section>
 
