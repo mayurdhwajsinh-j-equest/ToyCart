@@ -15,6 +15,7 @@ import stacktoy from "../assets/Stacktoy.svg";
 import earth1 from "../assets/earth.svg";
 import review4star from "../../public/images/review-4star.png";
 import line from "../../public/images/horizontal-line.png";
+import threecar from "../../public/images/3car.png";
 import ProductDescription from "../components/Productdescription/Productdescription.jsx";
 
 function Pdp() {
@@ -123,6 +124,26 @@ function Pdp() {
                         </div>
                     </div> */}
                     <ProductDescription product={productData} />
+                    <section className="featured-section">
+                        <h1 className="featured-section__h1">The features</h1>
+                        <ul className="featured-items">
+                            <li className="featured-item"><a href="#">Lorem ipsim</a></li>
+                            <li className="featured-item"><a href="#">Vehicles</a></li>
+                            <li className="featured-item"><a href="#">Automation</a></li>
+                            <li className="featured-item"><a href="#">Easy to store</a></li>
+                            <li className="featured-item"><a href="#">Dolor sit</a></li>
+                        </ul>
+                        <div className="featured-section__bottom">
+                            <div className="featured-section__bottom-left">
+                                <img src={threecar} alt="3 car image" className="three-car" />
+                            </div>
+                            <div className="featured-section__bottom-right">
+                                <h1>Three vehicles included</h1>
+                                <p>Nam leo porta sit id aliquam in lobortis vitae consequat. Massa purus orci volutpat duis parturient. Ut nunc id bibendum.</p>
+                                <p>Massa egestas arcu blandit a. Suspendisse lectus id consequat sapien sit lorem.</p>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </section>
             <section className="sustainability-section">
