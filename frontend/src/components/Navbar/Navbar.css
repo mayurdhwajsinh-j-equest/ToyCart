@@ -28,16 +28,17 @@ body {
   border-bottom: 1px solid #eee;
 }
 
-.logo {
-  font-weight: 700;
-  font-size: 20px;
-  color: #0b4ea2;
-  text-decoration: none;
-  transition: all 0.3s ease;
+.toycart-logo
+{
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.25s ease;
 }
 
-.logo:hover {
-  color: #255F83;
+.toycart-logo:hover
+{
   transform: scale(1.05);
 }
 

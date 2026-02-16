@@ -14,13 +14,15 @@ function Navbar() {
 
             <nav className="navbar">
                 <div className="nav-left">
-                    <Link to="/" className="logo">LOGO</Link>
+                    <Link to="/" className="logo">
+                        <img src="../../public/images/toycart-logo.png" alt="toycart logo" className="toycart-logo"/>
+                    </Link>
                 </div>
                 <ul className="nav-center">
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/about">About</Link></li>
                     <li><Link to="/Alltoys">Alltoys</Link></li>
-                    <li><Link to="/product">Product</Link></li>
+                    <li><Link to="/Pdp">PDP</Link></li>
                 </ul>
                 <div className="nav-right">
                     <button className="icon-btn">

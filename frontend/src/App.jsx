@@ -4,7 +4,8 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 // import Collection from "./pages/Collection";
 import Alltoys from "./pages/Alltoys";
-import Product from "./pages/Product";
+import Pdp from "./pages/Pdp";
+// import Product from "./pages/Product";
 import Footer from "./components/Footer/Footer";
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/Alltoys" element={<Alltoys />} />
-        <Route path="/product" element={<Product />} />
+        <Route path="/Pdp" element={<Pdp />} />
       </Routes>
 
       <Footer />
