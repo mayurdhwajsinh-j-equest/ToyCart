@@ -328,6 +328,8 @@ li {
   background: #DECCFE;
 }
 
+/* Further Details component CSS moved to FurtherDetails component */
+/*
 .furtherDetails-content__text {
   display: flex;
   justify-content: space-between;
@@ -392,9 +394,9 @@ li {
   left: -20px;
 }
 
-.puppy-fd 
-{
+.puppy-fd {
   max-width: 156px;
   height: auto;
   margin-top: 20px;
 }
+*/

@@ -1,5 +1,4 @@
 import "./Pdp.css";
-import { useState } from "react";
 import slideBaby from "../../../public/images/slideBaby-big.png";
 import small1 from "../../../public/images/small-img1.png";
 import toy2img from "../../../public/images/toy2-img.png";
@@ -19,19 +18,13 @@ import line from "../../../public/images/horizontal-line.png";
 import threecar from "../../../public/images/3car.png";
 import ProductDescription from "../../components/Productdescription/Productdescription.jsx";
 import FeaturedItem from "../../components/FeaturedItem/FeaturedItem.jsx";
+import FurtherDetails from "../../components/FurtherDetails/FurtherDetails.jsx";
 import Actioncard from "../../components/Actioncard/Actioncard.jsx";
 import instructionupicon from "../../assets/instruction-up-icon.svg";
 import instructiondownicon from "../../assets/instruction-down-icon.svg";
 import blackline from "../../assets/black-line.svg"
-import puppyfd from "../../../public/images/puppy-fd.png"
 
 function Pdp() {
-
-    const [expandedItem, setExpandedItem] = useState(null);
-
-    const toggleAccordion = (index) => {
-        setExpandedItem(expandedItem === index ? null : index);
-    };
 
     const productData = {
         title: "VTech Toot-Toot Drivers Garage Playset",
@@ -114,6 +107,22 @@ function Pdp() {
             ]
         }
     ];
+
+    const furtherDetailsItems = [
+        {
+            title: "Product information",
+            content: "Elementum at fames nisi egestas viverra. Ullamcorper nulla neque bibendum arcu tortor leo non. Laoreet suscipit sed dolor sem maecenas tortor lorem nunc. A urna nec feugiat massa a velit magna tincidunt. Amet eu justo a et."
+        },
+        {
+            title: "Instructions",
+            content: "Amet quis massa laoreet donec pulvinar morbi at. Mattis varius ornare vestibulum id lacus vitae amet. Laoreet suscipit sed dolor sem maecenas tortor lorem nunc. A urna nec feugiat massa a velit magna tincidunt."
+        },
+        {
+            title: "Learning through play skills",
+            content: "Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus suscipit tortor eget felis porttitor volutpat. Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod."
+        }
+    ];
+
     return (
         <>
             <section className="hero-section">
@@ -193,49 +202,12 @@ function Pdp() {
                 </div>
                 <FeaturedItem items={featuredItems} />
             </section>
-            <section className="furtherDetails-section">
-                <img src={puppyfd} alt="puppy icon" className="puppy-fd"/>
-                <div className="furtherDetails-content">
-                    <h3>Further details</h3>
-                    <img src={blackline} alt="black line" className="black-line" />
-
-                    <button
-                        className="furtherDetails-content__text"
-                        onClick={() => toggleAccordion(0)}
-                    >
-                        <p className="furtherDetails-content__text-label">Product information</p>
-                        <img src={expandedItem === 0 ? instructionupicon : instructiondownicon} alt="instruction icon" className="instruction-icon" />
-                    </button>
-                    {expandedItem === 0 && (
-                        <><img src={blackline} alt="black line" className="black-line" /><p className="accordion-content">Elementum at fames nisi egestas viverra. Ullamcorper nulla neque bibendum arcu tortor leo non. Laoreet suscipit sed dolor sem maecenas tortor lorem nunc. A urna nec feugiat massa a velit magna tincidunt. Amet eu justo a et.</p></>
-                    )}
-                    <img src={blackline} alt="black line" className="black-line" />
-
-                    <button
-                        className="furtherDetails-content__text"
-                        onClick={() => toggleAccordion(1)}
-                    >
-                        <p className="furtherDetails-content__text-label">Instructions</p>
-                        <img src={expandedItem === 1 ? instructionupicon : instructiondownicon} alt="instruction icon" className="instruction-icon" />
-                    </button>
-                    {expandedItem === 1 && (
-                    <><img src={blackline} alt="black line" className="black-line" /><p className="accordion-content">Amet quis massa laoreet donec pulvinar morbi at. Mattis varius ornare vestibulum id lacus vitae amet. Laoreet suscipit sed dolor sem maecenas tortor lorem nunc. A urna nec feugiat massa a velit magna tincidunt.</p></>
-                    )}
-                    <img src={blackline} alt="black line" className="black-line" />
-
-                    <button
-                        className="furtherDetails-content__text"
-                        onClick={() => toggleAccordion(2)}
-                    >
-                        <p className="furtherDetails-content__text-label">Learning through play skills</p>
-                        <img src={expandedItem === 2 ? instructionupicon : instructiondownicon} alt="instruction icon" className="instruction-icon" />
-                    </button>
-                    {expandedItem === 2 && (
-                        <><img src={blackline} alt="black line" className="black-line" /><p className="accordion-content">Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus suscipit tortor eget felis porttitor volutpat. Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p></>
-                    )}
-                    <img src={blackline} alt="black line" className="black-line" />
-                </div>
-            </section>
+            <FurtherDetails 
+                items={furtherDetailsItems}
+                blackline={blackline}
+                instructionupicon={instructionupicon}
+                instructiondownicon={instructiondownicon}
+            />
             <section className="pdp-sustainability-section">
                 <div className="pdp-sustainability-content">
                     <div className="pdp-sustainability-section__top">
