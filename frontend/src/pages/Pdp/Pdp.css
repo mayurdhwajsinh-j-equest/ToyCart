@@ -320,7 +320,7 @@ li {
 }
 */
 
-.pdp-toy-actions {
+.pdp-toy-actions{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
@@ -400,3 +400,54 @@ li {
   margin-top: 20px;
 }
 */
+
+/* Subtle hover effects for PDP buttons and interactive controls */
+/* Keep colors unchanged and only apply lift + shadow */
+.pdp-toy-actions a,
+.addToCart,
+.add,
+.furtherDetails-content__text,
+.pdp-featured-item__link {
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.pdp-toy-actions a:hover,
+.addToCart:hover,
+.add:hover,
+.furtherDetails-content__text:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.03);
+}
+
+/* Keep active tab color intact; only lift non-active tabs */
+.pdp-featured-item__link:not(.active):hover {
+  transform: translateY(-2px);
+}
+
+/* Ensure anchor/buttons don't get outline changes that break layout */
+.pdp-toy-actions a,
+.addToCart,
+.add,
+.pdp-featured-item__link,
+.furtherDetails-content__text {
+  outline: none;
+}
+
+/* Related products grid used on PDP */
+.relatedProduct-section {
+  background: #DECCFE;
+  padding: 80px 120px;
+}
+.relatedProduct-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 104px;
+  align-items: start;
+}
+.relatedProduct-content h4 {
+  grid-column: 1 / -1;
+  color: #255F83;
+  font-size: 64px;
+  margin: 0;
+  font-weight: bolder;
+}

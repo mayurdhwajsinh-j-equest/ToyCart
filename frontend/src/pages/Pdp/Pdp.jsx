@@ -22,7 +22,9 @@ import FurtherDetails from "../../components/FurtherDetails/FurtherDetails.jsx";
 import Actioncard from "../../components/Actioncard/Actioncard.jsx";
 import instructionupicon from "../../assets/instruction-up-icon.svg";
 import instructiondownicon from "../../assets/instruction-down-icon.svg";
-import blackline from "../../assets/black-line.svg"
+import blackline from "../../assets/black-line.svg";
+import productsData from "../../products.json";
+import Productcard from "../../components/Productcard/Productcard.jsx";
 
 function Pdp() {
 
@@ -202,7 +204,7 @@ function Pdp() {
                 </div>
                 <FeaturedItem items={featuredItems} />
             </section>
-            <FurtherDetails 
+            <FurtherDetails
                 items={furtherDetailsItems}
                 blackline={blackline}
                 instructionupicon={instructionupicon}
@@ -228,6 +230,7 @@ function Pdp() {
                     </div>
                 </div>
             </section>
+
             <section className="pdp-safety-section">
                 <div className="safety-content">
                     <div className="safety-image">
@@ -244,6 +247,21 @@ function Pdp() {
                     </div>
                 </div>
             </section>
+
+            <section className="relatedProduct-section">
+                <div className="relatedProduct-content">
+                    <h4>Related products</h4>
+                    {productsData.map((product) => (
+                        <Productcard
+                            key={product.id}
+                            ProductImage={product.ProductImage}
+                            ProductName={product.ProductName}
+                            Price={product.Price}
+                        />
+                    ))}
+                </div>
+            </section>
+
             <section className="pdp-toy-actions">
                 <Actioncard
                     title="Buy this toy new and pre-loved"
