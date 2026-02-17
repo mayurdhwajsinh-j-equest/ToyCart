@@ -1,4 +1,4 @@
-import Actioncard from "../components/Actioncard/Actioncard.jsx";
+import Actioncard from "../../components/Actioncard/Actioncard.jsx";
 import "./About.css";
 
 function About() {

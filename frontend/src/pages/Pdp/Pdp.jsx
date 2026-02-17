@@ -1,22 +1,22 @@
 import "./Pdp.css";
-import slideBaby from "../../public/images/slideBaby-big.png";
-import small1 from "../../public/images/small-img1.png";
-import toy2img from "../../public/images/toy2-img.png";
-import toy2img1 from "../../public/images/toy2-img1.png";
-import toy2img2 from "../../public/images/toy2-img2.png";
-import toy2img3 from "../../public/images/toy2-img3.png";
-import toy2img4 from "../../public/images/toy2-img4.png";
-import Textbox from "../components/Textbox/Textbox.jsx";
-import earth from "../../public/images/earth.png";
-import arrow from "../assets/arrow.svg";
-import coin from "../assets/coin.svg";
-import union from "../assets/Union.svg";
-import stacktoy from "../assets/Stacktoy.svg";
-import earth1 from "../assets/earth.svg";
-import review4star from "../../public/images/review-4star.png";
-import line from "../../public/images/horizontal-line.png";
-import threecar from "../../public/images/3car.png";
-import ProductDescription from "../components/Productdescription/Productdescription.jsx";
+import slideBaby from "../../../public/images/slideBaby-big.png";
+import small1 from "../../../public/images/small-img1.png";
+import toy2img from "../../../public/images/toy2-img.png";
+import toy2img1 from "../../../public/images/toy2-img1.png";
+import toy2img2 from "../../../public/images/toy2-img2.png";
+import toy2img3 from "../../../public/images/toy2-img3.png";
+import toy2img4 from "../../../public/images/toy2-img4.png";
+import Textbox from "../../components/Textbox/Textbox.jsx";
+import earth from "../../../public/images/earth.png";
+import arrow from "../../assets/arrow.svg";
+import coin from "../../assets/coin.svg";
+import union from "../../assets/Union.svg";
+import stacktoy from "../../assets/Stacktoy.svg";
+import earth1 from "../../assets/earth.svg";
+import review4star from "../../../public/images/review-4star.png";
+import line from "../../../public/images/horizontal-line.png";
+import threecar from "../../../public/images/3car.png";
+import ProductDescription from "../../components/Productdescription/Productdescription.jsx";
 
 function Pdp() {
 
@@ -124,49 +124,50 @@ function Pdp() {
                         </div>
                     </div> */}
                     <ProductDescription product={productData} />
-                    <section className="featured-section">
-                        <h1 className="featured-section__h1">The features</h1>
-                        <ul className="featured-items">
-                            <li className="featured-item"><a href="#">Lorem ipsim</a></li>
-                            <li className="featured-item"><a href="#">Vehicles</a></li>
-                            <li className="featured-item"><a href="#">Automation</a></li>
-                            <li className="featured-item"><a href="#">Easy to store</a></li>
-                            <li className="featured-item"><a href="#">Dolor sit</a></li>
+                </div>
+                    <section className="pdp-featured-section">
+                        <h1 className="pdp-featured-section__h1">The features</h1>
+                        <ul className="pdp-featured-items">
+                            <li className="pdp-featured-item"><a href="#">Lorem ipsim</a></li>
+                            <li className="pdp-featured-item"><a href="#">Vehicles</a></li>
+                            <li className="pdp-featured-item"><a href="#">Automation</a></li>
+                            <li className="pdp-featured-item"><a href="#">Easy to store</a></li>
+                            <li className="pdp-featured-item"><a href="#">Dolor sit</a></li>
                         </ul>
-                        <div className="featured-section__bottom">
-                            <div className="featured-section__bottom-left">
+                        <div className="pdp-featured-section__bottom">
+                            <div className="pdp-featured-section__bottom-left">
                                 <img src={threecar} alt="3 car image" className="three-car" />
                             </div>
-                            <div className="featured-section__bottom-right">
-                                <h1>Three vehicles included</h1>
+                            <div className="pdp-featured-section__bottom-right">
+                                <h1 className="pdp-featured-section__bottom-right-h1">Three vehicles included</h1>
                                 <p>Nam leo porta sit id aliquam in lobortis vitae consequat. Massa purus orci volutpat duis parturient. Ut nunc id bibendum.</p>
                                 <p>Massa egestas arcu blandit a. Suspendisse lectus id consequat sapien sit lorem.</p>
+                                <a href="#" className="add">Add to toy box</a>
                             </div>
                         </div>
                     </section>
-                </div>
             </section>
-            <section className="sustainability-section">
-                <div className="sustainability-content">
-                    <div className="sustainability-section__top">
-                        <div className="sustainability-section__top-h2">
+            <section className="pdp-sustainability-section">
+                <div className="pdp-sustainability-content">
+                    <div className="pdp-sustainability-section__top">
+                        <div className="pdp-sustainability-section__top-h2">
                             <h2>This toys saves</h2>
                         </div>
                         <div>
-                            <p className="sustainability-section__top-img">
+                            <p className="pdp-sustainability-section__top-img">
                                 <img src={earth} alt="earth img" className="earth-img" />
                                 000,000</p>
                         </div>
                     </div>
-                    <div className="sustainability-section__center">
+                    <div className="pdp-sustainability-section__center">
                         <h2>carbon from the atmosphere</h2>
                     </div>
-                    <div className="sustainability-section__bottom">
-                        <p className="sustainability-section__bottom-p">Elit et libero turpis integer nam neque. Feugiat tellus non arcu vitae eget urna aliquam. Nisl sit eu massa sed mollis tellus commodo. Id at viverra.</p>
+                    <div className="pdp-sustainability-section__bottom">
+                        <p className="pdp-sustainability-section__bottom-p">Elit et libero turpis integer nam neque. Feugiat tellus non arcu vitae eget urna aliquam. Nisl sit eu massa sed mollis tellus commodo. Id at viverra.</p>
                     </div>
                 </div>
             </section>
-            <section className="safety-section">
+            <section className="pdp-safety-section">
                 <div className="safety-content">
                     <div className="safety-image">
                         <img src={slideBaby} alt="Safety1" className="safety-img1" />

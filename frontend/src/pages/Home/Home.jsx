@@ -1,33 +1,33 @@
 import "./Home.css";
 
-import Callout from "../components/Callout/Callout.jsx";
-import Textbox from "../components/Textbox/Textbox.jsx";
-import boxClosed from "../../public/images/box-closed.png";
-import boxOpen from "../../public/images/box-open.png";
-import puppy from "../../public/images/puppy.png";
-import simpleFlamingo from "../../public/images/simple-flamingo.png";
-import beaver from "../../public/images/beaver.png";
-import moveup from "../assets/moveup.svg";
-import staticon from "../assets/stat-icon.svg";
-import arrowdown from "../assets/arrow-down.svg";
-import dinosaur from "../../public/images/dinosaur.png";
-import dinosaur1 from "../../public/images/dinosaur1.png";
-import pilePhoto from "../../public/images/photo-pile.png";
-import workflowPhone from "../../public/images/Video.png";
-import ball from "../../public/images/ball.png";
-import toyimg from "../../public/images/toy-img.png";
-import beaver2 from "../../public/images/beaver2.png";
-import slideBaby from "../../public/images/slideBaby-big.png";
-import small1 from "../../public/images/small-img1.png";
-import small2 from "../../public/images/small-img2.png";
-import small3 from "../../public/images/small-img3.png";
-import gift1 from "../../public/images/big-img2.png";
-import commitment1 from "../../public/images/big-img3.png";
-import babyteddy from "../../public/images/baby-teddy.png";
-import marqueelogo1 from "../../public/images/marquee-logo1.png";
-import marqueelogo2 from "../../public/images/marquee-logo2.png";
-import marqueelogo3 from "../../public/images/marquee-logo3.png";
-import marqueelogo4 from "../../public/images/marquee-logo4.png";
+import Callout from "../../components/Callout/Callout.jsx";
+import Textbox from "../../components/Textbox/Textbox.jsx";
+import boxClosed from "../../../public/images/box-closed.png";
+import boxOpen from "../../../public/images/box-open.png";
+import puppy from "../../../public/images/puppy.png";
+import simpleFlamingo from "../../../public/images/simple-flamingo.png";
+import beaver from "../../../public/images/beaver.png";
+import moveup from "../../assets/moveup.svg";
+import staticon from "../../assets/stat-icon.svg";
+import arrowdown from "../../assets/arrow-down.svg";
+import dinosaur from "../../../public/images/dinosaur.png";
+import dinosaur1 from "../../../public/images/dinosaur1.png";
+import pilePhoto from "../../../public/images/photo-pile.png";
+import workflowPhone from "../../../public/images/Video.png";
+import ball from "../../../public/images/ball.png";
+import toyimg from "../../../public/images/toy-img.png";
+import beaver2 from "../../../public/images/beaver2.png";
+import slideBaby from "../../../public/images/slideBaby-big.png";
+import small1 from "../../../public/images/small-img1.png";
+import small2 from "../../../public/images/small-img2.png";
+import small3 from "../../../public/images/small-img3.png";
+import gift1 from "../../../public/images/big-img2.png";
+import commitment1 from "../../../public/images/big-img3.png";
+import babyteddy from "../../../public/images/baby-teddy.png";
+import marqueelogo1 from "../../../public/images/marquee-logo1.png";
+import marqueelogo2 from "../../../public/images/marquee-logo2.png";
+import marqueelogo3 from "../../../public/images/marquee-logo3.png";
+import marqueelogo4 from "../../../public/images/marquee-logo4.png";
 
 function Home() {
   return (
@@ -299,8 +299,11 @@ function Home() {
       <section className="featured-section">
         <div className="featured-content">
           <div className="featured-content__text">
+            <div>
+
             <h2 className="featured-content__h2">As featured in...</h2>
             <p className="featured-content__p">Pssst.. click on the cards to learn more!</p>
+            </div>
             <div className="marquee">
               <div className="marquee-track">
                 <div className="marquee-slider__box">

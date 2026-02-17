@@ -1,20 +1,20 @@
-import Actioncard from "../components/Actioncard/Actioncard.jsx";
-import arrow from "../assets/arrow.svg"
+import Actioncard from "../../components/Actioncard/Actioncard.jsx";
+import arrow from "../../assets/arrow.svg"
 import "./Alltoys.css";
-import fanimg1 from "../../public/images/fan-img1.jpg";
-import fanimg2 from "../../public/images/fan-img2.png";
-import fanimg3 from "../../public/images/fan-img3.png";
-import fanimg4 from "../../public/images/fan-img4.png";
-import fanimg5 from "../../public/images/fan-img5.png";
-import fanimg6 from "../../public/images/fan-img6.png";
-import fanimg7 from "../../public/images/fan-img7.png";
-import fanimg8 from "../../public/images/fan-img8.png";
+import fanimg1 from "../../../public/images/fan-img1.jpg";
+import fanimg2 from "../../../public/images/fan-img2.png";
+import fanimg3 from "../../../public/images/fan-img3.png";
+import fanimg4 from "../../../public/images/fan-img4.png";
+import fanimg5 from "../../../public/images/fan-img5.png";
+import fanimg6 from "../../../public/images/fan-img6.png";
+import fanimg7 from "../../../public/images/fan-img7.png";
+import fanimg8 from "../../../public/images/fan-img8.png";
 // import "../../public/images/product1-img.png";
-import productsData from "../products.json";
+import productsData from "../../products.json";
 
 
-import Reviewcard from "../components/Reviewcard/Reviewcard.jsx";
-import Productcard from "../components/Productcard/Productcard.jsx";
+import Reviewcard from "../../components/Reviewcard/Reviewcard.jsx";
+import Productcard from "../../components/Productcard/Productcard.jsx";
 
 function Alltoys() {
   return (<>
