@@ -35,11 +35,12 @@ body {
   object-fit: contain;
   cursor: pointer;
   transition: transform 0.25s ease;
+  transform: scale(2.2);
 }
 
 .toycart-logo:hover
 {
-  transform: scale(2.05);
+  transform: scale(2.6);
 }
 
 .nav-center {
