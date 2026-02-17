@@ -17,6 +17,7 @@ import review4star from "../../../public/images/review-4star.png";
 import line from "../../../public/images/horizontal-line.png";
 import threecar from "../../../public/images/3car.png";
 import ProductDescription from "../../components/Productdescription/Productdescription.jsx";
+import FeaturedItem from "../../components/FeaturedItem/FeaturedItem.jsx";
 
 function Pdp() {
 
@@ -48,6 +49,59 @@ function Pdp() {
             },
         ],
     };
+
+    const featuredItems = [
+        {
+            title: "Lorem ipsim",
+            heading: "Three vehicles included",
+            image: threecar,
+            imageAlt: "3 car image",
+            descriptions: [
+                "Nam leo porta sit id aliquam in lobortis vitae consequat. Massa purus orci volutpat duis parturient. Ut nunc id bibendum.",
+                "Massa egestas arcu blandit a. Suspendisse lectus id consequat sapien sit lorem."
+            ]
+        },
+        {
+            title: "Vehicles",
+            heading: "Multiple Vehicle Options",
+            image: threecar,
+            imageAlt: "vehicles image",
+            descriptions: [
+                "Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.",
+                "Donec ullamcorper nulla non metus auctor fringilla. Vivamus suscipit tortor eget felis porttitor volutpat."
+            ]
+        },
+        {
+            title: "Automation",
+            heading: "Smart Automation Features",
+            image: threecar,
+            imageAlt: "automation image",
+            descriptions: [
+                "Nullam quis risus eget urna mollis ornare vel eu leo. Vivamus suscipit tortor eget felis porttitor volutpat.",
+                "Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla."
+            ]
+        },
+        {
+            title: "Easy to store",
+            heading: "Compact Storage Design",
+            image: threecar,
+            imageAlt: "storage image",
+            descriptions: [
+                "Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus suscipit tortor eget felis porttitor.",
+                "Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod."
+            ]
+        },
+        {
+            title: "Dolor sit",
+            heading: "Premium Quality Assurance",
+            image: threecar,
+            imageAlt: "quality image",
+            descriptions: [
+                "Aenean eu leo quam pellentesque ut, laoreet sit amet, justo. Donec ullamcorper nulla non metus auctor fringilla.",
+                "Vestibulum id ligula porta felis euismod semper. Donec ullamcorper nulla non metus auctor fringilla."
+            ]
+        }
+    ];
     return (
         <>
             <section className="hero-section">
@@ -125,27 +179,7 @@ function Pdp() {
                     </div> */}
                     <ProductDescription product={productData} />
                 </div>
-                    <section className="pdp-featured-section">
-                        <h1 className="pdp-featured-section__h1">The features</h1>
-                        <ul className="pdp-featured-items">
-                            <li className="pdp-featured-item"><a href="#">Lorem ipsim</a></li>
-                            <li className="pdp-featured-item"><a href="#">Vehicles</a></li>
-                            <li className="pdp-featured-item"><a href="#">Automation</a></li>
-                            <li className="pdp-featured-item"><a href="#">Easy to store</a></li>
-                            <li className="pdp-featured-item"><a href="#">Dolor sit</a></li>
-                        </ul>
-                        <div className="pdp-featured-section__bottom">
-                            <div className="pdp-featured-section__bottom-left">
-                                <img src={threecar} alt="3 car image" className="three-car" />
-                            </div>
-                            <div className="pdp-featured-section__bottom-right">
-                                <h1 className="pdp-featured-section__bottom-right-h1">Three vehicles included</h1>
-                                <p>Nam leo porta sit id aliquam in lobortis vitae consequat. Massa purus orci volutpat duis parturient. Ut nunc id bibendum.</p>
-                                <p>Massa egestas arcu blandit a. Suspendisse lectus id consequat sapien sit lorem.</p>
-                                <a href="#" className="add">Add to toy box</a>
-                            </div>
-                        </div>
-                    </section>
+                <FeaturedItem items={featuredItems} />
             </section>
             <section className="pdp-sustainability-section">
                 <div className="pdp-sustainability-content">
