@@ -8,6 +8,7 @@ import Pdp from "./pages/Pdp/Pdp";
 // import Product from "./pages/Product/Product";
 import Footer from "./components/Footer/Footer";
 import Checkout from "./pages/Checkout/Checkout";
+import Order from "./pages/Order/Order";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Checkout" element={<Checkout />} />
         <Route path="/Alltoys" element={<Alltoys />} />
+        <Route path="/Order" element={<Order />} />
         <Route path="/About" element={<About />} />
         <Route path="/Pdp/:id" element={<Pdp />} />
       </Routes>

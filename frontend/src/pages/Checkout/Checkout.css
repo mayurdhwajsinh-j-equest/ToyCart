@@ -18,6 +18,21 @@
   align-items: start;
 }
 
+.moreToys-content .section-heading {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.moreToys-content .section-heading h4 {
+  color: #255F83;
+  font-size: 64px;
+  margin: 0;
+  font-weight: bolder;
+}
+
 .moreToys-content h4 {
   grid-column: 1 / -1;
   color: #255F83;

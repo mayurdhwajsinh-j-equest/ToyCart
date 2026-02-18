@@ -11,7 +11,14 @@ function Checkout() {
             <CheckoutForm />
             <section className="moreToys-section">
                 <div className="moreToys-content">
-                    <h4>More toys for you</h4>
+                    <div className="section-heading">
+                        <h4>More toys for you</h4>
+                        <div className="heading-actions">
+                            <a href="#" className="see-all-btn">See all toys</a>
+                            <button className="nav-btn nav-prev">←</button>
+                            <button className="nav-btn nav-next">→</button>
+                        </div>
+                    </div>
                     {productsData.map((product) => (
                         <Productcard
                             key={product.id}

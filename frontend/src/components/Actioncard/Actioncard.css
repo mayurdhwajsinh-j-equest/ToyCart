@@ -7,7 +7,7 @@
   align-items: center;
   text-align: center;
   max-width: 417px;
-  height: auto;
+  height: 222px;
 }
 
 .card h3 {
@@ -54,11 +54,20 @@
 }
 
 .card--white p {
+  /* margin-top: 100px; */
   color: #482583;
 }
 
 .card--pink {
   background: #ff9fd4;
+}
+
+.card-beaver-img {
+  width: 78px;
+  height: auto;
+  left: -157px;
+  top: -50px;
+  position: relative;
 }
 
 @media (max-width: 900px) {

@@ -1,5 +1,6 @@
 import "./Home.css";
 
+import { useRef } from "react";
 import Callout from "../../components/Callout/Callout.jsx";
 import Textbox from "../../components/Textbox/Textbox.jsx";
 import productsData from "../../products.json";
@@ -32,6 +33,12 @@ import marqueelogo3 from "../../../public/images/marquee-logo3.png";
 import marqueelogo4 from "../../../public/images/marquee-logo4.png";
 
 function Home() {
+  const openBoxRef = useRef(null);
+
+  const scrollToOpenBox = () => {
+    openBoxRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <>
       <div className="home-wrapper">
@@ -59,7 +66,7 @@ function Home() {
               <div className="box-with-dino">
                 <img src={dinosaur} alt="Dinosaur" className="dinosaur-img" />
                 <img src={boxClosed} alt="Closed box" className="closed-box" />
-                <p className="scrollTo">Scroll to open the box</p>
+                <p className="scrollTo" onClick={scrollToOpenBox}>Scroll to open the box</p>
                 <img src={arrowdown} alt="arrow-down img" className="arrow-down" />
               </div>
             </div>
@@ -71,7 +78,7 @@ function Home() {
             </div>
           </div>
         </section>
-        <section className="openbox-section">
+        <section className="openbox-section" ref={openBoxRef}>
           <div className="openbox-section__top">
             <Callout
               text="We have over 1000 toys you can borrow from our collection."
@@ -204,7 +211,14 @@ function Home() {
       </section>
       <section className="customerFav-section">
         <div className="customerFav-content">
-          <h4>Customer favourites</h4>
+          <div className="section-heading">
+            <h4>Customer favourites</h4>
+            <div className="heading-actions">
+              <a href="#" className="see-all-btn">See all toys</a>
+              <button className="nav-btn nav-prev">←</button>
+              <button className="nav-btn nav-next">→</button>
+            </div>
+          </div>
           {productsData.map((product) => (
             <Productcard
               key={product.id}

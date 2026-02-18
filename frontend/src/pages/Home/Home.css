@@ -378,6 +378,13 @@ html {
   left: 350px;
   font-size: 14px;
   color: #255F83;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.scrollTo:hover {
+  color: #1b4763;
+  transform: translateY(-2px);
 }
 
 .arrow-down
@@ -834,6 +841,21 @@ html {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 104px;
   align-items: start;
+}
+
+.customerFav-content .section-heading {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.customerFav-content .section-heading h4 {
+  color: #255F83;
+  font-size: 64px;
+  margin: 0;
+  font-weight: bolder;
 }
 
 .customerFav-content h4 {
