@@ -367,6 +367,12 @@ html {
   position: relative;
   top: -30px;
   left: 1850px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.moveup-icon:hover {
+  transform: translateY(-5px);
 }
 
 .scrollTo
@@ -414,7 +420,7 @@ html {
 .beaver2-img
 {
   position: relative;
-  left: -460px;
+  left: -454px;
   top: -50px;
 }
 

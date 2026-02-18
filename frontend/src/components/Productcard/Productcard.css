@@ -74,6 +74,7 @@
     text-decoration: none;
     text-align: center;
     border-radius: 10px;
+    border : none;
     position: absolute;
     top: 100%;
     left: 50%;

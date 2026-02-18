@@ -34,6 +34,7 @@ import marqueelogo3 from "../../../public/images/marquee-logo3.png";
 import marqueelogo4 from "../../../public/images/marquee-logo4.png";
 
 function Home() {
+  const heroRef = useRef(null);
   const openBoxRef = useRef(null);
   const navigate = useNavigate();
 
@@ -41,10 +42,14 @@ function Home() {
     openBoxRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const scrollToHero = () => {
+    heroRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <>
       <div className="home-wrapper">
-        <section className="home-hero">
+        <section className="home-hero" ref={heroRef}>
           <div className="hero-title-wrapper">
             <h1 className="hero-title">
               Share toys
@@ -115,7 +120,7 @@ function Home() {
               linkText="Read our story"
               direction="bottom"
             />
-            <img src={moveup} alt="moveup icon" className="moveup-icon" />
+            <img src={moveup} alt="moveup icon" className="moveup-icon" onClick={scrollToHero} />
           </div>
         </section>
         <section className="pile-section">
