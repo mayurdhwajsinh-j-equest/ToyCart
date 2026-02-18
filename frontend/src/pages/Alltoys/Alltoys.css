@@ -45,6 +45,11 @@
   gap: 16.33px;
 }
 
+.product-section__content .product-card {
+  max-width: 310px;
+  width: 310px;
+}
+
 .fan-content__top-h2 {
   font-size: 64px;
   color: #255F83;

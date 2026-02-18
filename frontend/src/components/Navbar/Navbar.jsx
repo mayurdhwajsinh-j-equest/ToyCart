@@ -22,7 +22,7 @@ function Navbar() {
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/Checkout">Checkout</Link></li>
                     <li><Link to="/Alltoys">Alltoys</Link></li>
-                    <li><Link to="/Pdp">PDP</Link></li>
+                    <li><Link to="/About">About</Link></li>
                 </ul>
                 <div className="nav-right">
                     <button className="icon-btn">

@@ -63,6 +63,7 @@ body, html, #root {
   padding: 40px;
   background-color: #246089;
   align-items: start;
+  padding-bottom: 0;
 }
 
 .footer-logo h2 {

@@ -254,6 +254,7 @@ function Pdp() {
                     {productsData.map((product) => (
                         <Productcard
                             key={product.id}
+                            id={product.id}
                             ProductImage={product.ProductImage}
                             ProductName={product.ProductName}
                             Price={product.Price}

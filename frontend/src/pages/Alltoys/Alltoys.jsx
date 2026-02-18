@@ -61,7 +61,8 @@ function Alltoys() {
       <div className="product-section__content">
         {productsData.map((product) => (
           <Productcard
-            key={product.id}    
+            key={product.id}
+            id={product.id}    
             ProductImage={product.ProductImage}
             ProductName={product.ProductName}
             Price={product.Price}

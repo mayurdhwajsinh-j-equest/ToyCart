@@ -86,3 +86,9 @@
 .product-card:hover .addToToybox {
     opacity: 1;
 }
+
+.product-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+}
