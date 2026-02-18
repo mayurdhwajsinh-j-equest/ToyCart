@@ -9,6 +9,8 @@ import Pdp from "./pages/Pdp/Pdp";
 import Footer from "./components/Footer/Footer";
 import Checkout from "./pages/Checkout/Checkout";
 import Order from "./pages/Order/Order";
+import Collection from "./pages/Collection/Collection";
+import Product from "./pages/Product/Product";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/Alltoys" element={<Alltoys />} />
         <Route path="/Order" element={<Order />} />
         <Route path="/About" element={<About />} />
+        <Route path="/Collection" element={<Collection />} />
+        <Route path="/Product" element={<Product />} />
         <Route path="/Pdp/:id" element={<Pdp />} />
       </Routes>
 
