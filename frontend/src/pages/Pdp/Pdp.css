@@ -126,201 +126,7 @@
   gap: 5px;
 }
 
-/* .product-description {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: start;
-} */
-
-/* .toy2-img
-{
-  margin-bottom: 12px;
-}
-
-.product-description__images
-{
-  gap: 12px;
-}
-
-.product-description__images-bottom
-{
-  display: flex;
-  gap: 13px;
-}
-
-.product-description__content {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  max-width: 520px;
-}
-
-.product-description__content-title
-{
-  font-size: 32px;
-  color: #255F83;
-  line-height: 38px;
-  font-weight: bolder;
-  margin-top: 0;
-}
-
-.product-description__content-price
-{
-  display: flex;
-  gap: 6px;
-  margin: 20px 0 20px 0;
-  align-items: center;
-  font-size: 26px;
-  font-weight: bold;
-  color: #255F83;
-}
-
-.product-description__content-text
-{
-  color: #255F83;
-  margin: 20px 0 20px 0;
-  line-height: 23px;
-  font-size: 16px;
-  width: 90%;
-}
-
-.addToCart {
-  background-color: #F7FFB4;
-  color: #255F83;
-  font-weight: bold;
-  font-size: 16px;
-  text-decoration: none;
-  display: inline-block;
-  padding: 12px 40px;
-  border-radius: 6px;
-  text-align: center;
-}
-
-.product-details {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  padding-top: 10px;
-}
-
-.product-details__item {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-.product-details__icon {
-  flex-shrink: 0;
-}
-
-.product-details__icon img {
-  width: 32px;
-  height: 32px;
-}
-
-.product-details__text {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.product-details__title {
-  margin: 0;
-  font-weight: 600;
-  color: #255F83;
-}
-
-.product-details__desc {
-  margin: 0;
-  font-size: 14px;
-  color: #255F83;
-  opacity: 0.85;
-}
-
-.line{
-  position: relative;
-  top: -18px;
-} */
-
-
-/* Featured Section styles moved to FeaturedItem component */
-/* 
-.pdp-featured-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: #255F83;
-}
-
-.pdp-featured-section__h1
-{ 
-  font-size: 64px;
-  margin : 12px;
-  font-weight: bolder;
-}
-
-.pdp-featured-items {
-  display: flex;
-  gap: 38px;
-  margin-bottom: 39px;
-}
-
-li {
-  list-style-type: none;
-}
-
-.pdp-featured-item a {
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 16px;
-}
-
-.pdp-featured-item :hover
-{
-  background-color: #FFF684;
-}
-
-.pdp-featured-section__bottom {
-  background-color: #FFFFFF;
-  max-width: 1124px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 20px;
-}
-
-.pdp-featured-section__bottom-left {
-  max-width: 535px;
-}
-
-.pdp-featured-section__bottom-right {
-  max-width: 359px;
-  margin: 73px 146px 88px 64px;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-.pdp-featured-section__bottom-right p, .pdp-featured-section__bottom-right h1{
-  margin: 0;
-}
-
-.add
-{
-  background-color: #F7FFB4;
-  padding: 14px 28px;
-  text-align: center;
-  max-width: fit-content;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: bold;
-}
-*/
-
-.pdp-toy-actions{
+.pdp-toy-actions {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
@@ -328,81 +134,6 @@ li {
   background: #DECCFE;
 }
 
-/* Further Details component CSS moved to FurtherDetails component */
-/*
-.furtherDetails-content__text {
-  display: flex;
-  justify-content: space-between;
-  margin: 5px;
-  cursor: pointer;
-  background: none;
-  color: #255F83;
-  border: none;
-  padding: 0;
-  width: 100%;
-  align-items: center;
-  transition: all 0.3s ease;
-}
-
-.furtherDetails-content__text:hover {
-  transform: translateX(5px);
-}
-
-.accordion-content {
-  padding-left: 5px;
-  color: #255F83;
-  line-height: 1.6;
-  font-size: 16px;
-  max-width: 635px;
-  animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    max-height: 0;
-  }
-
-  to {
-    opacity: 1;
-    max-height: 500px;
-  }
-}
-
-.furtherDetails-content {
-  display: flex;
-  flex-direction: column;
-  margin: 0px 121px;
-  color: #255F83;
-  position: relative;
-  top: -100px;
-}
-
-.furtherDetails-content h3 {
-  font-size: 64px;
-  font-weight: bolder;
-  margin: 5px;
-}
-
-.furtherDetails-content__text-label {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.instruction-icon {
-  position: relative;
-  left: -20px;
-}
-
-.puppy-fd {
-  max-width: 156px;
-  height: auto;
-  margin-top: 20px;
-}
-*/
-
-/* Subtle hover effects for PDP buttons and interactive controls */
-/* Keep colors unchanged and only apply lift + shadow */
 .pdp-toy-actions a,
 .addToCart,
 .add,
@@ -419,12 +150,10 @@ li {
   filter: brightness(1.03);
 }
 
-/* Keep active tab color intact; only lift non-active tabs */
 .pdp-featured-item__link:not(.active):hover {
   transform: translateY(-2px);
 }
 
-/* Ensure anchor/buttons don't get outline changes that break layout */
 .pdp-toy-actions a,
 .addToCart,
 .add,
@@ -433,21 +162,27 @@ li {
   outline: none;
 }
 
-/* Related products grid used on PDP */
 .relatedProduct-section {
   background: #DECCFE;
   padding: 80px 120px;
 }
+
 .relatedProduct-content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 104px;
   align-items: start;
 }
+
 .relatedProduct-content h4 {
   grid-column: 1 / -1;
   color: #255F83;
   font-size: 64px;
   margin: 0;
   font-weight: bolder;
+}
+
+.relatedProduct-content .product-card {
+  max-width: 310px;
+  width: 310px;
 }

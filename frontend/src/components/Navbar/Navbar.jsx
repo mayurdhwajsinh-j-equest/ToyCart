@@ -20,7 +20,7 @@ function Navbar() {
                 </div>
                 <ul className="nav-center">
                     <li><Link to="/">Home</Link></li>
-                    <li><Link to="/about">About</Link></li>
+                    <li><Link to="/Checkout">Checkout</Link></li>
                     <li><Link to="/Alltoys">Alltoys</Link></li>
                     <li><Link to="/Pdp">PDP</Link></li>
                 </ul>

@@ -1,8 +1,26 @@
 import "./Checkout.css";
+import productsData from "../../products.json";
+import Productcard from "../../components/Productcard/Productcard.jsx";
+import Actioncard from "../../components/Actioncard/Actioncard.jsx";
 
 function Checkout() {
+    
     return (
         <>
+            <section className="moreToys-section">
+                <div className="moreToys-content">
+                    <h4>More toys for you</h4>
+                    {productsData.map((product) => (
+                        <Productcard
+                            key={product.id}
+                            ProductImage={product.ProductImage}
+                            ProductName={product.ProductName}
+                            Price={product.Price}
+                        />
+                    ))}
+                </div>
+            </section>
+
             <section className="checkout-actions">
                 <Actioncard
                     title="Buy toys new from our marketplace"

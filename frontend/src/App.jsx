@@ -7,6 +7,7 @@ import Alltoys from "./pages/Alltoys/Alltoys";
 import Pdp from "./pages/Pdp/Pdp";
 // import Product from "./pages/Product/Product";
 import Footer from "./components/Footer/Footer";
+import Checkout from "./pages/Checkout/Checkout";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/Checkout" element={<Checkout />} />
         <Route path="/Alltoys" element={<Alltoys />} />
         <Route path="/Pdp" element={<Pdp />} />
       </Routes>

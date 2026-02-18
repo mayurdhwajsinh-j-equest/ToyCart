@@ -3,5 +3,30 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   padding: 150px 350px;
-  background: #e8ddff;
+  background: #F7FFB4;
+}
+
+.moreToys-section {
+  background: #DECCFE;
+  padding: 80px 120px;
+}
+
+.moreToys-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 104px;
+  align-items: start;
+}
+
+.moreToys-content h4 {
+  grid-column: 1 / -1;
+  color: #255F83;
+  font-size: 64px;
+  margin: 0;
+  font-weight: bolder;
+}
+
+.moreToys-content .product-card {
+  max-width: 310px;
+  width: 310px;
 }
