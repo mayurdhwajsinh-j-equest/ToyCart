@@ -1,6 +1,7 @@
 import "./Home.css";
 
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Callout from "../../components/Callout/Callout.jsx";
 import Textbox from "../../components/Textbox/Textbox.jsx";
 import productsData from "../../products.json";
@@ -34,6 +35,7 @@ import marqueelogo4 from "../../../public/images/marquee-logo4.png";
 
 function Home() {
   const openBoxRef = useRef(null);
+  const navigate = useNavigate();
 
   const scrollToOpenBox = () => {
     openBoxRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -73,8 +75,8 @@ function Home() {
 
 
             <div className="hero-buttons">
-              <button className="btn-outline">Browse toys</button>
-              <button className="btn-primary">Start your toy box</button>
+              <button className="btn-outline" onClick={() => navigate("/Alltoys")}>Browse toys</button>
+              <button className="btn-primary" onClick={() => navigate("/Order")}>Start your toy box</button>
             </div>
           </div>
         </section>
@@ -214,7 +216,7 @@ function Home() {
           <div className="section-heading">
             <h4>Customer favourites</h4>
             <div className="heading-actions">
-              <a href="#" className="see-all-btn">See all toys</a>
+              <a href="/Alltoys" className="see-all-btn">See all toys</a>
               <button className="nav-btn nav-prev">←</button>
               <button className="nav-btn nav-next">→</button>
             </div>

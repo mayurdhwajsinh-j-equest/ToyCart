@@ -1,7 +1,9 @@
 import "./ToyBox.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ToyBox() {
+    const navigate = useNavigate();
     const [items, setItems] = useState([
         {
             id: 1,
@@ -83,7 +85,7 @@ function ToyBox() {
                     </tbody>
                 </table>
                 <div className="checkout-btn-wrapper">
-                    <button className="checkout-btn">Check Out Now</button>
+                    <button className="checkout-btn" onClick={() => navigate("/Checkout")}>Check Out Now</button>
                 </div>
             </div>
         </section>

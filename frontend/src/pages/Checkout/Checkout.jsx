@@ -14,7 +14,7 @@ function Checkout() {
                     <div className="section-heading">
                         <h4>More toys for you</h4>
                         <div className="heading-actions">
-                            <a href="#" className="see-all-btn">See all toys</a>
+                            <a href="/Alltoys" className="see-all-btn">See all toys</a>
                             <button className="nav-btn nav-prev">←</button>
                             <button className="nav-btn nav-next">→</button>
                         </div>

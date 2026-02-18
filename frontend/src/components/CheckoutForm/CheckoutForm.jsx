@@ -1,7 +1,14 @@
 import "./CheckoutForm.css";
+import { useNavigate } from "react-router-dom";
 import returnicon from "../../assets/return-icon.svg";
 
 function CheckoutForm() {
+    const navigate = useNavigate();
+
+    const handleReturnToCart = () => {
+        navigate("/Order");
+    };
+    
     return (
         <section className="checkout-section">
             <div className="checkout-wrapper">
@@ -36,7 +43,7 @@ function CheckoutForm() {
                         </div>
                     </div>
                     <div className="buttons">
-                        <a href="#" className="btn-return"><img src={returnicon} alt="return icon" className="return-icon"/><span>Return to cart</span></a>
+                        <button onClick={handleReturnToCart} className="btn-return"><img src={returnicon} alt="return icon" className="return-icon"/><span>Return to cart</span></button>
                         <a href="#" className="btn-continue">Continue to shipping</a>
                     </div>
                 </div>
