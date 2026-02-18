@@ -824,6 +824,30 @@ html {
   transform: translateY(-4px);
 }
 
+.customerFav-section {
+  background: #F7FFB4;
+  padding: 80px 120px;
+}
+
+.customerFav-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 104px;
+  align-items: start;
+}
+
+.customerFav-content h4 {
+  grid-column: 1 / -1;
+  color: #255F83;
+  font-size: 64px;
+  margin: 0;
+  font-weight: bolder;
+}
+
+.customerFav-content .product-card {
+  max-width: 310px;
+  width: 310px;
+}
 
 @media (max-width: 1024px) {
   .home-hero {

@@ -2,6 +2,8 @@ import "./Home.css";
 
 import Callout from "../../components/Callout/Callout.jsx";
 import Textbox from "../../components/Textbox/Textbox.jsx";
+import productsData from "../../products.json";
+import Productcard from "../../components/Productcard/Productcard.jsx";
 import boxClosed from "../../../public/images/box-closed.png";
 import boxOpen from "../../../public/images/box-open.png";
 import puppy from "../../../public/images/puppy.png";
@@ -200,7 +202,20 @@ function Home() {
           </div>
         </div>
       </section>
-
+      <section className="customerFav-section">
+        <div className="customerFav-content">
+          <h4>Customer favourites</h4>
+          {productsData.map((product) => (
+            <Productcard
+              key={product.id}
+              id={product.id}
+              ProductImage={product.ProductImage}
+              ProductName={product.ProductName}
+              Price={product.Price}
+            />
+          ))}
+        </div>
+      </section>
       <section className="safety-section">
         <div className="safety-content">
           <div className="safety-image">
@@ -301,8 +316,8 @@ function Home() {
           <div className="featured-content__text">
             <div>
 
-            <h2 className="featured-content__h2">As featured in...</h2>
-            <p className="featured-content__p">Pssst.. click on the cards to learn more!</p>
+              <h2 className="featured-content__h2">As featured in...</h2>
+              <p className="featured-content__p">Pssst.. click on the cards to learn more!</p>
             </div>
             <div className="marquee">
               <div className="marquee-track">
@@ -338,6 +353,8 @@ function Home() {
           </div>
         </div>
       </section>
+
+
 
     </>
   );

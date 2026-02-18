@@ -7,6 +7,20 @@ function Checkout() {
     
     return (
         <>
+            <section className="checkout-section">
+                <div className="checkout-content">
+                    <h2>Checkout</h2>
+                    <div className="contact-info">
+                        <p>Contact Information</p>
+                        <input type="email" placeholder="Email"/>
+                        <input type="number" placeholder="Phone number"/>
+                    </div>
+                    <div className="shipping-address">
+                        <p>Shipping Address</p>
+                    </div>
+                    <div></div>
+                </div>
+            </section>
             <section className="moreToys-section">
                 <div className="moreToys-content">
                     <h4>More toys for you</h4>
