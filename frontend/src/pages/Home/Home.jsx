@@ -14,6 +14,8 @@ import beaver from "../../../public/images/beaver.png";
 import moveup from "../../assets/moveup.svg";
 import staticon from "../../assets/stat-icon.svg";
 import arrowdown from "../../assets/arrow-down.svg";
+import navprev from "../../assets/nav-prev.svg";
+import navnext from "../../assets/nav-next.svg";
 import dinosaur from "../../../public/images/dinosaur.png";
 import dinosaur1 from "../../../public/images/dinosaur1.png";
 import pilePhoto from "../../../public/images/photo-pile.png";
@@ -222,8 +224,8 @@ function Home() {
             <h4>Customer favourites</h4>
             <div className="heading-actions">
               <a href="/Alltoys" className="see-all-btn">See all toys</a>
-              <button className="nav-btn nav-prev">←</button>
-              <button className="nav-btn nav-next">→</button>
+              <button className="nav-btn nav-prev"><img src={navprev} alt="nav prev" /></button>
+              <button className="nav-btn nav-next"><img src={navnext} alt="nav next" /></button>
             </div>
           </div>
           {productsData.map((product) => (

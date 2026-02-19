@@ -13,6 +13,8 @@ import coin from "../../assets/coin.svg";
 import union from "../../assets/Union.svg";
 import stacktoy from "../../assets/Stacktoy.svg";
 import earth1 from "../../assets/earth.svg";
+import navprev from "../../assets/nav-prev.svg";
+import navnext from "../../assets/nav-next.svg";
 import review4star from "../../../public/images/review-4star.png";
 import line from "../../../public/images/horizontal-line.png";
 import threecar from "../../../public/images/3car.png";
@@ -254,8 +256,8 @@ function Pdp() {
                         <h4>Related products</h4>
                         <div className="heading-actions">
                             <a href="/Alltoys" className="see-all-btn">See all toys</a>
-                            <button className="nav-btn nav-prev">←</button>
-                            <button className="nav-btn nav-next">→</button>
+                            <button className="nav-btn nav-prev"><img src={navprev} alt="nav prev" /></button>
+                            <button className="nav-btn nav-next"><img src={navnext} alt="nav next" /></button>
                         </div>
                     </div>
                     {productsData.map((product) => (

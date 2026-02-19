@@ -3,9 +3,11 @@ import productsData from "../../products.json";
 import Productcard from "../../components/Productcard/Productcard.jsx";
 import Actioncard from "../../components/Actioncard/Actioncard.jsx";
 import CheckoutForm from "../../components/CheckoutForm/CheckoutForm.jsx";
+import navprev from "../../assets/nav-prev.svg";
+import navnext from "../../assets/nav-next.svg";
 
 function Checkout() {
-    
+
     return (
         <>
             <CheckoutForm />
@@ -15,8 +17,8 @@ function Checkout() {
                         <h4>More toys for you</h4>
                         <div className="heading-actions">
                             <a href="/Alltoys" className="see-all-btn">See all toys</a>
-                            <button className="nav-btn nav-prev">←</button>
-                            <button className="nav-btn nav-next">→</button>
+                            <button className="nav-btn nav-prev"><img src={navprev} alt="nav prev" /></button>
+                            <button className="nav-btn nav-next"><img src={navnext} alt="nav next" /></button>
                         </div>
                     </div>
                     {productsData.map((product) => (

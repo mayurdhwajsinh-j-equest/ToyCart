@@ -68,12 +68,12 @@
     color: #FFFFFF;
     font-size: 16px;
     cursor: pointer;
-    width: 200px;
+    width: 280px;
     background-color: #255F83;
-    padding: 15px 40px;
+    padding: 15px 30px;
     text-decoration: none;
     text-align: center;
-    border-radius: 10px;
+    border-radius: 5px;
     border : none;
     position: absolute;
     top: 100%;

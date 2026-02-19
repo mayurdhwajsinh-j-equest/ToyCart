@@ -47,7 +47,7 @@
 .toybox-table tbody tr:hover {
   background-color: #FAFAFA;
 }
-   
+
 .toybox-table tbody td {
   padding: 20px;
   color: #255F83;
@@ -83,7 +83,7 @@
 }
 
 .quantity-cell {
-    display: flex;
+  display: flex;
   align-items: center;
   gap: 10px;
 }
