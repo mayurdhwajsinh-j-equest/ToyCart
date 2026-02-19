@@ -15,8 +15,29 @@ body {
   color: #FFFFFF;
   font-size: 13px;
   display: flex;
-  justify-content: space-around;
+  overflow: hidden;
   padding: 8px 12px;
+}
+
+.top-bar-content {
+  display: flex;
+  gap: 300px;
+  animation: scrollLeft 30s linear infinite;
+  white-space: nowrap;
+  padding-right: 80px;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.top-bar-content:hover {
+  animation-play-state: paused;
 }
 
 .navbar {

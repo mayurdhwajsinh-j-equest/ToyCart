@@ -7,9 +7,14 @@ function Navbar() {
     return (
         <header className="navbar-wrapper">
             <div className="top-bar">
-                <span>♻️ Sustainable way to play</span>
-                <span>📦 Sell toys back to earn credit</span>
-                <span>🎁 20% off first box — NEWPLAYER20</span>
+                <div className="top-bar-content">
+                    <span>♻️ Sustainable way to play</span>
+                    <span>📦 Sell toys back to earn credit</span>
+                    <span>🎁 20% off first box — NEWPLAYER20</span>
+                    <span>♻️ Sustainable way to play</span>
+                    <span>📦 Sell toys back to earn credit</span>
+                    <span>🎁 20% off first box — NEWPLAYER20</span>
+                </div>
             </div>
 
             <nav className="navbar">
