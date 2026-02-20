@@ -1,6 +1,7 @@
 import "./ProductDescription.css";
+import { useCart } from "../../hooks/useCart";
 
-function ProductDescription({ product }) {
+function ProductDescription({ product, productId }) {
   const {
     title,
     price,
@@ -12,6 +13,18 @@ function ProductDescription({ product }) {
     coinIcon,
     lineIcon,
   } = product;
+
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    addToCart({
+      id: productId || 1,
+      ProductName: title,
+      Price: price,
+      ProductImage: mainImage,
+    });
+  };
 
   return (
     <div className="product-description">
@@ -62,7 +75,7 @@ function ProductDescription({ product }) {
 
           {lineIcon && <img src={lineIcon} alt="line" className="line" />}
 
-          <button className="addToCart">Add to cart</button>
+          <button className="addToCart" onClick={handleAddToCart}>Add to cart</button>
 
           {lineIcon && <img src={lineIcon} alt="line" className="line" />}
         </div>

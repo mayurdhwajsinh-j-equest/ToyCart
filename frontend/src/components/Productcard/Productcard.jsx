@@ -2,14 +2,21 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Productcard.css";
 import wishlisticon from "../../assets/wishlist-icon.svg";
 import coin from "../../assets/coin-icon.svg";
+import { useCart } from "../../hooks/useCart";
 
 function Productcard({ id, ProductImage, ProductName, Price }) {
     const navigate = useNavigate();
+    const { addToCart } = useCart();
 
     const handleAddToToybox = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        navigate("/Order");
+        addToCart({
+            id,
+            ProductImage,
+            ProductName,
+            Price
+        });
     };
 
     return (

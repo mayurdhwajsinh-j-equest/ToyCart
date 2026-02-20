@@ -1,9 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import searchIcon from "../../assets/search-icon.svg";
 import cartIcon from "../../assets/cart-icon.svg";
+import { useCart } from "../../hooks/useCart";
 
 function Navbar() {
+    const { getCartCount } = useCart();
+    const navigate = useNavigate();
+    const cartCount = getCartCount();
+
+    const handleCartClick = () => {
+        navigate("/Checkout");
+    };
+
     return (
         <header className="navbar-wrapper">
             <div className="top-bar">
@@ -37,8 +46,9 @@ function Navbar() {
                         <img src={searchIcon} alt="Search" />
                     </button> */}
 
-                    <button className="icon-btn">
+                    <button className="icon-btn cart-btn" onClick={handleCartClick}>
                         <img src={cartIcon} alt="Cart" />
+                        {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
                     </button>
                 </div>
             </nav>

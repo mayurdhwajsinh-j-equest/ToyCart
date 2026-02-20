@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { CartProvider } from "./context/CartContext";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
@@ -14,22 +15,24 @@ import Product from "./pages/Product/Product";
 
 function App() {
   return (
-    <>
+    <CartProvider>
       <Navbar />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Checkout" element={<Checkout />} />
-        <Route path="/Alltoys" element={<Alltoys />} />
-        <Route path="/Order" element={<Order />} />
-        <Route path="/About" element={<About />} />
-        <Route path="/Collection" element={<Collection />} />
-        <Route path="/Product" element={<Product />} />
-        <Route path="/Pdp/:id" element={<Pdp />} />
-      </Routes>
+      <main style={{ marginTop: '140px' }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Checkout" element={<Checkout />} />
+          <Route path="/Alltoys" element={<Alltoys />} />
+          <Route path="/Order" element={<Order />} />
+          <Route path="/About" element={<About />} />
+          <Route path="/Collection" element={<Collection />} />
+          <Route path="/Product" element={<Product />} />
+          <Route path="/Pdp/:id" element={<Pdp />} />
+        </Routes>
 
-      {/* <Footer /> */}
-    </>
+        <Footer />
+      </main>
+    </CartProvider>
   );
 }
 
