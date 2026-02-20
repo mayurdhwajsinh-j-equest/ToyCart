@@ -28,7 +28,7 @@ function App() {
         <Route path="/Pdp/:id" element={<Pdp />} />
       </Routes>
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

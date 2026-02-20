@@ -33,9 +33,9 @@ function Navbar() {
                     <li><Link to="/Product">Product</Link></li>
                 </ul>
                 <div className="nav-right">
-                    <button className="icon-btn">
+                    {/* <button className="icon-btn">
                         <img src={searchIcon} alt="Search" />
-                    </button>
+                    </button> */}
 
                     <button className="icon-btn">
                         <img src={cartIcon} alt="Cart" />

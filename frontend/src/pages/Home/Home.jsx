@@ -30,6 +30,7 @@ import small3 from "../../../public/images/small-img3.png";
 import gift1 from "../../../public/images/big-img2.png";
 import commitment1 from "../../../public/images/big-img3.png";
 import babyteddy from "../../../public/images/baby-teddy.png";
+import toycartlogo from "../../../public/images/toycart-logo.png";
 import marqueelogo1 from "../../../public/images/marquee-logo1.png";
 import marqueelogo2 from "../../../public/images/marquee-logo2.png";
 import marqueelogo3 from "../../../public/images/marquee-logo3.png";
@@ -135,17 +136,18 @@ function Home() {
 
         <div className="workflow-content">
           <div className="workflow-phone">
+            <img src={toycartlogo} alt="logo" className="toycartlogo"/>
             <img
               src={workflowPhone}
               alt="Phone mockup"
               className="phone-image"
             />
 
-            <div className="workflow-actions">
+            {/* <div className="workflow-actions">
               <button className="btn btn-active">Rent</button>
               <button className="btn">Buy</button>
               <button className="btn">Sell</button>
-            </div>
+            </div> */}
           </div>
 
           <div className="workflow-steps">
@@ -192,27 +194,27 @@ function Home() {
         </div>
         <p className="time-for-toys__label">We categorise our toy collection by <a href="#" className="play-style">Play style</a> and <a href="#" className="age">Age</a></p>
         <div className="toys-grid">
-          <div className="toy-card">
+          <div className="toy-card" onClick={() => navigate("/Alltoys")}>
             <img src={toyimg} alt="Toy 1" className="toy-image" />
             <p>Pritend play</p>
           </div>
-          <div className="toy-card">
+          <div className="toy-card" onClick={() => navigate("/Alltoys")}>
             <img src={toyimg} alt="Toy 2" className="toy-image" />
             <p>Construction</p>
           </div>
-          <div className="toy-card">
+          <div className="toy-card" onClick={() => navigate("/Alltoys")}>
             <img src={toyimg} alt="Toy 3" className="toy-image" />
             <p>STEM</p>
           </div>
-          <div className="toy-card">
+          <div className="toy-card" onClick={() => navigate("/Alltoys")}>
             <img src={toyimg} alt="Toy 4" className="toy-image" />
             <p>Messy</p>
           </div>
-          <div className="toy-card">
+          <div className="toy-card" onClick={() => navigate("/Alltoys")}>
             <img src={toyimg} alt="Toy 5" className="toy-image" />
             <p>Open ended</p>
           </div>
-          <div className="toy-card">
+          <div className="toy-card" onClick={() => navigate("/Alltoys")}>
             <img src={toyimg} alt="Toy 6" className="toy-image" />
             <p>Open ended</p>
           </div>
@@ -358,6 +360,19 @@ function Home() {
                 </div>
 
                 {/* Duplicate same items again */}
+                <div className="marquee-slider__box">
+                  <img src={marqueelogo1} alt="logo" />
+                </div>
+                <div className="marquee-slider__box">
+                  <img src={marqueelogo2} alt="logo" />
+                </div>
+                <div className="marquee-slider__box">
+                  <img src={marqueelogo3} alt="logo" />
+                </div>
+                <div className="marquee-slider__box">
+                  <img src={marqueelogo4} alt="logo" />
+                </div>
+
                 <div className="marquee-slider__box">
                   <img src={marqueelogo1} alt="logo" />
                 </div>

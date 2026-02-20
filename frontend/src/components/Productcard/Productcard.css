@@ -59,9 +59,8 @@
     left: -20px;
 }
 
-.review-star {
+.reviewstar {
     max-width: 54px;
-    /* margin-top: 0; */
 }
 
 .addToToybox {
