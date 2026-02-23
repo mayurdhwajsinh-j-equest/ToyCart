@@ -7,6 +7,7 @@ import flamingoImage from "../../../public/images/Flamingo.png";
 import instgramIcon from "../../assets/instagram.svg";
 import tiktokIcon from "../../assets/tiktok.svg";
 import facebookIcon from "../../assets/facebook.svg";
+import toycartlogo from "../../../public/images/toycart-logo.png";
 
 function Footer() {
     return (
@@ -43,12 +44,12 @@ function Footer() {
                         <p>We support creative, developmental play</p>
                         <a href="#">Blog & News</a>
                     </div>
-                </div>
+                </div>   
             </div>
 
             <div className="footer-main">
                 <div className="footer-column footer-logo">
-                    <h2>LOGO</h2>
+                    <h2><img src={toycartlogo} alt="toycart logo" className="toycart-logo" /></h2>
                 </div>
 
                 <div className="footer-column footer-grid-block">
