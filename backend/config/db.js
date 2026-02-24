@@ -1,14 +1,30 @@
-//  import mongoose from "mongoose";
+const { sequelize, User, Category, Product, Cart, Order, OrderItem, Review, WishList } = require('../models');
 
-// export const connectDB = async () => {
-//   try {
-//     const conn = await mongoose.connect(process.env.DATABASE_URL);
-//     console.log("MongoDB connected:", conn.connection.host);
-//     return conn;
-//   } catch (error) {
-//     console.error("Database connection error:", error);
-//     process.exit(1);
-//   }
-// };
+const connectDB = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Database connection has been established successfully.');
+    
+    // Sync models with database
+    await sequelize.sync({ alter: false });
+    console.log('All models were synchronized successfully.');
+    
+    return sequelize;
+  } catch (error) {
+    console.error('Database connection error:', error);
+    process.exit(1);
+  }
+};
 
-// export const db = {};
+module.exports = {
+  connectDB,
+  sequelize,
+  User,
+  Category,
+  Product,
+  Cart,
+  Order,
+  OrderItem,
+  Review,
+  WishList,
+};
