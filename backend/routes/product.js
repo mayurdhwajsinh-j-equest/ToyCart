@@ -1,120 +1,294 @@
-// import express from 'express';
-// import { products, relatedNews } from '../data/products.js';
+const express = require('express');
+const { Op } = require('sequelize');
+const { Product, Category, Review, User } = require('../config/db');
+const { authMiddleware, adminMiddleware } = require('../middleware/auth');
+const { AppError } = require('../utils/errorHandler');
 
-// const router = express.Router();
+const router = express.Router();
 
-// // GET /api/products - Get all products
-// router.get('/', (req, res) => {
-//   try {
-//     res.json(products);
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to fetch products' });
-//   }
-// });
+// ========== GET ALL PRODUCTS (WITH FILTERS) ==========
+router.get('/', async (req, res, next) => {
+  try {
+    const { 
+      category, 
+      minPrice, 
+      maxPrice, 
+      search, 
+      sort = 'newest', 
+      page = 1, 
+      limit = 12,
+      featured
+    } = req.query;
 
-// // GET /api/products/:id - Get single product
-// router.get('/:id', (req, res) => {
-//   try {
-//     const productId = parseInt(req.params.id);
-//     const product = products.find(p => p.id === productId);
+    const where = {};
 
-//     if (!product) {
-//       return res.status(404).json({ error: 'Product not found' });
-//     }
+    // Category filter
+    if (category) where.categoryId = category;
 
-//     res.json(product);
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to fetch product' });
-//   }
-// });
+    // Search by name/description
+    if (search) {
+      where[Op.or] = [
+        { name: { [Op.like]: `%${search}%` } },
+        { description: { [Op.like]: `%${search}%` } }
+      ];
+    }
 
-// // GET /api/products/:id/related - Get related products
-// router.get('/:id/related', (req, res) => {
-//   try {
-//     const productId = parseInt(req.params.id);
-    
-//     // Return other products as related products (exclude current product)
-//     const relatedProducts = products
-//       .filter(p => p.id !== productId)
-//       .slice(0, 4); // Limit to 4 related products
+    // Price range filter
+    if (minPrice || maxPrice) {
+      where.price = {};
+      if (minPrice) where.price[Op.gte] = parseFloat(minPrice);
+      if (maxPrice) where.price[Op.lte] = parseFloat(maxPrice);
+    }
 
-//     res.json(relatedProducts);
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to fetch related products' });
-//   }
-// });
+    // Featured products only
+    if (featured === 'true') where.is_featured = true;
 
-// // POST /api/products - Create new product (admin only)
-// router.post('/', (req, res) => {
-//   try {
-//     const { name, price, originalPrice, description, images, features } = req.body;
+    // Availability filter
+    where.availability = { [Op.ne]: 'discontinued' };
 
-//     if (!name || !price) {
-//       return res.status(400).json({ error: 'Name and price are required' });
-//     }
+    // Sorting
+    const order = [];
+    switch (sort) {
+      case 'price_asc':
+        order.push(['price', 'ASC']);
+        break;
+      case 'price_desc':
+        order.push(['price', 'DESC']);
+        break;
+      case 'rating':
+        order.push(['rating', 'DESC']);
+        break;
+      case 'newest':
+      default:
+        order.push(['createdAt', 'DESC']);
+    }
 
-//     const newProduct = {
-//       id: Math.max(...products.map(p => p.id)) + 1,
-//       name,
-//       price,
-//       originalPrice,
-//       rating: 0,
-//       reviews: 0,
-//       badge: 'New',
-//       description,
-//       images: images || [],
-//       features: features || [],
-//       guide: 'Coming soon',
-//       warranty: '1 year',
-//       automation: 'N/A',
-//       care: 'Follow care instructions',
-//       vehiclesIncluded: [],
-//       carbonSaved: '0g',
-//       safetyDescription: 'Child-safe approved',
-//       safetyImages: [],
-//     };
+    // Pagination
+    const offset = (parseInt(page) - 1) * parseInt(limit);
 
-//     products.push(newProduct);
-//     res.status(201).json(newProduct);
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to create product' });
-//   }
-// });
+    const { count, rows } = await Product.findAndCountAll({
+      where,
+      include: [{ model: Category, attributes: ['id', 'name'] }],
+      order,
+      limit: parseInt(limit),
+      offset
+    });
 
-// // PUT /api/products/:id - Update product
-// router.put('/:id', (req, res) => {
-//   try {
-//     const productId = parseInt(req.params.id);
-//     const productIndex = products.findIndex(p => p.id === productId);
+    res.json({
+      success: true,
+      products: rows,
+      pagination: {
+        total: count,
+        pages: Math.ceil(count / parseInt(limit)),
+        currentPage: parseInt(page),
+        perPage: parseInt(limit)
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
-//     if (productIndex === -1) {
-//       return res.status(404).json({ error: 'Product not found' });
-//     }
+// ========== GET FEATURED PRODUCTS ==========
+router.get('/featured/all', async (req, res, next) => {
+  try {
+    const products = await Product.findAll({
+      where: { 
+        is_featured: true,
+        availability: { [Op.ne]: 'discontinued' }
+      },
+      include: [{ model: Category, attributes: ['id', 'name'] }],
+      order: [['rating', 'DESC']],
+      limit: 8
+    });
 
-//     const updatedProduct = { ...products[productIndex], ...req.body };
-//     products[productIndex] = updatedProduct;
+    res.json({
+      success: true,
+      products
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
-//     res.json(updatedProduct);
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to update product' });
-//   }
-// });
+// ========== GET PRODUCT DETAILS ==========
+router.get('/:id', async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.id, {
+      include: [
+        { model: Category },
+        {
+          model: Review,
+          include: [{ model: User, attributes: ['id', 'name'] }],
+          order: [['createdAt', 'DESC']],
+          limit: 10
+        }
+      ]
+    });
 
-// // DELETE /api/products/:id - Delete product
-// router.delete('/:id', (req, res) => {
-//   try {
-//     const productId = parseInt(req.params.id);
-//     const productIndex = products.findIndex(p => p.id === productId);
+    if (!product) {
+      return next(new AppError('Product not found', 404));
+    }
 
-//     if (productIndex === -1) {
-//       return res.status(404).json({ error: 'Product not found' });
-//     }
+    res.json({
+      success: true,
+      product
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
-//     const deletedProduct = products.splice(productIndex, 1);
-//     res.json({ message: 'Product deleted successfully', product: deletedProduct[0] });
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to delete product' });
-//   }
-// });
+// ========== CREATE PRODUCT (ADMIN) ==========
+router.post('/', authMiddleware, adminMiddleware, async (req, res, next) => {
+  try {
+    const { 
+      name, 
+      description, 
+      short_description, 
+      price, 
+      categoryId, 
+      image_url, 
+      stock, 
+      is_featured 
+    } = req.body;
 
-// export default router;
+    // Validations
+    if (!name || !price || !categoryId || stock === undefined) {
+      return next(new AppError('Please fill all required fields', 400));
+    }
+
+    if (parseFloat(price) <= 0) {
+      return next(new AppError('Price must be greater than 0', 400));
+    }
+
+    // Check category exists
+    const category = await Category.findByPk(categoryId);
+    if (!category) {
+      return next(new AppError('Category not found', 404));
+    }
+
+    // Create product
+    const product = await Product.create({
+      name,
+      description,
+      short_description,
+      price: parseFloat(price),
+      categoryId,
+      image_url: image_url || null,
+      additional_images: [],
+      stock: parseInt(stock),
+      is_featured: is_featured === true,
+      availability: parseInt(stock) > 0 ? 'in_stock' : 'out_of_stock'
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Product created successfully',
+      product
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ========== UPDATE PRODUCT (ADMIN) ==========
+router.put('/:id', authMiddleware, adminMiddleware, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { name, description, short_description, price, categoryId, image_url, stock, is_featured } = req.body;
+
+    const product = await Product.findByPk(id);
+    if (!product) {
+      return next(new AppError('Product not found', 404));
+    }
+
+    // Update availability based on stock
+    const updateData = {
+      name: name || product.name,
+      description: description || product.description,
+      short_description: short_description || product.short_description,
+      price: price || product.price,
+      categoryId: categoryId || product.categoryId,
+      image_url: image_url || product.image_url,
+      is_featured: is_featured !== undefined ? is_featured : product.is_featured
+    };
+
+    if (stock !== undefined) {
+      updateData.stock = parseInt(stock);
+      updateData.availability = parseInt(stock) > 0 ? 'in_stock' : 'out_of_stock';
+    }
+
+    await product.update(updateData);
+
+    res.json({
+      success: true,
+      message: 'Product updated successfully',
+      product
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ========== DELETE PRODUCT (ADMIN) ==========
+router.delete('/:id', authMiddleware, adminMiddleware, async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.id);
+
+    if (!product) {
+      return next(new AppError('Product not found', 404));
+    }
+
+    await product.destroy();
+
+    res.json({
+      success: true,
+      message: 'Product deleted successfully'
+    });
+  } catch (error) {
+    if (error.name === 'SequelizeForeignKeyConstraintError') {
+      return next(new AppError('Cannot delete product with existing orders', 400));
+    }
+    next(error);
+  }
+});
+
+// ========== GET PRODUCT BY CATEGORY ==========
+router.get('/category/:categoryId', async (req, res, next) => {
+  try {
+    const { categoryId } = req.params;
+    const { page = 1, limit = 12 } = req.query;
+
+    const category = await Category.findByPk(categoryId);
+    if (!category) {
+      return next(new AppError('Category not found', 404));
+    }
+
+    const offset = (parseInt(page) - 1) * parseInt(limit);
+
+    const { count, rows } = await Product.findAndCountAll({
+      where: { 
+        categoryId,
+        availability: { [Op.ne]: 'discontinued' }
+      },
+      include: [{ model: Category }],
+      limit: parseInt(limit),
+      offset
+    });
+
+    res.json({
+      success: true,
+      category,
+      products: rows,
+      pagination: {
+        total: count,
+        pages: Math.ceil(count / parseInt(limit))
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+module.exports = router;
