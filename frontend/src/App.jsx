@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
@@ -12,6 +12,14 @@ import Checkout from "./pages/Checkout/Checkout";
 import Order from "./pages/Order/Order";
 import Collection from "./pages/Collection/Collection";
 import Product from "./pages/Product/Product";
+// ADD these imports at the top of App.jsx:
+import AdminLogin from "./pages/Admin/AdminLogin";
+import AdminLayout from "./pages/Admin/AdminLayout";
+import AdminGuard from "./pages/Admin/AdminGuard";
+import Dashboard from "./pages/Admin/Dashboard";
+import AdminProducts from "./pages/Admin/AdminProducts";
+import AdminOrders from "./pages/Admin/AdminOrders";
+import AdminCustomers from "./pages/Admin/AdminCustomers";
 
 function App() {
   return (
@@ -28,6 +36,21 @@ function App() {
           <Route path="/Collection" element={<Collection />} />
           <Route path="/Product" element={<Product />} />
           <Route path="/Pdp/:id" element={<Pdp />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route
+            path="/admin"
+            element={
+              <AdminGuard>
+                <AdminLayout />
+              </AdminGuard>
+            }
+          >
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="customers" element={<AdminCustomers />} />
+          </Route>
         </Routes>
 
         <Footer />
