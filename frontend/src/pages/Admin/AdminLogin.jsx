@@ -35,8 +35,8 @@ const AdminLogin = () => {
     <div className="admin-login-bg">
       <div className="admin-login-card">
         <div className="admin-login-logo">
-          <span className="logo-icon">⬡</span>
-          <h1>Admin Portal</h1>
+          <span className="logo-icon">🛒</span>
+          <h1>ToyCart Admin</h1>
         </div>
         <p className="admin-login-sub">Sign in to manage your store</p>
 

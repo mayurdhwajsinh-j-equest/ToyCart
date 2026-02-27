@@ -8,24 +8,24 @@ yarn-error.log*
 pnpm-debug.log*
 
 ########################
-# Environment variables
+# Environment variables (VERY IMPORTANT)
 ########################
 .env
-.env.local
-.env.development
-.env.test
-.env.production
+.env.*
+!.env.example
+
+########################
+# Sequelize
+########################
+config/config.json
 
 ########################
 # Build outputs
 ########################
-# React
-client/build/
-client/dist/
-
-# Server
 dist/
 build/
+client/build/
+client/dist/
 
 ########################
 # Logs
@@ -49,13 +49,7 @@ Thumbs.db
 coverage/
 
 ########################
-# Optional cache files
+# Cache
 ########################
 .cache/
 .parcel-cache/
-
-########################
-# MongoDB
-########################
-data/
-*.mongodb

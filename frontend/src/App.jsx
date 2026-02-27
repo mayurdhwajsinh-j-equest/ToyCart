@@ -6,13 +6,11 @@ import About from "./pages/About/About";
 // import Collection from "./pages/Collection/Collection";
 import Alltoys from "./pages/Alltoys/Alltoys";
 import Pdp from "./pages/Pdp/Pdp";
-// import Product from "./pages/Product/Product";
 import Footer from "./components/Footer/Footer";
 import Checkout from "./pages/Checkout/Checkout";
 import Order from "./pages/Order/Order";
 import Collection from "./pages/Collection/Collection";
 import Product from "./pages/Product/Product";
-// ADD these imports at the top of App.jsx:
 import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminLayout from "./pages/Admin/AdminLayout";
 import AdminGuard from "./pages/Admin/AdminGuard";
@@ -53,8 +51,8 @@ function App() {
           </Route>
         </Routes>
 
-        <Footer />
       </main>
+          <Footer />
     </CartProvider>
   );
 }

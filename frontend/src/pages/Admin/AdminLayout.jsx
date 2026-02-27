@@ -3,10 +3,10 @@ import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import "./Admin.css";
 
 const navItems = [
-  { path: "/admin/dashboard", icon: "◈", label: "Dashboard" },
-  { path: "/admin/products", icon: "◉", label: "Products" },
-  { path: "/admin/orders", icon: "◎", label: "Orders" },
-  { path: "/admin/customers", icon: "◐", label: "Customers" },
+  { path: "/admin/dashboard", icon: "🏠", label: "Dashboard" },
+  { path: "/admin/products", icon: "🧸", label: "Products" },
+  { path: "/admin/orders", icon: "📦", label: "Orders" },
+  { path: "/admin/customers", icon: "👶", label: "Customers" },
 ];
 
 const AdminLayout = () => {
@@ -24,8 +24,8 @@ const AdminLayout = () => {
       {/* Sidebar */}
       <aside className="admin-sidebar">
         <div className="sidebar-header">
-          <span className="logo-icon">⬡</span>
-          {sidebarOpen && <span className="sidebar-title">StoreAdmin</span>}
+          <span className="logo-icon">🛒</span>
+          {sidebarOpen && <span className="sidebar-title">ToyCart</span>}
         </div>
 
         <nav className="sidebar-nav">
@@ -42,7 +42,7 @@ const AdminLayout = () => {
         </nav>
 
         <button className="sidebar-logout" onClick={handleLogout}>
-          <span>⇥</span>
+          <span>🚪</span>
           {sidebarOpen && <span>Logout</span>}
         </button>
       </aside>

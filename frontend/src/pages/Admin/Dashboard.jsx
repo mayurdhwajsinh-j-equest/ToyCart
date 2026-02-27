@@ -47,10 +47,10 @@ const Dashboard = () => {
       {/* Stat Cards */}
       <div className="stats-grid">
         {[
-          { label: "Total Revenue", value: `₹${stats.totalRevenue.toLocaleString()}`, icon: "◈", color: "#1B2A6B", link: "/admin/orders" },
-          { label: "Products", value: stats.totalProducts, icon: "◉", color: "#E91E8C", link: "/admin/products" },
-          { label: "Orders", value: stats.totalOrders, icon: "◎", color: "#F5C518", link: "/admin/orders" },
-          { label: "Customers", value: stats.totalCustomers, icon: "◐", color: "#9B8EC4", link: "/admin/customers" },
+          { label: "Total Revenue", value: `₹${stats.totalRevenue.toLocaleString()}`, icon: "🪙", color: "#255F83", link: "/admin/orders" },
+          { label: "Products", value: stats.totalProducts, icon: "🧸", color: "#b89ef8", link: "/admin/products" },
+          { label: "Orders", value: stats.totalOrders, icon: "📦", color: "#c8d800", link: "/admin/orders" },
+          { label: "Customers", value: stats.totalCustomers, icon: "🎈", color: "#d88a96", link: "/admin/customers" },
         ].map((stat) => (
           <Link to={stat.link} key={stat.label} className="stat-card" style={{ "--accent": stat.color }}>
             <div className="stat-icon" style={{ color: stat.color }}>{stat.icon}</div>
