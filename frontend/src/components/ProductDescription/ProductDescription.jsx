@@ -1,5 +1,6 @@
 import "./ProductDescription.css";
 import { useCart } from "../../hooks/useCart";
+import APIService from "../../services/api";
 
 function ProductDescription({ product, productId }) {
   const {
@@ -16,14 +17,35 @@ function ProductDescription({ product, productId }) {
 
   const { addToCart } = useCart();
 
-  const handleAddToCart = (e) => {
+  const handleAddToCart = async (e) => {
     e.preventDefault();
-    addToCart({
-      id: productId || 1,
-      ProductName: title,
-      Price: price,
-      ProductImage: mainImage,
-    });
+    const token =
+      typeof window !== "undefined"
+        ? localStorage.getItem("customerToken")
+        : null;
+
+    if (!token) {
+      window.alert("Please login as a customer before adding items to cart.");
+      return;
+    }
+
+    const pid = productId || 1;
+
+    try {
+      // Persist in backend cart
+      await APIService.addToCart({ productId: pid, quantity: 1 }, token);
+
+      // Update local cart context for navbar badge
+      addToCart({
+        id: pid,
+        ProductName: title,
+        Price: price,
+        ProductImage: mainImage,
+      });
+    } catch (err) {
+      console.error("Error adding to cart:", err);
+      window.alert(err.message || "Unable to add to cart. Please try again.");
+    }
   };
 
   return (

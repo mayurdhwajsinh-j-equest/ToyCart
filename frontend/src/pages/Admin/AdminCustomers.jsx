@@ -1,44 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Admin.css";
-
-const mockCustomers = [
-  {
-    id: 1, name: "Arjun Mehta", email: "arjun@email.com", phone: "+91 98765 43210",
-    joinDate: "2025-06-12", totalOrders: 8, totalSpend: 18450,
-    orders: [
-      { id: "ORD-001", date: "2026-02-25", amount: 2499, status: "delivered" },
-      { id: "ORD-009", date: "2026-01-10", amount: 3999, status: "delivered" },
-    ],
-  },
-  {
-    id: 2, name: "Priya Shah", email: "priya@email.com", phone: "+91 87654 32109",
-    joinDate: "2025-08-20", totalOrders: 5, totalSpend: 9870,
-    orders: [
-      { id: "ORD-002", date: "2026-02-25", amount: 1199, status: "processing" },
-    ],
-  },
-  {
-    id: 3, name: "Rohit Kumar", email: "rohit@email.com", phone: "+91 76543 21098",
-    joinDate: "2025-09-05", totalOrders: 3, totalSpend: 7890,
-    orders: [
-      { id: "ORD-003", date: "2026-02-24", amount: 3599, status: "shipped" },
-    ],
-  },
-  {
-    id: 4, name: "Sneha Patel", email: "sneha@email.com", phone: "+91 65432 10987",
-    joinDate: "2025-11-18", totalOrders: 2, totalSpend: 2100,
-    orders: [
-      { id: "ORD-004", date: "2026-02-24", amount: 899, status: "pending" },
-    ],
-  },
-  {
-    id: 5, name: "Karan Joshi", email: "karan@email.com", phone: "+91 54321 09876",
-    joinDate: "2025-03-01", totalOrders: 14, totalSpend: 42300,
-    orders: [
-      { id: "ORD-005", date: "2026-02-23", amount: 5499, status: "delivered" },
-    ],
-  },
-];
+import APIService from "../../services/api";
 
 const statusColors = {
   delivered: "#22c55e", processing: "#f59e0b",
@@ -47,13 +9,71 @@ const statusColors = {
 
 const AdminCustomers = () => {
   const [search, setSearch] = useState("");
+  const [customers, setCustomers] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const filtered = mockCustomers.filter(
+  const token = typeof window !== "undefined" ? localStorage.getItem("adminToken") : null;
+
+  const loadCustomers = async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const params = {};
+      if (search) params.search = search;
+      const data = await APIService.getAdminCustomers(params, token);
+      const list = (data.customers || []).map((c) => ({
+        id: c.id,
+        name: c.name,
+        email: c.email,
+        phone: c.phone || "",
+        joinDate: new Date(c.createdAt).toISOString().slice(0, 10),
+      }));
+      setCustomers(list);
+    } catch (err) {
+      setError("Unable to load customers.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadCustomers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const filtered = customers.filter(
     (c) =>
       c.name.toLowerCase().includes(search.toLowerCase()) ||
       c.email.toLowerCase().includes(search.toLowerCase())
   );
+
+  const openCustomer = async (customer) => {
+    try {
+      setError("");
+      const data = await APIService.getAdminCustomerDetail(customer.id, token);
+      const orders = (data.orders || []).map((o) => ({
+        id: o.id,
+        date: new Date(o.createdAt).toISOString().slice(0, 10),
+        amount: Number(o.total_amount || 0),
+        status: o.status,
+      }));
+
+      setSelected({
+        id: data.customer.id,
+        name: data.customer.name,
+        email: data.customer.email,
+        phone: data.customer.phone || "",
+        joinDate: new Date(data.customer.createdAt).toISOString().slice(0, 10),
+        totalOrders: data.totalOrders || orders.length,
+        totalSpend: data.totalSpent || 0,
+        orders,
+      });
+    } catch (err) {
+      setError("Unable to load customer details.");
+    }
+  };
 
   return (
     <div className="admin-page">
@@ -61,6 +81,8 @@ const AdminCustomers = () => {
         <h2>Customers</h2>
         <span className="admin-count">{filtered.length} registered</span>
       </div>
+
+      {error && <p style={{ color: "#c00", marginBottom: "12px" }}>{error}</p>}
 
       <div className="admin-filters">
         <input
@@ -72,6 +94,7 @@ const AdminCustomers = () => {
       </div>
 
       <div className="admin-table-wrap">
+        {loading && <div className="admin-loading">Loading customers...</div>}
         <table className="admin-table">
           <thead>
             <tr>
@@ -99,10 +122,10 @@ const AdminCustomers = () => {
                 </td>
                 <td>{customer.phone}</td>
                 <td>{customer.joinDate}</td>
-                <td>{customer.totalOrders} orders</td>
-                <td>₹{customer.totalSpend.toLocaleString()}</td>
+                <td>—</td>
+                <td>—</td>
                 <td>
-                  <button className="admin-btn-edit" onClick={() => setSelected(customer)}>
+                  <button className="admin-btn-edit" onClick={() => openCustomer(customer)}>
                     View History
                   </button>
                 </td>

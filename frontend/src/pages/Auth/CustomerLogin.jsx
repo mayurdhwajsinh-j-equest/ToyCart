@@ -1,30 +1,31 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./Admin.css";
+import { useNavigate, Link } from "react-router-dom";
 import APIService from "../../services/api";
+import "../Admin/Admin.css";
 
-const AdminLogin = () => {
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
+const CustomerLogin = () => {
+  const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const handleChange = (field) => (e) => {
+    setForm((prev) => ({ ...prev, [field]: e.target.value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
-
     try {
-      const data = await APIService.login(credentials.email, credentials.password);
-
-      if (data?.user?.role !== "admin") {
-        setError("You are not authorized as an admin.");
+      const data = await APIService.login(form.email, form.password);
+      if (data?.user?.role !== "customer" && data?.user?.role !== "admin") {
+        setError("Invalid user role.");
         setLoading(false);
         return;
       }
-
-      localStorage.setItem("adminToken", data.token);
-      navigate("/admin/dashboard");
+      localStorage.setItem("customerToken", data.token);
+      navigate("/");
     } catch (err) {
       setError(err.message || "Invalid email or password.");
     } finally {
@@ -36,10 +37,10 @@ const AdminLogin = () => {
     <div className="admin-login-bg">
       <div className="admin-login-card">
         <div className="admin-login-logo">
-          <span className="logo-icon">🛒</span>
-          <h1>ToyCart Admin</h1>
+          <span className="logo-icon">🧸</span>
+          <h1>ToyCart</h1>
         </div>
-        <p className="admin-login-sub">Sign in to manage your store</p>
+        <p className="admin-login-sub">Sign in to your ToyCart account</p>
 
         {error && <div className="admin-error-msg">{error}</div>}
 
@@ -48,11 +49,9 @@ const AdminLogin = () => {
             <label>Email</label>
             <input
               type="email"
-              placeholder="admin@toycart.com"
-              value={credentials.email}
-              onChange={(e) =>
-                setCredentials({ ...credentials, email: e.target.value })
-              }
+              placeholder="you@example.com"
+              value={form.email}
+              onChange={handleChange("email")}
               required
             />
           </div>
@@ -61,10 +60,8 @@ const AdminLogin = () => {
             <input
               type="password"
               placeholder="••••••••"
-              value={credentials.password}
-              onChange={(e) =>
-                setCredentials({ ...credentials, password: e.target.value })
-              }
+              value={form.password}
+              onChange={handleChange("password")}
               required
             />
           </div>
@@ -72,12 +69,14 @@ const AdminLogin = () => {
             {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
+
         <p className="admin-login-hint">
-          Demo: admin@toycart.com / admin123
+          New here? <Link to="/register">Create a ToyCart account</Link>
         </p>
       </div>
     </div>
   );
 };
 
-export default AdminLogin;
+export default CustomerLogin;
+

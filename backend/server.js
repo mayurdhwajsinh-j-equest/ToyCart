@@ -3,10 +3,10 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 
-// Load environment variables
+// Load environment variables BEFORE importing anything that reads process.env
 dotenv.config();
 
-// Import database connection
+// Import database connection (models/sequelize use process.env at import-time)
 const { connectDB } = require('./config/db');
 
 // Import routes
@@ -118,4 +118,3 @@ const startServer = async () => {
 startServer();
 
 module.exports = app;
-// });

@@ -17,20 +17,26 @@ import Dashboard from "./pages/Admin/Dashboard";
 import AdminProducts from "./pages/Admin/AdminProducts";
 import AdminOrders from "./pages/Admin/AdminOrders";
 import AdminCustomers from "./pages/Admin/AdminCustomers";
+import CustomerLogin from "./pages/Auth/CustomerLogin";
+import CustomerRegister from "./pages/Auth/CustomerRegister";
 
 function AppContent() {
   const location = useLocation();
 
   // Check if current route starts with /admin
   const isAdminRoute = location.pathname.startsWith("/admin");
+  const isAuthRoute =
+    location.pathname === "/login" || location.pathname === "/register";
 
   return (
     <>
-      {!isAdminRoute && <Navbar />}
+      {!isAdminRoute && !isAuthRoute && <Navbar />}
 
-      <main style={{ marginTop: !isAdminRoute ? "140px" : "0" }}>
+      <main style={{ marginTop: !isAdminRoute && !isAuthRoute ? "140px" : "0" }}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<CustomerLogin />} />
+          <Route path="/register" element={<CustomerRegister />} />
           <Route path="/Checkout" element={<Checkout />} />
           <Route path="/Alltoys" element={<Alltoys />} />
           <Route path="/Order" element={<Order />} />
@@ -58,7 +64,7 @@ function AppContent() {
         </Routes>
       </main>
 
-      {!isAdminRoute && <Footer />}
+      {!isAdminRoute && !isAuthRoute && <Footer />}
     </>
   );
 }

@@ -1,4 +1,6 @@
 import "./Pdp.css";
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 import slideBaby from "../../../public/images/slideBaby-big.png";
 import small1 from "../../../public/images/small-img1.png";
 import toy2img from "../../../public/images/toy2-img.png";
@@ -25,39 +27,87 @@ import Actioncard from "../../components/Actioncard/Actioncard.jsx";
 import instructionupicon from "../../assets/instruction-up-icon.svg";
 import instructiondownicon from "../../assets/instruction-down-icon.svg";
 import blackline from "../../assets/black-line.svg";
-import productsData from "../../products.json";
 import Productcard from "../../components/Productcard/Productcard.jsx";
+import APIService from "../../services/api";
 
 function Pdp() {
+    const { id } = useParams();
+    const [product, setProduct] = useState(null);
+    const [relatedProducts, setRelatedProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
-    const productData = {
-        title: "VTech Toot-Toot Drivers Garage Playset",
-        price: 88,
-        mainImage: toy2img,
-        images: [toy2img4, toy2img3, toy2img2, toy2img1],
-        ratingImage: review4star,
-        description:
-            "Vel diam a lobortis rhoncus nunc adipiscing habitant vitae. Scelerisque condimentum in vulputate condimentum sollicitudin. Libero vel placerat dictumst a praesent neque et.",
-        coinIcon: coin,
-        lineIcon: line,
-        details: [
-            {
-                icon: union,
-                title: "Age recommendation",
-                value: "1 year - 3 years",
-            },
-            {
-                icon: stacktoy,
-                title: "Skills & Learning",
-                value: "Helps with independent play and sensory learning",
-            },
-            {
-                icon: earth1,
-                title: "Toy impact",
-                value: "Lorem ipsum dolor sit",
-            },
-        ],
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                setError("");
+                const data = await APIService.getProductById(id);
+                setProduct(data);
+
+                // simple related products: same category, excluding current
+                if (data?.Category?.id) {
+                    const all = await APIService.getProducts({
+                        category: data.Category.id,
+                        limit: 8,
+                    });
+                    setRelatedProducts(all.filter((p) => p.id !== data.id));
+                }
+            } catch (err) {
+                setError("Unable to load product details right now.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [id]);
+
+    const productData = useMemo(() => {
+        if (!product) {
+            return {
+                title: "",
+                price: "",
+                mainImage: toy2img,
+                images: [toy2img4, toy2img3, toy2img2, toy2img1],
+                ratingImage: review4star,
+                description: "",
+                coinIcon: coin,
+                lineIcon: line,
+                details: [],
+            };
+        }
+
+        return {
+            title: product.name,
+            price: product.price,
+            mainImage: product.image_url || toy2img,
+            images: Array.isArray(product.additional_images) && product.additional_images.length
+                ? product.additional_images
+                : [toy2img4, toy2img3, toy2img2, toy2img1],
+            ratingImage: review4star,
+            description: product.description,
+            coinIcon: coin,
+            lineIcon: line,
+            details: [
+                {
+                    icon: union,
+                    title: "Category",
+                    value: product.Category?.name || "Toys",
+                },
+                {
+                    icon: stacktoy,
+                    title: "Availability",
+                    value: product.availability === "in_stock" ? "In stock" : "Out of stock",
+                },
+                {
+                    icon: earth1,
+                    title: "Rating",
+                    value: product.rating ? `${product.rating} / 5` : "No ratings yet",
+                },
+            ],
+        };
+    }, [product]);
 
     const featuredItems = [
         {
@@ -136,8 +186,10 @@ function Pdp() {
                         <span><img src={arrow} alt="arrow icon" className="arrow-icon" /></span>
                         All toys
                         <span><img src={arrow} alt="arrow icon" className="arrow-icon" /></span>
-                        VTech toot-toot drivers...
+                        {product ? product.name : "Loading..."}
                     </p>
+                    {loading && <p>Loading product...</p>}
+                    {error && !loading && <p style={{ color: "#c00" }}>{error}</p>}
                     {/* <div className="product-description">
                         <div className="product-description__images">
                             <img src={toy2img} alt="toy2 img" className="toy2-img" />
@@ -260,13 +312,13 @@ function Pdp() {
                             <button className="nav-btn nav-next"><img src={navnext} alt="nav next" /></button>
                         </div>
                     </div>
-                    {productsData.map((product) => (
+                    {!loading && !error && relatedProducts.map((rp) => (
                         <Productcard
-                            key={product.id}
-                            id={product.id}
-                            ProductImage={product.ProductImage}
-                            ProductName={product.ProductName}
-                            Price={product.Price}
+                            key={rp.id}
+                            id={rp.id}
+                            ProductImage={rp.image_url}
+                            ProductName={rp.name}
+                            Price={rp.price}
                         />
                     ))}
                 </div>

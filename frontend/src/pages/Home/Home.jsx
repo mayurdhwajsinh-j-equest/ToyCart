@@ -1,11 +1,11 @@
 import "./Home.css";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Callout from "../../components/Callout/Callout.jsx";
 import Textbox from "../../components/Textbox/Textbox.jsx";
-import productsData from "../../products.json";
 import Productcard from "../../components/Productcard/Productcard.jsx";
+import APIService from "../../services/api";
 import boxClosed from "../../../public/images/box-closed.png";
 import boxOpen from "../../../public/images/box-open.png";
 import puppy from "../../../public/images/puppy.png";
@@ -40,6 +40,9 @@ function Home() {
   const heroRef = useRef(null);
   const openBoxRef = useRef(null);
   const navigate = useNavigate();
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const scrollToOpenBox = () => {
     openBoxRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -48,6 +51,23 @@ function Home() {
   const scrollToHero = () => {
     heroRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        setLoading(true);
+        setError("");
+        const products = await APIService.getFeaturedProducts();
+        setFeaturedProducts(products);
+      } catch (err) {
+        setError("Unable to load featured toys right now.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeatured();
+  }, []);
 
   return (
     <>
@@ -230,13 +250,15 @@ function Home() {
               <button className="nav-btn nav-next"><img src={navnext} alt="nav next" /></button>
             </div>
           </div>
-          {productsData.map((product) => (
+          {loading && <p>Loading toys...</p>}
+          {error && !loading && <p style={{ color: "#c00" }}>{error}</p>}
+          {!loading && !error && featuredProducts.map((product) => (
             <Productcard
               key={product.id}
               id={product.id}
-              ProductImage={product.ProductImage}
-              ProductName={product.ProductName}
-              Price={product.Price}
+              ProductImage={product.image_url}
+              ProductName={product.name}
+              Price={product.price}
             />
           ))}
         </div>

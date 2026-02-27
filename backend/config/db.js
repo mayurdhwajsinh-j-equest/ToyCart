@@ -3,15 +3,15 @@ const { sequelize, User, Category, Product, Cart, Order, OrderItem, Review, Wish
 const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    console.log('Database connection has been established successfully.');
-    
+    console.log('✅ Database connection has been established successfully.');
+
     // Sync models with database
     await sequelize.sync({ alter: false });
-    console.log('All models were synchronized successfully.');
-    
+    console.log('✅ All models were synchronized successfully.');
+
     return sequelize;
   } catch (error) {
-    console.error('Database connection error:', error);
+    console.error('❌ Database connection error:', error);
     process.exit(1);
   }
 };

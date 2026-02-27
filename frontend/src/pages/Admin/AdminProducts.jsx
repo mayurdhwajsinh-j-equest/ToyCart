@@ -1,30 +1,69 @@
 import { useState, useEffect } from "react";
 import "./Admin.css";
+import APIService from "../../services/api";
 
-const mockProducts = [
-  { id: 1, name: "Classic Oxford Shirt", category: "Shirts", price: 1499, stock: 24, image: "https://placehold.co/60x60/1a1a2e/fff?text=S" },
-  { id: 2, name: "Slim Fit Chinos", category: "Pants", price: 2199, stock: 15, image: "https://placehold.co/60x60/16213e/fff?text=P" },
-  { id: 3, name: "Leather Derby Shoes", category: "Footwear", price: 3999, stock: 8, image: "https://placehold.co/60x60/0f3460/fff?text=F" },
-  { id: 4, name: "Merino Wool Sweater", category: "Knitwear", price: 2799, stock: 12, image: "https://placehold.co/60x60/533483/fff?text=K" },
-  { id: 5, name: "Formal Blazer", category: "Jackets", price: 5499, stock: 6, image: "https://placehold.co/60x60/e94560/fff?text=J" },
-];
-
-const emptyProduct = { name: "", category: "", price: "", stock: "", image: "", description: "" };
-
-const categories = ["Shirts", "Pants", "Footwear", "Knitwear", "Jackets", "Accessories", "Denim"];
+const emptyProduct = {
+  id: null,
+  name: "",
+  categoryId: "",
+  price: "",
+  stock: "",
+  image_url: "",
+  description: "",
+  short_description: "",
+  is_featured: false,
+};
 
 const AdminProducts = () => {
-  const [products, setProducts] = useState(mockProducts);
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState("");
   const [filterCategory, setFilterCategory] = useState("All");
   const [showModal, setShowModal] = useState(false);
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [form, setForm] = useState(emptyProduct);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [categoryForm, setCategoryForm] = useState({ name: "", description: "" });
+
+  const token = typeof window !== "undefined" ? localStorage.getItem("adminToken") : null;
+
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const [prodRes, catRes] = await Promise.all([
+        APIService.getAdminProducts({}, token),
+        APIService.getAdminCategories(token),
+      ]);
+
+      setProducts((prodRes.products || []).map((p) => ({
+        ...p,
+        categoryName: p.Category?.name || "Uncategorized",
+      })));
+
+      setCategories((catRes.categories || []).map((c) => ({
+        id: c.id,
+        name: c.name,
+      })));
+    } catch (err) {
+      setError("Unable to load products. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const filtered = products.filter((p) => {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
-    const matchCat = filterCategory === "All" || p.category === filterCategory;
+    const matchCat =
+      filterCategory === "All" || p.categoryId === Number(filterCategory);
     return matchSearch && matchCat;
   });
 
@@ -34,35 +73,84 @@ const AdminProducts = () => {
     setShowModal(true);
   };
 
+  const openAddCategory = () => {
+    setCategoryForm({ name: "", description: "" });
+    setShowCategoryModal(true);
+  };
+
   const openEdit = (product) => {
-    setForm({ ...product });
+    setForm({
+      id: product.id,
+      name: product.name,
+      categoryId: product.categoryId,
+      price: product.price,
+      stock: product.stock,
+      image_url: product.image_url,
+      description: product.description || "",
+      short_description: product.short_description || "",
+      is_featured: !!product.is_featured,
+    });
     setEditingProduct(product.id);
     setShowModal(true);
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    if (editingProduct) {
-      setProducts((prev) =>
-        prev.map((p) => (p.id === editingProduct ? { ...form, id: editingProduct } : p))
-      );
-    } else {
-      setProducts((prev) => [...prev, { ...form, id: Date.now(), price: Number(form.price), stock: Number(form.stock) }]);
+    try {
+      setLoading(true);
+      setError("");
+
+      const payload = {
+        name: form.name,
+        price: Number(form.price),
+        stock: Number(form.stock),
+        categoryId: Number(form.categoryId),
+        image_url: form.image_url,
+        description: form.description,
+        short_description: form.short_description,
+        is_featured: !!form.is_featured,
+      };
+
+      if (editingProduct) {
+        await APIService.updateProduct(editingProduct, payload, token);
+      } else {
+        await APIService.createProduct(payload, token);
+      }
+
+      await loadData();
+      setShowModal(false);
+    } catch (err) {
+      setError(err.message || "Unable to save product.");
+    } finally {
+      setLoading(false);
     }
-    setShowModal(false);
   };
 
-  const handleDelete = (id) => {
-    setProducts((prev) => prev.filter((p) => p.id !== id));
-    setDeleteConfirm(null);
+  const handleDelete = async (id) => {
+    try {
+      setLoading(true);
+      setError("");
+      await APIService.deleteProduct(id, token);
+      await loadData();
+    } catch (err) {
+      setError(err.message || "Unable to delete product.");
+    } finally {
+      setDeleteConfirm(null);
+      setLoading(false);
+    }
   };
 
   return (
     <div className="admin-page">
       <div className="admin-page-header">
         <h2>Products</h2>
-        <button className="admin-btn-primary" onClick={openAdd}>+ Add Product</button>
+        <div className="admin-header-actions">
+          <button className="admin-btn-secondary" onClick={openAddCategory}>+ Add Category</button>
+          <button className="admin-btn-primary" onClick={openAdd}>+ Add Product</button>
+        </div>
       </div>
+
+      {error && <p style={{ color: "#c00", marginBottom: "12px" }}>{error}</p>}
 
       {/* Filters */}
       <div className="admin-filters">
@@ -78,7 +166,7 @@ const AdminProducts = () => {
           onChange={(e) => setFilterCategory(e.target.value)}
         >
           <option value="All">All Categories</option>
-          {categories.map((c) => <option key={c}>{c}</option>)}
+          {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
       </div>
 
@@ -99,11 +187,11 @@ const AdminProducts = () => {
               <tr key={product.id}>
                 <td>
                   <div className="product-cell">
-                    <img src={product.image || "https://placehold.co/40x40/1a1a2e/fff?text=P"} alt={product.name} className="product-thumb" />
+                    <img src={product.image_url || "https://placehold.co/40x40/1a1a2e/fff?text=P"} alt={product.name} className="product-thumb" />
                     <span>{product.name}</span>
                   </div>
                 </td>
-                <td><span className="category-tag">{product.category}</span></td>
+                <td><span className="category-tag">{product.categoryName}</span></td>
                 <td>₹{Number(product.price).toLocaleString()}</td>
                 <td>
                   <span className={`stock-badge ${product.stock < 10 ? "low-stock" : ""}`}>
@@ -139,9 +227,15 @@ const AdminProducts = () => {
                 </div>
                 <div className="admin-form-group">
                   <label>Category *</label>
-                  <select required value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}>
+                  <select
+                    required
+                    value={form.categoryId}
+                    onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
+                  >
                     <option value="">Select category</option>
-                    {categories.map((c) => <option key={c}>{c}</option>)}
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -157,11 +251,25 @@ const AdminProducts = () => {
               </div>
               <div className="admin-form-group">
                 <label>Image URL</label>
-                <input value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} placeholder="https://..." />
+                <input value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} placeholder="https://..." />
               </div>
               <div className="admin-form-group">
                 <label>Description</label>
                 <textarea rows={3} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Product description..." />
+              </div>
+              <div className="admin-form-group">
+                <label>Short Description</label>
+                <textarea rows={2} value={form.short_description} onChange={(e) => setForm({ ...form, short_description: e.target.value })} placeholder="Short summary..." />
+              </div>
+              <div className="admin-form-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={form.is_featured}
+                    onChange={(e) => setForm({ ...form, is_featured: e.target.checked })}
+                  />{" "}
+                  Featured product
+                </label>
               </div>
               <div className="modal-actions">
                 <button type="button" className="admin-btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
@@ -182,6 +290,72 @@ const AdminProducts = () => {
               <button className="admin-btn-secondary" onClick={() => setDeleteConfirm(null)}>Cancel</button>
               <button className="admin-btn-delete" onClick={() => handleDelete(deleteConfirm)}>Delete</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Category Modal */}
+      {showCategoryModal && (
+        <div className="admin-modal-overlay" onClick={() => setShowCategoryModal(false)}>
+          <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Add Category</h3>
+              <button className="modal-close" onClick={() => setShowCategoryModal(false)}>✕</button>
+            </div>
+            <form
+              className="admin-form"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                try {
+                  setLoading(true);
+                  setError("");
+                  await APIService.createAdminCategory(
+                    {
+                      name: categoryForm.name,
+                      description: categoryForm.description,
+                    },
+                    token
+                  );
+                  await loadData();
+                  setShowCategoryModal(false);
+                } catch (err) {
+                  setError(err.message || "Unable to create category.");
+                } finally {
+                  setLoading(false);
+                }
+              }}
+            >
+              <div className="admin-form-group">
+                <label>Category Name *</label>
+                <input
+                  required
+                  value={categoryForm.name}
+                  onChange={(e) => setCategoryForm({ ...categoryForm, name: e.target.value })}
+                  placeholder="e.g. Building Sets"
+                />
+              </div>
+              <div className="admin-form-group">
+                <label>Description</label>
+                <textarea
+                  rows={3}
+                  value={categoryForm.description}
+                  onChange={(e) => setCategoryForm({ ...categoryForm, description: e.target.value })}
+                  placeholder="Short description of this category..."
+                />
+              </div>
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="admin-btn-secondary"
+                  onClick={() => setShowCategoryModal(false)}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="admin-btn-primary">
+                  Add Category
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

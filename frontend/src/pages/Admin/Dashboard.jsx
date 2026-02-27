@@ -1,21 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Admin.css";
-
-// Mock stats - replace with real API calls
-const mockStats = {
-  totalProducts: 48,
-  totalOrders: 312,
-  totalCustomers: 198,
-  totalRevenue: 24850,
-  recentOrders: [
-    { id: "ORD-001", customer: "Arjun Mehta", amount: 2499, status: "delivered", date: "2026-02-25" },
-    { id: "ORD-002", customer: "Priya Shah", amount: 1199, status: "processing", date: "2026-02-25" },
-    { id: "ORD-003", customer: "Rohit Kumar", amount: 3599, status: "shipped", date: "2026-02-24" },
-    { id: "ORD-004", customer: "Sneha Patel", amount: 899, status: "pending", date: "2026-02-24" },
-    { id: "ORD-005", customer: "Karan Joshi", amount: 5499, status: "delivered", date: "2026-02-23" },
-  ],
-};
+import APIService from "../../services/api";
 
 const statusColors = {
   delivered: "#22c55e",
@@ -27,10 +13,37 @@ const statusColors = {
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    // Replace with: fetch('/api/admin/stats').then(r => r.json()).then(setStats)
-    setTimeout(() => setStats(mockStats), 400);
+    const token = localStorage.getItem("adminToken");
+    const fetchStats = async () => {
+      try {
+        setError("");
+        const data = await APIService.getAdminDashboardStats(token);
+        const s = data?.stats || {};
+
+        const recentOrders = (s.recentOrders || []).map((o) => ({
+          id: o.id,
+          customer: o.User?.name || "Unknown",
+          amount: Number(o.total_amount || 0),
+          status: o.status,
+          date: new Date(o.createdAt).toISOString().slice(0, 10),
+        }));
+
+        setStats({
+          totalProducts: s.totalProducts || 0,
+          totalOrders: s.totalOrders || 0,
+          totalCustomers: s.totalCustomers || 0,
+          totalRevenue: s.totalRevenue || 0,
+          recentOrders,
+        });
+      } catch (err) {
+        setError("Unable to load dashboard stats.");
+      }
+    };
+
+    fetchStats();
   }, []);
 
   if (!stats) return <div className="admin-loading">Loading dashboard...</div>;
@@ -43,6 +56,8 @@ const Dashboard = () => {
           {new Date().toLocaleDateString("en-IN", { dateStyle: "long" })}
         </span>
       </div>
+
+      {error && <p style={{ color: "#c00", marginBottom: "12px" }}>{error}</p>}
 
       {/* Stat Cards */}
       <div className="stats-grid">

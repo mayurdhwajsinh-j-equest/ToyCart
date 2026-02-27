@@ -1,14 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Admin.css";
-
-const mockOrders = [
-  { id: "ORD-001", customer: "Arjun Mehta", email: "arjun@email.com", amount: 2499, status: "delivered", date: "2026-02-25", items: [{ name: "Classic Oxford Shirt", qty: 1, price: 1499 }, { name: "Leather Belt", qty: 1, price: 999 }], address: "12 MG Road, Ahmedabad, GJ 380001" },
-  { id: "ORD-002", customer: "Priya Shah", email: "priya@email.com", amount: 1199, status: "processing", date: "2026-02-25", items: [{ name: "Slim Fit Chinos", qty: 1, price: 1199 }], address: "45 Navrangpura, Ahmedabad, GJ 380009" },
-  { id: "ORD-003", customer: "Rohit Kumar", email: "rohit@email.com", amount: 3599, status: "shipped", date: "2026-02-24", items: [{ name: "Formal Blazer", qty: 1, price: 3599 }], address: "8 Satellite Road, Ahmedabad, GJ 380015" },
-  { id: "ORD-004", customer: "Sneha Patel", email: "sneha@email.com", amount: 899, status: "pending", date: "2026-02-24", items: [{ name: "Canvas Sneakers", qty: 1, price: 899 }], address: "22 Bopal, Ahmedabad, GJ 380058" },
-  { id: "ORD-005", customer: "Karan Joshi", email: "karan@email.com", amount: 5499, status: "delivered", date: "2026-02-23", items: [{ name: "Leather Derby Shoes", qty: 1, price: 3999 }, { name: "Merino Sweater", qty: 1, price: 1499 }], address: "3 Vastrapur, Ahmedabad, GJ 380054" },
-  { id: "ORD-006", customer: "Nisha Iyer", email: "nisha@email.com", amount: 750, status: "cancelled", date: "2026-02-22", items: [{ name: "Pocket Square", qty: 3, price: 249 }], address: "17 Paldi, Ahmedabad, GJ 380007" },
-];
+import APIService from "../../services/api";
 
 const statusColors = {
   delivered: "#22c55e",
@@ -21,10 +13,44 @@ const statusColors = {
 const allStatuses = ["All", "pending", "processing", "shipped", "delivered", "cancelled"];
 
 const AdminOrders = () => {
-  const [orders, setOrders] = useState(mockOrders);
+  const [orders, setOrders] = useState([]);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const token = typeof window !== "undefined" ? localStorage.getItem("adminToken") : null;
+
+  const loadOrders = async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const params = {};
+      if (statusFilter !== "All") params.status = statusFilter;
+      if (search) params.search = search;
+
+      const data = await APIService.getAdminOrders(params, token);
+      const list = (data.orders || []).map((o) => ({
+        id: o.id,
+        customer: o.User?.name || "Unknown",
+        email: o.User?.email || "",
+        amount: Number(o.total_amount || 0),
+        status: o.status,
+        date: new Date(o.createdAt).toISOString().slice(0, 10),
+      }));
+      setOrders(list);
+    } catch (err) {
+      setError("Unable to load orders.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [statusFilter]);
 
   const filtered = orders.filter((o) => {
     const matchSearch =
@@ -34,12 +60,18 @@ const AdminOrders = () => {
     return matchSearch && matchStatus;
   });
 
-  const updateStatus = (orderId, newStatus) => {
-    setOrders((prev) =>
-      prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o))
-    );
-    if (selectedOrder?.id === orderId) {
-      setSelectedOrder((prev) => ({ ...prev, status: newStatus }));
+  const updateStatus = async (orderId, newStatus) => {
+    try {
+      setError("");
+      await APIService.updateAdminOrderStatus(orderId, { status: newStatus }, token);
+      setOrders((prev) =>
+        prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o))
+      );
+      if (selectedOrder?.id === orderId) {
+        setSelectedOrder((prev) => ({ ...prev, status: newStatus }));
+      }
+    } catch (err) {
+      setError("Unable to update order status.");
     }
   };
 
@@ -49,6 +81,8 @@ const AdminOrders = () => {
         <h2>Orders</h2>
         <span className="admin-count">{filtered.length} orders</span>
       </div>
+
+      {error && <p style={{ color: "#c00", marginBottom: "12px" }}>{error}</p>}
 
       <div className="admin-filters">
         <input
@@ -71,6 +105,7 @@ const AdminOrders = () => {
       </div>
 
       <div className="admin-table-wrap">
+        {loading && <div className="admin-loading">Loading orders...</div>}
         <table className="admin-table">
           <thead>
             <tr>

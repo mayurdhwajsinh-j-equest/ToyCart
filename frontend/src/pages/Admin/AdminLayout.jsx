@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
+import toycartlogo from "../../../public/images/toycart-logo.png";  
 import "./Admin.css";
 
 const navItems = [
@@ -24,8 +25,7 @@ const AdminLayout = () => {
       {/* Sidebar */}
       <aside className="admin-sidebar">
         <div className="sidebar-header">
-          <span className="logo-icon">🛒</span>
-          {sidebarOpen && <span className="sidebar-title">ToyCart</span>}
+          <img src={toycartlogo} alt="ToyCart" className="toycartlogo" />
         </div>
 
         <nav className="sidebar-nav">

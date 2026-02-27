@@ -8,9 +8,15 @@ function Navbar() {
     const { getCartCount } = useCart();
     const navigate = useNavigate();
     const cartCount = getCartCount();
+    const isLoggedIn = typeof window !== "undefined" && !!localStorage.getItem("customerToken");
 
     const handleCartClick = () => {
         navigate("/Checkout");
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("customerToken");
+        navigate("/");
     };
 
     return (
@@ -50,6 +56,15 @@ function Navbar() {
                         <img src={cartIcon} alt="Cart" />
                         {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
                     </button>
+                    {isLoggedIn ? (
+                        <button className="login-btn" onClick={handleLogout}>
+                            Logout
+                        </button>
+                    ) : (
+                        <button className="login-btn" onClick={() => navigate("/login")}>
+                            Login
+                        </button>
+                    )}
                 </div>
             </nav>
         </header>

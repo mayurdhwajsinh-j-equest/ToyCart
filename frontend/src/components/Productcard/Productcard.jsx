@@ -1,22 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Productcard.css";
 import wishlisticon from "../../assets/wishlist-icon.svg";
 import coin from "../../assets/coin-icon.svg";
-import { useCart } from "../../hooks/useCart";
 
 function Productcard({ id, ProductImage, ProductName, Price }) {
-    const navigate = useNavigate();
-    const { addToCart } = useCart();
 
     const handleAddToToybox = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        addToCart({
-            id,
-            ProductImage,
-            ProductName,
-            Price
-        });
+        // In a full flow, this should call an API to add to cart.
+        // For now, navigation to product detail keeps UX consistent.
+        window.location.href = `/Pdp/${id}`;
     };
 
     return (

@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { User } = require('../config/db');
+const { sequelize } = require('../config/db'); 
 const { authMiddleware } = require('../middleware/auth');
 const { AppError } = require('../utils/errorHandler');
 

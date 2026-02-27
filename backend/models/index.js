@@ -1,12 +1,19 @@
 const { Sequelize } = require('sequelize');
-const path = require('path');
 
-// Initialize Sequelize with SQLite
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: path.join(__dirname, '../database.sqlite'),
-  logging: false, // Set to console.log for query logging
-});
+// Initialize Sequelize with MySQL
+// Make sure to set these environment variables in your .env file:
+// DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
+const sequelize = new Sequelize(
+  process.env.DB_NAME || 'toycart',
+  process.env.DB_USER || 'root',
+  process.env.DB_PASSWORD || '',
+  {
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 3306,
+    dialect: 'mysql',
+    logging: false, // Set to console.log for query logging
+  }
+);
 
 // Import models
 const User = require('./User')(sequelize);

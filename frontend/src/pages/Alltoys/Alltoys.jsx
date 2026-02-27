@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import Actioncard from "../../components/Actioncard/Actioncard.jsx";
-import arrow from "../../assets/arrow.svg"
+import arrow from "../../assets/arrow.svg";
 import "./Alltoys.css";
 import fanimg1 from "../../../public/images/fan-img1.jpg";
 import fanimg2 from "../../../public/images/fan-img2.png";
@@ -9,14 +10,32 @@ import fanimg5 from "../../../public/images/fan-img5.png";
 import fanimg6 from "../../../public/images/fan-img6.png";
 import fanimg7 from "../../../public/images/fan-img7.png";
 import fanimg8 from "../../../public/images/fan-img8.png";
-// import "../../public/images/product1-img.png";
-import productsData from "../../products.json";
-
-
 import Reviewcard from "../../components/Reviewcard/Reviewcard.jsx";
 import Productcard from "../../components/Productcard/Productcard.jsx";
+import APIService from "../../services/api";
 
 function Alltoys() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        setError("");
+        const data = await APIService.getProducts();
+        setProducts(data);
+      } catch (err) {
+        setError("Unable to load toys right now.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (<>
     <section className="hero">
       <div className="hero-content">
@@ -59,15 +78,17 @@ function Alltoys() {
 
     <section className="product-section">
       <div className="product-section__content">
-        {productsData.map((product) => (
+        {loading && <p>Loading toys...</p>}
+        {error && !loading && <p style={{ color: "#c00" }}>{error}</p>}
+        {!loading && !error && products.map((product) => (
           <Productcard
             key={product.id}
-            id={product.id}    
-            ProductImage={product.ProductImage}
-            ProductName={product.ProductName}
-            Price={product.Price}
-            />
-          ))}
+            id={product.id}
+            ProductImage={product.image_url}
+            ProductName={product.name}
+            Price={product.price}
+          />
+        ))}
       </div>
     </section>
 
