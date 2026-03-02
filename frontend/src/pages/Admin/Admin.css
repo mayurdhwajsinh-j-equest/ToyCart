@@ -266,7 +266,7 @@
   margin-bottom: 18px;
 }
 
-.toycartlogo {
+.toycart {
   width: 100px;
   height: 100px;
   object-fit: contain;
@@ -276,7 +276,7 @@
   transition: transform 0.2s;
 }
 
-.toycartlogo:hover {
+.toycart:hover {
   transform: scale(1.08) rotate(-3deg);
 }
 

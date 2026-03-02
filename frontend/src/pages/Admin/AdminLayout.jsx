@@ -25,7 +25,7 @@ const AdminLayout = () => {
       {/* Sidebar */}
       <aside className="admin-sidebar">
         <div className="sidebar-header">
-          <img src={toycartlogo} alt="ToyCart" className="toycartlogo" />
+          <img src={toycartlogo} alt="ToyCart" className="toycart" />
         </div>
 
         <nav className="sidebar-nav">

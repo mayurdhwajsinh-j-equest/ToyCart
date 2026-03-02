@@ -215,7 +215,6 @@ html {
   position: absolute;
   z-index: 1;
   height: 40vh;
-  ;
 }
 
 /* .workflow-actions {
@@ -249,7 +248,7 @@ html {
   border-radius: 10px;
   margin-top: 120px;
   padding: 40px 36px;
-  width: 360px;
+  width: 420px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -348,7 +347,7 @@ html {
 
 .open-box {
   position: relative;
-  left: 250px;
+  left: 220px;
 }
 
 .floating-image__right {
@@ -402,7 +401,7 @@ html {
 
 .arrow-down {
   position: relative;
-  top: -100px;
+  top: -80px;
   left: 320px;
 }
 
@@ -579,6 +578,11 @@ html {
   z-index: 2;
 }
 
+.commitment-section
+{
+  padding: 121px;
+}
+
 .sollicit-content {
   display: flex;
   flex-direction: column;
@@ -608,6 +612,7 @@ html {
   color: #255F83;
   margin-left: -180px;
   border-radius: 5px;
+  position: absolute;
 }
 
 .sollicit-image {
@@ -619,11 +624,12 @@ html {
   font-size: 16px;
   color: #255F83;
   background-color: #FFECFA;
-  padding: 10px 30px;
-  margin-top: -100px;
+  padding: 0 30px;
+  top : 50px;
   padding-top: 50px;
   margin-left: -150px;
   z-index: -1;
+  position: relative;
   border-radius: 5px;
 }
 
