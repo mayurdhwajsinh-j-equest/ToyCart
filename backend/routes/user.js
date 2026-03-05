@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { User } = require('../config/db');
-const { sequelize } = require('../config/db'); 
+const { sequelize } = require('../config/db');
 const { authMiddleware } = require('../middleware/auth');
 const { AppError } = require('../utils/errorHandler');
 
@@ -11,7 +11,7 @@ const router = express.Router();
 // ========== REGISTER ==========
 router.post('/register', async (req, res, next) => {
   try {
-    const { name, email, password, confirmPassword, role = 'customer' } = req.body;
+    const { name, email, password, confirmPassword, phone, role = 'customer' } = req.body;
 
     // Validations
     if (!name || !email || !password || !confirmPassword) {
@@ -40,6 +40,7 @@ router.post('/register', async (req, res, next) => {
     const user = await User.create({
       name,
       email,
+      phone: phone || null,
       password: hashedPassword,
       role: role === 'admin' ? 'admin' : 'customer'
     });

@@ -19,6 +19,8 @@ import AdminOrders from "./pages/Admin/AdminOrders";
 import AdminCustomers from "./pages/Admin/AdminCustomers";
 import CustomerLogin from "./pages/Auth/CustomerLogin";
 import CustomerRegister from "./pages/Auth/CustomerRegister";
+import MyOrders from "./pages/MyOrders/MyOrders.jsx";
+
 
 function AppContent() {
   const location = useLocation();
@@ -41,6 +43,7 @@ function AppContent() {
           <Route path="/Alltoys" element={<Alltoys />} />
           <Route path="/Order" element={<Order />} />
           <Route path="/About" element={<About />} />
+          <Route path="/my-orders" element={<MyOrders />} />
           <Route path="/Collection" element={<Collection />} />
           <Route path="/Product" element={<Product />} />
           <Route path="/Pdp/:id" element={<Pdp />} />

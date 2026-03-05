@@ -36,8 +36,8 @@ const AdminCustomers = () => {
         email:       c.email,
         phone:       c.phone || "—",
         joinDate:    new Date(c.createdAt).toISOString().slice(0, 10),
-        totalOrders: null, // loaded on demand via detail endpoint
-        totalSpent:  null,
+        totalOrders: c.totalOrders ?? 0,
+        totalSpent:  c.totalSpent  ?? 0,
       }));
       setCustomers(list);
     } catch (err) {
@@ -160,7 +160,7 @@ const AdminCustomers = () => {
                     </div>
                   </div>
                 </td>
-                <td>{customer.phone ?? "-"}</td>
+                <td>{customer.phone}</td>
                 <td>{customer.joinDate}</td>
                 <td>{customer.totalOrders ?? "—"}</td>
                 <td>{customer.totalSpent != null ? `₹${Number(customer.totalSpent).toLocaleString()}` : "—"}</td>

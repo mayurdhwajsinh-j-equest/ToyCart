@@ -93,6 +93,14 @@ class APIService {
     );
     return data;
   }
+  static async getProfile(token) {
+  const data = await handleResponse(
+    await fetch(`${API_BASE_URL}/users/profile`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  );
+  return data;
+}
 
   // ========== CART (AUTHENTICATED) ==========
   static async getCart(token) {
@@ -378,6 +386,60 @@ class APIService {
     );
     return data;
   }
+
+  static async getProductReviews(productId, params = {}) {
+  const searchParams = new URLSearchParams();
+  Object.entries(params).forEach(([k, v]) => {
+    if (v !== undefined && v !== null && v !== '') searchParams.append(k, v);
+  });
+  const url = searchParams.toString()
+    ? `${API_BASE_URL}/reviews/product/${productId}?${searchParams}`
+    : `${API_BASE_URL}/reviews/product/${productId}`;
+  const data = await handleResponse(await fetch(url));
+  return data;
+}
+
+static async addReview(payload, token) {
+  const data = await handleResponse(
+    await fetch(`${API_BASE_URL}/reviews`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    })
+  );
+  return data;
+}
+
+static async updateReview(reviewId, payload, token) {
+  const data = await handleResponse(
+    await fetch(`${API_BASE_URL}/reviews/${reviewId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    })
+  );
+  return data;
+}
+
+static async deleteReview(reviewId, token) {
+  const data = await handleResponse(
+    await fetch(`${API_BASE_URL}/reviews/${reviewId}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  );
+  return data;
+}
+
+static async markReviewHelpful(reviewId) {
+  const data = await handleResponse(
+    await fetch(`${API_BASE_URL}/reviews/${reviewId}/helpful`, {
+      method: 'POST',
+    })
+  );
+  return data;
+}
+
 }
 
 export default APIService;

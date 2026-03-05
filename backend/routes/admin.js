@@ -12,30 +12,20 @@ router.use(authMiddleware, adminMiddleware);
 // ========== ADMIN DASHBOARD ==========
 router.get('/dashboard/stats', async (req, res, next) => {
   try {
-    // Total revenue (delivered orders)
     const totalRevenue = await Order.sum('total_amount', {
       where: { status: 'delivered' }
     }) || 0;
 
-    // Total customers
-    const totalCustomers = await User.count({
-      where: { role: 'customer' }
-    });
+    const totalCustomers = await User.count({ where: { role: 'customer' } });
+    const totalProducts  = await Product.count();
+    const totalOrders    = await Order.count();
 
-    // Total products
-    const totalProducts = await Product.count();
-
-    // Total orders
-    const totalOrders = await Order.count();
-
-    // Orders by status
     const ordersByStatus = await Order.findAll({
       attributes: ['status', [require('sequelize').fn('COUNT', require('sequelize').col('id')), 'count']],
       group: ['status'],
       raw: true
     });
 
-    // Recent orders
     const recentOrders = await Order.findAll({
       limit: 5,
       order: [['createdAt', 'DESC']],
@@ -58,7 +48,7 @@ router.get('/dashboard/stats', async (req, res, next) => {
   }
 });
 
-// ========== GET ALL CUSTOMERS ==========
+// ========== GET ALL CUSTOMERS (with order counts) ==========
 router.get('/customers', async (req, res, next) => {
   try {
     const { page = 1, limit = 20, search } = req.query;
@@ -66,7 +56,7 @@ router.get('/customers', async (req, res, next) => {
     const where = { role: 'customer' };
     if (search) {
       where[Op.or] = [
-        { name: { [Op.like]: `%${search}%` } },
+        { name:  { [Op.like]: `%${search}%` } },
         { email: { [Op.like]: `%${search}%` } }
       ];
     }
@@ -76,6 +66,11 @@ router.get('/customers', async (req, res, next) => {
     const { count, rows } = await User.findAndCountAll({
       where,
       attributes: { exclude: ['password'] },
+      include: [{
+        model: Order,
+        attributes: ['id', 'total_amount'],
+        required: false,
+      }],
       limit: parseInt(limit),
       offset,
       order: [['createdAt', 'DESC']]
@@ -83,7 +78,11 @@ router.get('/customers', async (req, res, next) => {
 
     res.json({
       success: true,
-      customers: rows,
+      customers: rows.map((c) => ({
+        ...c.toJSON(),
+        totalOrders: c.Orders?.length || 0,
+        totalSpent:  c.Orders?.reduce((s, o) => s + parseFloat(o.total_amount || 0), 0) || 0,
+      })),
       pagination: {
         total: count,
         pages: Math.ceil(count / parseInt(limit))
@@ -105,10 +104,10 @@ router.get('/customers/:userId', async (req, res, next) => {
       return next(new AppError('Customer not found', 404));
     }
 
-    // Get customer orders
     const orders = await Order.findAll({
       where: { userId: customer.id },
-      include: [{ model: OrderItem }]
+      include: [{ model: OrderItem }],
+      order: [['createdAt', 'DESC']]
     });
 
     res.json({
@@ -116,7 +115,7 @@ router.get('/customers/:userId', async (req, res, next) => {
       customer,
       orders,
       totalOrders: orders.length,
-      totalSpent: orders.reduce((sum, o) => sum + parseFloat(o.total_amount), 0)
+      totalSpent:  orders.reduce((sum, o) => sum + parseFloat(o.total_amount), 0)
     });
   } catch (error) {
     next(error);
@@ -132,22 +131,17 @@ router.delete('/customers/:userId', async (req, res, next) => {
       return next(new AppError('Customer not found', 404));
     }
 
-    // Get all orders for this customer to check status
-    const orders = await Order.findAll({
+    const activeOrders = await Order.findAll({
       where: { userId: customer.id, status: { [Op.notIn]: ['delivered', 'cancelled'] } }
     });
 
-    if (orders.length > 0) {
+    if (activeOrders.length > 0) {
       return next(new AppError('Cannot delete customer with pending or active orders. Please cancel/complete all orders first.', 400));
     }
 
-    // Delete the customer
     await customer.destroy();
 
-    res.json({
-      success: true,
-      message: 'Customer deleted successfully'
-    });
+    res.json({ success: true, message: 'Customer deleted successfully' });
   } catch (error) {
     next(error);
   }
@@ -164,7 +158,7 @@ router.get('/orders', async (req, res, next) => {
     let userWhere = {};
     if (search) {
       userWhere[Op.or] = [
-        { name: { [Op.like]: `%${search}%` } },
+        { name:  { [Op.like]: `%${search}%` } },
         { email: { [Op.like]: `%${search}%` } }
       ];
     }
@@ -210,10 +204,7 @@ router.get('/orders/:orderId', async (req, res, next) => {
       return next(new AppError('Order not found', 404));
     }
 
-    res.json({
-      success: true,
-      order
-    });
+    res.json({ success: true, order });
   } catch (error) {
     next(error);
   }
@@ -235,17 +226,13 @@ router.put('/orders/:orderId/status', async (req, res, next) => {
     }
 
     await order.update({
-      status: status || order.status,
-      shipping_date: shipping_date || order.shipping_date,
-      delivery_date: delivery_date || order.delivery_date,
-      tracking_number: tracking_number || order.tracking_number
+      status:           status           || order.status,
+      shipping_date:    shipping_date    || order.shipping_date,
+      delivery_date:    delivery_date    || order.delivery_date,
+      tracking_number:  tracking_number  || order.tracking_number
     });
 
-    res.json({
-      success: true,
-      message: 'Order status updated',
-      order
-    });
+    res.json({ success: true, message: 'Order status updated', order });
   } catch (error) {
     next(error);
   }
@@ -257,8 +244,8 @@ router.get('/products', async (req, res, next) => {
     const { category, page = 1, limit = 20, search, availability } = req.query;
 
     const where = {};
-    if (category) where.categoryId = category;
-    if (search) where.name = { [Op.like]: `%${search}%` };
+    if (category)     where.categoryId  = category;
+    if (search)       where.name        = { [Op.like]: `%${search}%` };
     if (availability) where.availability = availability;
 
     const offset = (parseInt(page) - 1) * parseInt(limit);
@@ -274,10 +261,7 @@ router.get('/products', async (req, res, next) => {
     res.json({
       success: true,
       products: rows,
-      pagination: {
-        total: count,
-        pages: Math.ceil(count / parseInt(limit))
-      }
+      pagination: { total: count, pages: Math.ceil(count / parseInt(limit)) }
     });
   } catch (error) {
     next(error);
@@ -294,11 +278,7 @@ router.get('/products/low-stock/alerts', async (req, res, next) => {
       limit: 20
     });
 
-    res.json({
-      success: true,
-      products,
-      count: products.length
-    });
+    res.json({ success: true, products, count: products.length });
   } catch (error) {
     next(error);
   }
@@ -317,10 +297,7 @@ router.get('/categories', async (req, res, next) => {
       productCount: cat.Products.length
     }));
 
-    res.json({
-      success: true,
-      categories: result
-    });
+    res.json({ success: true, categories: result });
   } catch (error) {
     next(error);
   }
@@ -337,11 +314,7 @@ router.post('/categories', async (req, res, next) => {
 
     const category = await Category.create({ name, description, image_url });
 
-    res.status(201).json({
-      success: true,
-      message: 'Category created',
-      category
-    });
+    res.status(201).json({ success: true, message: 'Category created', category });
   } catch (error) {
     next(error);
   }
@@ -356,7 +329,7 @@ router.get('/reports/sales', async (req, res, next) => {
     if (startDate || endDate) {
       where.createdAt = {};
       if (startDate) where.createdAt[Op.gte] = new Date(startDate);
-      if (endDate) where.createdAt[Op.lte] = new Date(endDate);
+      if (endDate)   where.createdAt[Op.lte] = new Date(endDate);
     }
 
     const orders = await Order.findAll({
@@ -370,11 +343,11 @@ router.get('/reports/sales', async (req, res, next) => {
     res.json({
       success: true,
       report: {
-        periodStart: startDate || 'All time',
-        periodEnd: endDate || 'All time',
-        totalOrders: orders.length,
-        totalSales: parseFloat(totalSales.toFixed(2)),
-        averageOrderValue: orders.length > 0 ? parseFloat((totalSales / orders.length).toFixed(2)) : 0
+        periodStart:        startDate || 'All time',
+        periodEnd:          endDate   || 'All time',
+        totalOrders:        orders.length,
+        totalSales:         parseFloat(totalSales.toFixed(2)),
+        averageOrderValue:  orders.length > 0 ? parseFloat((totalSales / orders.length).toFixed(2)) : 0
       }
     });
   } catch (error) {

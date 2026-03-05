@@ -29,6 +29,7 @@ import instructiondownicon from "../../assets/instruction-down-icon.svg";
 import blackline from "../../assets/black-line.svg";
 import Productcard from "../../components/Productcard/Productcard.jsx";
 import APIService from "../../services/api";
+import ProductReviews from "../../components/ProductReviews/ProductReviews.jsx";
 
 function Pdp() {
     const { id } = useParams();
@@ -265,6 +266,11 @@ function Pdp() {
                 blackline={blackline}
                 instructionupicon={instructionupicon}
                 instructiondownicon={instructiondownicon}
+            />
+            <ProductReviews
+                productId={product?.id}
+                productRating={product?.rating}
+                totalReviews={product?.number_of_reviews}
             />
             <section className="pdp-sustainability-section">
                 <div className="pdp-sustainability-content">

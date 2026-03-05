@@ -7,6 +7,7 @@ const CustomerRegister = () => {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
   });
@@ -33,9 +34,10 @@ const CustomerRegister = () => {
 
     try {
       await APIService.register({
-        name: form.name,
-        email: form.email,
-        password: form.password,
+        name:            form.name,
+        email:           form.email,
+        phone:           form.phone,
+        password:        form.password,
         confirmPassword: form.confirmPassword,
       });
       setSuccess("Account created! You can now sign in.");
@@ -57,7 +59,11 @@ const CustomerRegister = () => {
         <p className="admin-login-sub">Create your ToyCart account</p>
 
         {error && <div className="admin-error-msg">{error}</div>}
-        {success && <div className="admin-error-msg" style={{ background: "#dcfce7", borderColor: "#27a06a", color: "#166534" }}>{success}</div>}
+        {success && (
+          <div className="admin-error-msg" style={{ background: "#dcfce7", borderColor: "#27a06a", color: "#166534" }}>
+            {success}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="admin-login-form">
           <div className="admin-form-group">
@@ -78,6 +84,15 @@ const CustomerRegister = () => {
               onChange={handleChange("email")}
               placeholder="you@example.com"
               required
+            />
+          </div>
+          <div className="admin-form-group">
+            <label>Phone number</label>
+            <input
+              type="tel"
+              value={form.phone}
+              onChange={handleChange("phone")}
+              placeholder="9876543210"
             />
           </div>
           <div className="admin-form-group">
@@ -114,4 +129,3 @@ const CustomerRegister = () => {
 };
 
 export default CustomerRegister;
-

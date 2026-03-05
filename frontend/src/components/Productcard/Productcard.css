@@ -19,6 +19,7 @@
     z-index: 1;
     position: relative;
     background-color: #FDFDFD;
+    object-fit: contain;
 }
 
 .product-card__bottom {
@@ -49,6 +50,7 @@
     font-weight: bold;
     display: flex;
     gap: 6px;
+    align-items: center;
 }
 
 .product-card__top-second {
@@ -61,10 +63,31 @@
     left: -20px;
 }
 
-.reviewstar {
-    max-width: 54px;
+/* ── Dynamic stars ── */
+.pc-stars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }
 
+.pc-star {
+    font-size: 18px;
+    color: #ddd;
+    line-height: 1;
+}
+
+.pc-star--filled {
+    color: #f59e0b;
+}
+
+.pc-review-count {
+    font-size: 12px;
+    color: #7a8aaa;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+/* ── Add to toybox button ── */
 .addToToybox {
     color: #FFFFFF;
     font-size: 16px;
@@ -75,7 +98,7 @@
     text-decoration: none;
     text-align: center;
     border-radius: 5px;
-    border : none;
+    border: none;
     position: absolute;
     top: 100%;
     left: 50%;
@@ -84,7 +107,6 @@
     transition: opacity 0.3s ease;
     z-index: 2;
 }
-
 
 .product-card:hover .addToToybox {
     opacity: 1;
