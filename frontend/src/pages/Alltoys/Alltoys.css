@@ -61,7 +61,7 @@
 .fan-img1,
 .fan-img8 {
   max-width: 227px;
-  max-height: 280px;
+  max-height: 310px;
   border-radius: 10px;
 }
 
@@ -80,5 +80,5 @@
 .fan-content__bottom-img {
   display: flex;
   flex-direction: column;
-  gap: 17px;
+  gap: 50px;
 }

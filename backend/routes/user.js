@@ -5,6 +5,7 @@ const { User } = require('../config/db');
 const { sequelize } = require('../config/db');
 const { authMiddleware } = require('../middleware/auth');
 const { AppError } = require('../utils/errorHandler');
+const { uploadSingle } = require('../middleware/upload');
 
 const router = express.Router();
 
@@ -155,6 +156,28 @@ router.put('/profile', authMiddleware, async (req, res, next) => {
     next(error);
   }
 });
+
+router.post('/profile/avatar', authMiddleware, uploadSingle('avatar'), async (req, res, next) => {
+  try {
+    if (!req.file) {
+      return next(new AppError('No image file provided', 400));
+    }
+
+    const user = await User.findByPk(req.user.id);
+    const avatarUrl = `/uploads/products/${req.file.filename}`;
+
+    await user.update({ avatar: avatarUrl });
+
+    res.json({
+      success: true,
+      message: 'Profile image updated',
+      avatar: avatarUrl
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 // ========== CHANGE PASSWORD ==========
 router.put('/change-password', authMiddleware, async (req, res, next) => {

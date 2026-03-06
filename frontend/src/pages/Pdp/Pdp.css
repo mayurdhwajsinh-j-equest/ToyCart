@@ -250,3 +250,25 @@
   max-width: 310px;
   width: 310px;
 }
+
+.pdp-stars {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin: 8px 0;
+}
+
+.pdp-star {
+  font-size: 22px;
+  color: #ddd;
+  line-height: 1;
+}
+
+.pdp-star--filled { color: #f59e0b; }
+
+.pdp-star-count {
+  font-size: 13px;
+  color: #7a8aaa;
+  font-weight: 700;
+  margin-left: 6px;
+}

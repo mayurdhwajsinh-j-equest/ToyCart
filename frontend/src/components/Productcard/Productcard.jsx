@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import "./Productcard.css";
-import wishlisticon from "../../assets/wishlist-icon.svg";
 import coin from "../../assets/coin-icon.svg";
+import APIService from "../../services/api";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -18,11 +19,44 @@ function StarRating({ rating = 0, count = 0 }) {
 }
 
 function Productcard({ id, ProductImage, ProductName, Price, rating = 0, reviewCount = 0 }) {
+    const token = typeof window !== "undefined" ? localStorage.getItem("customerToken") : null;
+
+    const [wishlisted,    setWishlisted]    = useState(false);
+    const [wishlistLoading, setWishlistLoading] = useState(false);
+
+    // Check if product is already in wishlist on mount
+    useEffect(() => {
+        if (!token || !id) return;
+        APIService.checkWishlist(id, token)
+            .then((data) => setWishlisted(data?.inWishlist || false))
+            .catch(() => {});
+    }, [id, token]);
 
     const handleAddToToybox = (e) => {
         e.preventDefault();
         e.stopPropagation();
         window.location.href = `/Pdp/${id}`;
+    };
+
+    const handleWishlist = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!token) { window.location.href = "/login"; return; }
+        if (wishlistLoading) return;
+        try {
+            setWishlistLoading(true);
+            if (wishlisted) {
+                await APIService.removeFromWishlist(id, token);
+                setWishlisted(false);
+            } else {
+                await APIService.addToWishlist(id, token);
+                setWishlisted(true);
+            }
+        } catch {
+            // silent fail
+        } finally {
+            setWishlistLoading(false);
+        }
     };
 
     const getImageUrl = (path) => {
@@ -37,7 +71,14 @@ function Productcard({ id, ProductImage, ProductName, Price, rating = 0, reviewC
                 <div className="product-card__top">
                     <div className="product-card__top-first">
                         <p className="badge">NEW IN</p>
-                        <img src={wishlisticon} alt="wishlist icon" className="wishlist-icon" />
+                        <button
+                            className={`wishlist-btn ${wishlisted ? "wishlist-btn--active" : ""}`}
+                            onClick={handleWishlist}
+                            disabled={wishlistLoading}
+                            title={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
+                        >
+                            {wishlisted ? "♥" : "♡"}
+                        </button>
                     </div>
                     <div className="product-card__top-second">
                         <img

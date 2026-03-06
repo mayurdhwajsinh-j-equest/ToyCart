@@ -5,6 +5,8 @@ import { useCart } from "../../hooks/useCart";
 import { useEffect, useState } from "react";
 import APIService from "../../services/api";
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 function Navbar() {
     const { getCartCount } = useCart();
     const navigate = useNavigate();
@@ -14,23 +16,36 @@ function Navbar() {
     const isLoggedIn = !!token;
 
     const [userName, setUserName] = useState("");
+    const [userAvatar, setUserAvatar] = useState(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    // Fetch logged-in user's name from backend
     useEffect(() => {
-        if (!isLoggedIn) { setUserName(""); return; }
-        APIService.getProfile(token)
-            .then((data) => setUserName(data?.user?.name || "User"))
-            .catch(() => setUserName("User"));
+        if (!isLoggedIn) { setUserName(""); setUserAvatar(null); return; }
+        const fetchProfile = () => {
+            APIService.getProfile(token)
+                .then((data) => {
+                    setUserName(data?.user?.name || "User");
+                    setUserAvatar(data?.user?.avatar || null);
+                })
+                .catch(() => setUserName("User"));
+        };
+        fetchProfile();
+        window.addEventListener("profileUpdated", fetchProfile);
+        return () => window.removeEventListener("profileUpdated", fetchProfile);
     }, [isLoggedIn, token]);
 
     const handleLogout = () => {
         localStorage.removeItem("customerToken");
         setUserName("");
+        setUserAvatar(null);
         setDropdownOpen(false);
         navigate("/");
         window.location.reload();
     };
+
+    const avatarSrc = userAvatar
+        ? (userAvatar.startsWith("http") ? userAvatar : `${API_BASE}${userAvatar}`)
+        : null;
 
     return (
         <header className="navbar-wrapper">
@@ -73,10 +88,14 @@ function Navbar() {
                     </button>
 
                     {isLoggedIn ? (
-                        /* User avatar + dropdown */
                         <div className="nav-user" onClick={() => setDropdownOpen((p) => !p)}>
+                            {/* Avatar: image or initials */}
                             <div className="nav-avatar" title={userName}>
-                                {userName.charAt(0).toUpperCase() || "U"}
+                                {avatarSrc ? (
+                                    <img src={avatarSrc} alt={userName} className="nav-avatar-img" />
+                                ) : (
+                                    userName.charAt(0).toUpperCase() || "U"
+                                )}
                             </div>
                             <span className="nav-username">{userName.split(" ")[0]}</span>
                             <span className="nav-chevron">{dropdownOpen ? "▲" : "▼"}</span>
@@ -84,14 +103,28 @@ function Navbar() {
                             {dropdownOpen && (
                                 <div className="nav-dropdown" onClick={(e) => e.stopPropagation()}>
                                     <div className="nav-dropdown-header">
-                                        <div className="nav-avatar large">{userName.charAt(0).toUpperCase()}</div>
+                                        <div className="nav-avatar large">
+                                            {avatarSrc ? (
+                                                <img src={avatarSrc} alt={userName} className="nav-avatar-img" />
+                                            ) : (
+                                                userName.charAt(0).toUpperCase()
+                                            )}
+                                        </div>
                                         <div>
                                             <p className="nav-dropdown-name">{userName}</p>
                                         </div>
                                     </div>
                                     <hr className="nav-dropdown-divider" />
+                                    <button className="nav-dropdown-item" onClick={() => { navigate("/profile/edit"); setDropdownOpen(false); }}>
+                                        ✏️ Edit Profile
+                                    </button>
+                                    <hr className="nav-dropdown-divider" />
                                     <button className="nav-dropdown-item" onClick={() => { navigate("/my-orders"); setDropdownOpen(false); }}>
                                         📦 My Orders
+                                    </button>
+                                    <hr className="nav-dropdown-divider" />
+                                    <button className="nav-dropdown-item" onClick={() => { navigate("/wishlist"); setDropdownOpen(false); }}>
+                                        ♥ My Wishlist
                                     </button>
                                     <hr className="nav-dropdown-divider" />
                                     <button className="nav-dropdown-item logout" onClick={handleLogout}>
@@ -101,7 +134,6 @@ function Navbar() {
                             )}
                         </div>
                     ) : (
-                        /* Login button */
                         <button className="login-btn" onClick={() => navigate("/login")}>
                             <span className="login-btn-icon">👤</span>
                             Login

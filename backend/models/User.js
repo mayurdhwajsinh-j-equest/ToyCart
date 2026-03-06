@@ -32,7 +32,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    phone: {  
+    phone: {
       type: DataTypes.STRING,
       allowNull: true,
       validate: {
@@ -51,6 +51,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    avatar: { type: DataTypes.STRING, allowNull: true },
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,

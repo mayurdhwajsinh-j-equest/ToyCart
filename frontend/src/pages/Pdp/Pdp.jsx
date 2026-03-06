@@ -64,53 +64,49 @@ function Pdp() {
         fetchData();
     }, [id]);
 
-    const productData = useMemo(() => {
-        if (!product) {
-            return {
-                title: "",
-                price: "",
-                mainImage: toy2img,
-                images: [toy2img4, toy2img3, toy2img2, toy2img1],
-                ratingImage: review4star,
-                description: "",
-                coinIcon: coin,
-                lineIcon: line,
-                details: [],
-            };
-        }
-
+   const productData = useMemo(() => {
+    if (!product) {
         return {
-            title: product.name,
-            price: product.price,
-            // FIXED
-            mainImage: product.image_url || null,
-            // FIXED — no fallback to local imports
-            images: Array.isArray(product.additional_images)
-                ? product.additional_images
-                : [],
-            ratingImage: review4star,
-            description: product.description,
+            title: "",
+            price: "",
+            mainImage: toy2img,
+            images: [toy2img4, toy2img3, toy2img2, toy2img1],
+            rating: 0,
+            description: "",
             coinIcon: coin,
             lineIcon: line,
-            details: [
-                {
-                    icon: union,
-                    title: "Category",
-                    value: product.Category?.name || "Toys",
-                },
-                {
-                    icon: stacktoy,
-                    title: "Availability",
-                    value: product.availability === "in_stock" ? "In stock" : "Out of stock",
-                },
-                {
-                    icon: earth1,
-                    title: "Rating",
-                    value: product.rating ? `${product.rating} / 5` : "No ratings yet",
-                },
-            ],
+            details: [],
         };
-    }, [product]);
+    }
+
+    return {
+        title: product.name,
+        price: product.price,
+        mainImage: product.image_url || null,
+        images: Array.isArray(product.additional_images) ? product.additional_images : [],
+        rating: product.rating || 0,
+        description: product.description,
+        coinIcon: coin,
+        lineIcon: line,
+        details: [
+            {
+                icon: union,
+                title: "Category",
+                value: product.Category?.name || "Toys",
+            },
+            {
+                icon: stacktoy,
+                title: "Availability",
+                value: product.availability === "in_stock" ? "In stock" : "Out of stock",
+            },
+            {
+                icon: earth1,
+                title: "Rating",
+                value: product.rating ? `${product.rating} / 5` : "No ratings yet",
+            },
+        ],
+    };
+}, [product]);
 
     const featuredItems = [
         {
@@ -193,70 +189,6 @@ function Pdp() {
                     </p>
                     {loading && <p>Loading product...</p>}
                     {error && !loading && <p style={{ color: "#c00" }}>{error}</p>}
-                    {/* <div className="product-description">
-                        <div className="product-description__images">
-                            <img src={toy2img} alt="toy2 img" className="toy2-img" />
-                            <div className="product-description__images-top">
-                            </div>
-                            <div className="product-description__images-bottom">
-                                <img src={toy2img4} alt="toy2 sub img" className="toy2-img4" />
-                                <img src={toy2img3} alt="toy2 sub img" className="toy2-img3" />
-                                <img src={toy2img2} alt="toy2 sub img" className="toy2-img2" />
-                                <img src={toy2img1} alt="toy2 sub img" className="toy2-img1" />
-                            </div>
-                        </div>
-                        <div className="product-description__content">
-                            <div>
-                                <h2 className="product-description__content-title">VTech Toot-Toot Drivers Garage Playset</h2>
-                                <p className="product-description__content-price"><span><img src={coin} alt="coin icon" className="coin icon" /></span>88</p>
-                                <img src={review4star} alt="review 4 star" className="review-4star" />
-                                <p className="product-description__content-text">Vel diam a lobortis rhoncus nunc adipiscing habitant vitae. Scelerisque condimentum in vulputate condimentum sollicitudin. Libero vel placerat dictumst a praesent neque et.</p>
-                                <img src={line} alt="line" className="line" />
-                                <a href="#" className="addToCart">Add to cart</a>
-                                <img src={line} alt="line" className="" />
-                            </div>
-                            <div className="product-details">
-
-                                <div className="product-details__item">
-                                    <div className="product-details__icon">
-                                        <img src={union} alt="union icon" />
-                                    </div>
-                                    <div className="product-details__text">
-                                        <p className="product-details__title">Age recommendation</p>
-                                        <p className="product-details__desc">1 year - 3 years</p>
-                                    </div>
-                                </div>
-
-                                <img src={line} alt="line" className="" />
-                                <div className="product-details__item">
-                                    <div className="product-details__icon">
-                                        <img src={stacktoy} alt="stack toy icon" />
-                                    </div>
-                                    <div className="product-details__text">
-                                        <p className="product-details__title">Skills & Learning</p>
-                                        <p className="product-details__desc">
-                                            Helps with independent play and sensory learning
-                                        </p>
-                                    </div>
-
-                                </div>
-                                <img src={line} alt="line" className="" />
-
-                                <div className="product-details__item">
-                                    <div className="product-details__icon">
-                                        <img src={earth1} alt="earth icon" />
-                                    </div>
-                                    <div className="product-details__text">
-                                        <p className="product-details__title">Toy impact</p>
-                                        <p className="product-details__desc">Lorem ipsum dolor sit</p>
-                                    </div>
-                                </div>
-                                <img src={line} alt="line" className="" />
-
-                            </div>
-
-                        </div>
-                    </div> */}
                     <ProductDescription product={productData} productId={product?.id} />
                 </div>
                 <FeaturedItem items={featuredItems} />
@@ -327,6 +259,8 @@ function Pdp() {
                             ProductImage={rp.image_url}
                             ProductName={rp.name}
                             Price={rp.price}
+                            rating={rp.rating}
+                            reviewCount={rp.number_of_reviews}
                         />
                     ))}
                 </div>

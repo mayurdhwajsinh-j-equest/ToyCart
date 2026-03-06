@@ -10,25 +10,23 @@ import Checkout from "./pages/Checkout/Checkout";
 import Order from "./pages/Order/Order";
 import Collection from "./pages/Collection/Collection";
 import Product from "./pages/Product/Product";
-import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminLayout from "./pages/Admin/AdminLayout";
 import AdminGuard from "./pages/Admin/AdminGuard";
 import Dashboard from "./pages/Admin/Dashboard";
 import AdminProducts from "./pages/Admin/AdminProducts";
 import AdminOrders from "./pages/Admin/AdminOrders";
 import AdminCustomers from "./pages/Admin/AdminCustomers";
-import CustomerLogin from "./pages/Auth/CustomerLogin";
 import CustomerRegister from "./pages/Auth/CustomerRegister";
+import CustomerGuard from "./pages/Auth/CustomerGuard";
 import MyOrders from "./pages/MyOrders/MyOrders.jsx";
-
+import Login from "./pages/Auth/Login.jsx";
+import Wishlist from "./pages/Wishlist/Wishlist.jsx";
+import EditProfile from "./pages/EditProfile/EditProfile.jsx";
 
 function AppContent() {
   const location = useLocation();
-
-  // Check if current route starts with /admin
   const isAdminRoute = location.pathname.startsWith("/admin");
-  const isAuthRoute =
-    location.pathname === "/login" || location.pathname === "/register";
+  const isAuthRoute  = location.pathname === "/login" || location.pathname === "/register";
 
   return (
     <>
@@ -36,20 +34,24 @@ function AppContent() {
 
       <main style={{ marginTop: !isAdminRoute && !isAuthRoute ? "140px" : "0" }}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<CustomerLogin />} />
-          <Route path="/register" element={<CustomerRegister />} />
-          <Route path="/Checkout" element={<Checkout />} />
-          <Route path="/Alltoys" element={<Alltoys />} />
-          <Route path="/Order" element={<Order />} />
-          <Route path="/About" element={<About />} />
-          <Route path="/my-orders" element={<MyOrders />} />
+          {/* ── Public routes ── */}
+          <Route path="/"           element={<Home />} />
+          <Route path="/login"      element={<Login />} />
+          <Route path="/register"   element={<CustomerRegister />} />
+          <Route path="/Alltoys"    element={<Alltoys />} />
+          <Route path="/Pdp/:id"    element={<Pdp />} />
+          <Route path="/About"      element={<About />} />
           <Route path="/Collection" element={<Collection />} />
-          <Route path="/Product" element={<Product />} />
-          <Route path="/Pdp/:id" element={<Pdp />} />
+          <Route path="/Product"    element={<Product />} />
 
-          <Route path="/admin/login" element={<AdminLogin />} />
+          {/* ── Protected customer routes ── */}
+          <Route path="/Order"     element={<CustomerGuard><Order /></CustomerGuard>} />
+          <Route path="/Checkout"  element={<CustomerGuard><Checkout /></CustomerGuard>} />
+          <Route path="/my-orders" element={<CustomerGuard><MyOrders /></CustomerGuard>} />
+          <Route path="/wishlist"  element={<CustomerGuard><Wishlist /></CustomerGuard>} />
+          <Route path="/profile/edit" element={<CustomerGuard><EditProfile /></CustomerGuard>} />
 
+          {/* ── Protected admin routes ── */}
           <Route
             path="/admin"
             element={
@@ -60,8 +62,8 @@ function AppContent() {
           >
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="products" element={<AdminProducts />} />
-            <Route path="orders" element={<AdminOrders />} />
+            <Route path="products"  element={<AdminProducts />} />
+            <Route path="orders"    element={<AdminOrders />} />
             <Route path="customers" element={<AdminCustomers />} />
           </Route>
         </Routes>

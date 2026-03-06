@@ -60,7 +60,7 @@ function ProductDescription({ product, productId }) {
         <div className="pdp-slider">
           {/* Prev arrow */}
           {allImages.length > 1 && (
-            <button className="pdp-slider__arrow pdp-slider__arrow--prev" onClick={goPrev}><img src={navprev} alt="navprev" className="nav-prev"/></button>
+            <button className="pdp-slider__arrow pdp-slider__arrow--prev" onClick={goPrev}><img src={navprev} alt="navprev" className="nav-prev" /></button>
           )}
 
           {/* Main image */}
@@ -73,7 +73,7 @@ function ProductDescription({ product, productId }) {
 
           {/* Next arrow */}
           {allImages.length > 1 && (
-            <button className="pdp-slider__arrow pdp-slider__arrow--next" onClick={goNext}><img src={navnext} alt="navnext" className="nav-next"/></button>
+            <button className="pdp-slider__arrow pdp-slider__arrow--next" onClick={goNext}><img src={navnext} alt="navnext" className="nav-next" /></button>
           )}
 
           {/* Dots */}
@@ -115,7 +115,14 @@ function ProductDescription({ product, productId }) {
             {coinIcon && <span><img src={coinIcon} alt="coin icon" /></span>}
             {price}
           </p>
-          {ratingImage && <img src={ratingImage} alt="rating" className="review-4star" />}
+          <div className="pdp-stars">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <span key={n} className={`pdp-star ${n <= Math.round(product.rating || 0) ? "pdp-star--filled" : ""}`}>★</span>
+            ))}
+            {product.rating > 0 && (
+              <span className="pdp-star-count">{Number(product.rating).toFixed(1)} / 5</span>
+            )}
+          </div>
           <p className="product-description__content-text">{description}</p>
           {lineIcon && <img src={lineIcon} alt="line" className="line" />}
           <button className="addToCart" onClick={handleAddToCart}>Add to cart</button>

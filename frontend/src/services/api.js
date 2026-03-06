@@ -440,6 +440,81 @@ static async markReviewHelpful(reviewId) {
   return data;
 }
 
+static async getWishlist(token) {
+  const data = await handleResponse(
+    await fetch(`${API_BASE_URL}/wishlist`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  );
+  return data;
+}
+
+static async addToWishlist(productId, token) {
+  const data = await handleResponse(
+    await fetch(`${API_BASE_URL}/wishlist`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ productId }),
+    })
+  );
+  return data;
+}
+
+static async removeFromWishlist(productId, token) {
+  const data = await handleResponse(
+    await fetch(`${API_BASE_URL}/wishlist/${productId}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  );
+  return data;
+}
+
+static async checkWishlist(productId, token) {
+  const data = await handleResponse(
+    await fetch(`${API_BASE_URL}/wishlist/check/${productId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  );
+  return data;
+}
+
+static async updateProfile(payload, token) {
+  const data = await handleResponse(
+    await fetch(`${API_BASE_URL}/users/profile`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    })
+  );
+  return data;
+}
+
+static async changePassword(payload, token) {
+  const data = await handleResponse(
+    await fetch(`${API_BASE_URL}/users/change-password`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    })
+  );
+  return data;
+}
+
+static async uploadAvatar(file, token) {
+  const formData = new FormData();
+  formData.append('avatar', file);
+  const data = await handleResponse(
+    await fetch(`${API_BASE_URL}/users/profile/avatar`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    })
+  );
+  return data;
+}
+
+
 }
 
 export default APIService;

@@ -45,37 +45,6 @@ function Alltoys() {
       </div>
     </section>
 
-    {/* <section className="product-section">
-      <div className="product-section__content">
-        <Productcard
-          ProductImage={product1}
-          ProductName=" this is product1 "
-          Price="100"
-        />
-        <Productcard
-          ProductImage={product1}
-          ProductName="demo1"
-          Price="100"
-        /> <Productcard
-          ProductImage={product1}
-          ProductName="demo1"
-          Price="100"
-        /> <Productcard
-          ProductImage={product1}
-          ProductName="demo1"
-          Price="100"
-        /> <Productcard
-          ProductImage={product1}
-          ProductName="demo1"
-          Price="100"
-        /> <Productcard
-          ProductImage={product1}
-          ProductName="demo1"
-          Price="100"
-        />
-      </div>
-    </section> */}
-
     <section className="product-section">
       <div className="product-section__content">
         {loading && <p>Loading toys...</p>}
@@ -87,6 +56,8 @@ function Alltoys() {
             ProductImage={product.image_url}
             ProductName={product.name}
             Price={product.price}
+            rating={product.rating}
+            reviewCount={product.number_of_reviews}
           />
         ))}
       </div>

@@ -1,31 +1,38 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import APIService from "../../services/api";
 import "../Admin/Admin.css";
 
-const CustomerLogin = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
+const Login = () => {
+  const [form, setForm]       = useState({ email: "", password: "" });
+  const [error, setError]     = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const navigate  = useNavigate();
+  const location  = useLocation();
 
-  const handleChange = (field) => (e) => {
+  const handleChange = (field) => (e) =>
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+
     try {
       const data = await APIService.login(form.email, form.password);
-      if (data?.user?.role !== "customer" && data?.user?.role !== "admin") {
+      const role = data?.user?.role;
+
+      if (role === "admin") {
+        localStorage.setItem("adminToken", data.token);
+        localStorage.setItem("adminUser", JSON.stringify(data.user));
+        navigate("/admin/dashboard");
+      } else if (role === "customer") {
+        localStorage.setItem("customerToken", data.token);
+        const from = location.state?.from || "/";
+        navigate(from);
+      } else {
         setError("Invalid user role.");
-        setLoading(false);
-        return;
       }
-      localStorage.setItem("customerToken", data.token);
-      navigate("/");
     } catch (err) {
       setError(err.message || "Invalid email or password.");
     } finally {
@@ -78,5 +85,4 @@ const CustomerLogin = () => {
   );
 };
 
-export default CustomerLogin;
-
+export default Login;
