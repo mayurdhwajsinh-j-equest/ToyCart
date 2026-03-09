@@ -326,7 +326,7 @@ const Dashboard = () => {
               {statusData.reduce((a, b) => a + b.value, 0)} total orders
             </span>
           )}
-        </div>
+        </div>    
         {statusData.length > 0 ? (
           <div style={{ width: "100%", height: 280 }}>
             <ResponsiveContainer>

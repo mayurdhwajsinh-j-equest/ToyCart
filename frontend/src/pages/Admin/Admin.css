@@ -267,7 +267,7 @@
   white-space: nowrap;
 }
 
-.toycart{
+.toycart {
   width: 48px;
   height: 48px;
   object-fit: contain;
@@ -277,15 +277,9 @@
   transform: scale(3.2);
 }
 
-.toycart:hover {
-  transform: scale(3.9);
-}
+.toycart:hover { transform: scale(3.9); }
 
-.sidebar-closed .toycart-logo {
-  width: 38px;
-  height: 38px;
-}
-
+.sidebar-closed .toycart-logo,
 .sidebar-closed .toycart {
   width: 38px;
   height: 38px;
@@ -491,7 +485,6 @@
   border-radius: 4px 0 0 4px;
 }
 
-/* Soft decorative circle in top-right corner */
 .stat-card::after {
   content: '';
   position: absolute;
@@ -573,7 +566,6 @@
 
 .admin-table { width: 100%; border-collapse: collapse; }
 
-/* Lemon strip above navy header — playful toy touch */
 .admin-table thead { border-top: 5px solid var(--lemon); }
 
 .admin-table th {
@@ -644,6 +636,7 @@
    ═══════════════════════════════════════════════════════════ */
 
 .product-cell { display: flex; align-items: center; gap: 12px; }
+
 .product-thumb {
   width: 42px; height: 42px;
   border-radius: 10px;
@@ -857,6 +850,10 @@
   box-shadow: var(--shadow-lg);
 }
 
+.admin-modal::-webkit-scrollbar { width: 6px; }
+.admin-modal::-webkit-scrollbar-track { background: var(--bg-elevated); }
+.admin-modal::-webkit-scrollbar-thumb { background: var(--lavender-dark); border-radius: 3px; }
+
 .order-detail-modal { max-width: 620px; }
 
 .modal-header {
@@ -904,11 +901,59 @@
   padding-top: 10px;
 }
 
-.confirm-modal { max-width: 380px; }
-.confirm-modal .admin-form { align-items: center; text-align: center; }
-.confirm-modal h3 { font-family: 'Nunito', sans-serif; font-weight: 900; color: var(--ocean); margin-bottom: 10px; font-size: 20px; }
-.confirm-modal p { color: var(--text-secondary); font-size: 14px; font-weight: 600; }
-.confirm-modal .modal-actions { justify-content: center; }
+/* ── Confirm / Delete Modal ── */
+.confirm-modal {
+  max-width: 380px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.confirm-modal .admin-form {
+  align-items: center;
+  text-align: center;
+  padding: 32px 28px;
+}
+
+.confirm-modal h3 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  color: var(--ocean);
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+
+.confirm-modal p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.confirm-modal .modal-actions {
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.confirm-modal .admin-btn-delete {
+  background: #fde8eb;
+  border: 2px solid var(--danger);
+  color: var(--danger);
+  border-radius: 10px;
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.confirm-modal .admin-btn-delete:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+.confirm-modal .admin-btn-secondary {
+  padding: 10px 28px;
+  font-size: 14px;
+}
 
 /* ═══════════════════════════════════════════════════════════
    ORDER DETAIL
@@ -1038,13 +1083,16 @@
   font-weight: 700;
 }
 
+/* ═══════════════════════════════════════════════════════════
+   IMAGE UPLOAD
+   ═══════════════════════════════════════════════════════════ */
+
 .image-upload-area {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* Empty state — click to upload */
 .image-drop-zone {
   border: 2.5px dashed var(--lavender-dark);
   border-radius: 12px;
@@ -1067,7 +1115,6 @@
 .upload-label { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: var(--ocean); }
 .upload-hint  { font-size: 12px; color: var(--text-muted); font-weight: 600; }
 
-/* Preview */
 .image-preview-wrap {
   position: relative;
   display: inline-block;
@@ -1087,23 +1134,24 @@
   position: absolute;
   top: -8px;
   right: -8px;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: var(--danger);
   color: #fff;
-  border: none;
-  font-size: 11px;
-  font-weight: 800;
+  border: 2px solid #fff;
+  font-size: 10px;
+  font-weight: 900;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
   transition: transform 0.15s;
+  z-index: 2;
 }
 
-.image-remove-btn:hover { transform: scale(1.15); }
+.image-remove-btn:hover { transform: scale(1.18); }
 
 .image-change-btn {
   background: var(--lavender);
@@ -1125,14 +1173,12 @@
    MAIN IMAGE + GALLERY UPLOAD ROW
    ═══════════════════════════════════════════════════════════ */
 
-/* Outer row: main image box LEFT, gallery slots RIGHT */
 .image-upload-row {
   display: flex;
   gap: 20px;
   align-items: flex-start;
 }
 
-/* ── Main image box ── */
 .main-image-box {
   position: relative;
   width: 110px;
@@ -1152,26 +1198,6 @@
   display: block;
 }
 
-/* Drop zone label (clickable empty state) */
-.image-drop-zone {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  cursor: pointer;
-  border-radius: 10px;
-  transition: background 0.18s;
-}
-
-.image-drop-zone:hover { background: var(--ocean-dim); }
-
-.upload-icon  { font-size: 26px; }
-.upload-label { font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: var(--ocean); text-align: center; }
-
-/* ── Gallery section (right side) ── */
 .gallery-slots {
   flex: 1;
   display: flex;
@@ -1188,7 +1214,6 @@
   letter-spacing: 0.07em;
 }
 
-/* 4 square slots in a row */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1202,7 +1227,6 @@
   overflow: visible;
 }
 
-/* Filled slot — image */
 .gallery-slot-img {
   width: 100%;
   height: 100%;
@@ -1212,7 +1236,6 @@
   display: block;
 }
 
-/* Empty slot — click to add */
 .gallery-slot-empty {
   display: flex;
   align-items: center;
@@ -1240,36 +1263,6 @@
 
 .gallery-slot-empty:hover .gallery-plus { color: var(--ocean); }
 
-.upload-hint {
-  font-size: 11px;
-  color: var(--text-muted);
-  font-weight: 600;
-}
-
-/* ── Remove button (shared by main + gallery) ── */
-.image-remove-btn {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--danger);
-  color: #fff;
-  border: 2px solid #fff;
-  font-size: 10px;
-  font-weight: 900;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
-  transition: transform 0.15s;
-  z-index: 2;
-}
-
-.image-remove-btn:hover { transform: scale(1.18); }
-
 /* ── Checkbox label ── */
 .checkbox-label {
   display: flex;
@@ -1288,22 +1281,17 @@
   cursor: pointer;
 }
 
-/* ── Admin header actions (multiple buttons in header) ── */
+/* ── Admin header actions ── */
 .admin-header-actions {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-.admin-modal::-webkit-scrollbar { width: 6px; }
-.admin-modal::-webkit-scrollbar-track { background: var(--bg-elevated); }
-.admin-modal::-webkit-scrollbar-thumb { background: var(--lavender-dark); border-radius: 3px; }
-
 /* ═══════════════════════════════════════════════════════════
-   ADDITIONAL IMAGES GALLERY (additional_images JSON column)
+   ADDITIONAL IMAGES GALLERY
    ═══════════════════════════════════════════════════════════ */
 
-/* 4 equal slots in a row */
 .gallery-grid-4 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1317,7 +1305,6 @@
   overflow: visible;
 }
 
-/* Filled — image */
 .gallery-slot-img-4 {
   width: 100%;
   height: 100%;
@@ -1327,7 +1314,6 @@
   display: block;
 }
 
-/* Empty — click to upload */
 .gallery-slot-empty-4 {
   display: flex;
   flex-direction: column;
@@ -1365,7 +1351,6 @@
   font-family: 'Nunito', sans-serif;
 }
 
-/* Remove button */
 .gallery-remove-btn {
   position: absolute;
   top: -7px;
@@ -1389,15 +1374,10 @@
 
 .gallery-remove-btn:hover { transform: scale(1.2); }
 
-/* Admin header actions */
-.admin-header-actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
+/* ═══════════════════════════════════════════════════════════
+   PDF DOWNLOAD BUTTON
+   ═══════════════════════════════════════════════════════════ */
 
-
-/* ── PDF Download Button ── */
 .pdf-download-btn {
   background: #255F83;
   color: #F7FFB4;
@@ -1424,7 +1404,10 @@
   transform: none;
 }
 
-/* ── Chart Section ── */
+/* ═══════════════════════════════════════════════════════════
+   CHART SECTION
+   ═══════════════════════════════════════════════════════════ */
+
 .chart-section {
   background: linear-gradient(135deg, #ffffff 60%, #F7FFB430 100%);
   border-radius: 24px;
@@ -1433,7 +1416,6 @@
   box-shadow: 0 4px 20px rgba(222,204,254,0.25);
 }
 
-/* ── Chart Toggle ── */
 .chart-toggle {
   display: flex;
   gap: 6px;
@@ -1461,6 +1443,4 @@
   box-shadow: 0 2px 8px rgba(37,95,131,0.2);
 }
 
-.chart-toggle-btn:hover:not(.active) {
-  color: #255F83;
-}
+.chart-toggle-btn:hover:not(.active) { color: #255F83; } 

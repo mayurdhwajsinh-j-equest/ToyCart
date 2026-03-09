@@ -480,15 +480,17 @@ const AdminProducts = () => {
         </div>
       )}
 
-      {/* Delete Confirmation */}
       {deleteConfirm && (
         <div className="admin-modal-overlay" onClick={() => setDeleteConfirm(null)}>
           <div className="admin-modal confirm-modal" onClick={(e) => e.stopPropagation()}>
-            <h3>Delete Product?</h3>
-            <p>This action cannot be undone.</p>
-            <div className="modal-actions">
-              <button className="admin-btn-secondary" onClick={() => setDeleteConfirm(null)}>Cancel</button>
-              <button className="admin-btn-delete" onClick={() => handleDelete(deleteConfirm)}>Delete</button>
+            <div className="admin-form">
+              <div style={{ fontSize: 48, marginBottom: 8 }}>🗑️</div>  {/* ← add this */}
+              <h3>Delete Product?</h3>
+              <p>This action cannot be undone.</p>
+              <div className="modal-actions">
+                <button className="admin-btn-secondary" onClick={() => setDeleteConfirm(null)}>Cancel</button>
+                <button className="admin-btn-delete" onClick={() => handleDelete(deleteConfirm)}>Delete</button>
+              </div>
             </div>
           </div>
         </div>
