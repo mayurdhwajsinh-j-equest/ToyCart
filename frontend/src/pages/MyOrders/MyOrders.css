@@ -112,29 +112,48 @@
   font-weight: 700;
 }
 
-/* ── Empty ── */
+/* ── Empty State ── */
 .mo-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  padding: 80px 20px;
+  padding: 48px 20px 64px;
   background: white;
   border-radius: 28px;
   border: 3px dashed var(--blush);
-  box-shadow: 0 4px 24px rgba(237,194,201,0.2);
+  box-shadow: 0 4px 32px rgba(237,194,201,0.2);
+  animation: mo-fadeUp 0.4s ease;
 }
 
-.mo-empty-icon { font-size: 72px; margin-bottom: 16px; }
+@keyframes mo-fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-.mo-empty h2 {
+.mo-empty-illustration {
+  width: 270px;
+  margin-bottom: 8px;
+}
+
+.mo-empty-illustration svg {
+  width: 100%;
+  height: auto;
+}
+
+.mo-empty-title {
   font-family: 'FatFrank', sans-serif;
   color: var(--ocean);
   font-size: 30px;
-  margin: 0 0 8px;
+  margin: 0 0 10px;
 }
 
-.mo-empty p {
+.mo-empty-desc {
   color: #7a8aaa;
-  font-size: 16px;
-  margin: 0 0 24px;
+  font-size: 15px;
+  margin: 0 0 28px;
+  font-weight: 600;
+  line-height: 1.6;
 }
 
 /* ── Order cards ── */
@@ -165,7 +184,6 @@
   box-shadow: 0 12px 40px rgba(37,95,131,0.15);
 }
 
-/* Card header row */
 .mo-card-header {
   display: flex;
   align-items: center;
@@ -324,9 +342,7 @@
   border-radius: 2px;
 }
 
-.mo-step-line--done {
-  background: var(--ocean);
-}
+.mo-step-line--done { background: var(--ocean); }
 
 .mo-cancelled-banner {
   width: 100%;
@@ -429,7 +445,6 @@
 
 .mo-tracking strong { color: var(--ocean); }
 
-/* Summary */
 .mo-summary-row {
   display: flex;
   justify-content: space-between;
@@ -463,8 +478,9 @@
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .mo-page        { padding: 100px 20px 60px; }
-  .mo-title       { font-size: 38px; }
+  .mo-page         { padding: 100px 20px 60px; }
+  .mo-title        { font-size: 38px; }
   .mo-details-grid { grid-template-columns: 1fr; }
   .mo-card-header  { flex-direction: column; align-items: flex-start; }
+  .mo-empty-illustration { width: 210px; }
 }

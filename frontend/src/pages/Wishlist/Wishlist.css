@@ -90,35 +90,48 @@
     font-weight: 700;
 }
 
-/* ── Empty ── */
+/* ── Empty State ── */
 .wl-empty {
     text-align: center;
-    padding: 80px 20px;
+    padding: 48px 20px 64px;
     background: white;
     border-radius: 28px;
     border: 3px dashed #EDC2C9;
-    box-shadow: 0 4px 24px rgba(237,194,201,0.15);
+    box-shadow: 0 4px 32px rgba(237,194,201,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: wl-fadeUp 0.4s ease;
 }
 
-.wl-empty-icon {
-    font-size: 72px;
-    color: #EDC2C9;
-    line-height: 1;
-    margin-bottom: 16px;
+@keyframes wl-fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-.wl-empty h2 {
+.wl-empty-illustration {
+    width: 260px;
+    margin-bottom: 8px;
+}
+
+.wl-empty-illustration svg {
+    width: 100%;
+    height: auto;
+}
+
+.wl-empty-title {
     font-family: 'FatFrank', sans-serif;
     color: #255F83;
     font-size: 28px;
-    margin: 0 0 8px;
+    margin: 0 0 10px;
 }
 
-.wl-empty p {
+.wl-empty-desc {
     color: #7a8aaa;
-    font-size: 16px;
-    margin: 0 0 24px;
+    font-size: 15px;
+    margin: 0 0 28px;
     font-weight: 600;
+    line-height: 1.6;
 }
 
 .wl-browse-btn {
@@ -126,7 +139,7 @@
     color: #F7FFB4;
     border: none;
     border-radius: 30px;
-    padding: 12px 28px;
+    padding: 13px 32px;
     font-size: 15px;
     font-weight: 800;
     cursor: pointer;
@@ -164,11 +177,8 @@
     border-color: #255F83;
 }
 
-.wl-card--oos {
-    opacity: 0.75;
-}
+.wl-card--oos { opacity: 0.75; }
 
-/* Remove button */
 .wl-remove-btn {
     position: absolute;
     top: 10px;
@@ -196,7 +206,6 @@
     border-color: #ef4444;
 }
 
-/* Image */
 .wl-img-wrap {
     position: relative;
     background: #f8f5ff;
@@ -216,13 +225,9 @@
     transition: transform 0.25s;
 }
 
-.wl-card:hover .wl-img {
-    transform: scale(1.05);
-}
+.wl-card:hover .wl-img { transform: scale(1.05); }
 
-.wl-img-placeholder {
-    font-size: 56px;
-}
+.wl-img-placeholder { font-size: 56px; }
 
 .wl-oos-overlay {
     position: absolute;
@@ -234,10 +239,8 @@
     justify-content: center;
     font-weight: 800;
     font-size: 16px;
-    border-radius: 0;
 }
 
-/* Card body */
 .wl-card-body {
     padding: 16px 18px 20px;
     display: flex;
@@ -256,16 +259,8 @@
 
 .wl-product-name:hover { text-decoration: underline; }
 
-.wl-stars {
-    display: flex;
-    gap: 2px;
-}
-
-.wl-star {
-    font-size: 16px;
-    color: #ddd;
-}
-
+.wl-stars { display: flex; gap: 2px; }
+.wl-star  { font-size: 16px; color: #ddd; }
 .wl-star--filled { color: #f59e0b; }
 
 .wl-price {
@@ -305,4 +300,5 @@
     .wl-page  { padding: 100px 16px 60px; }
     .wl-title { font-size: 36px; }
     .wl-grid  { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+    .wl-empty-illustration { width: 200px; }
 }

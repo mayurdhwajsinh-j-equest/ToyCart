@@ -43,6 +43,73 @@
 
 .toybox-error { color: #c00 !important; }
 
+/* ── Empty State ── */
+.toybox-empty-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 20px 64px;
+  background: white;
+  border-radius: 28px;
+  border: 3px dashed #DECCFE;
+  box-shadow: 0 4px 32px rgba(222,204,254,0.25);
+  animation: fadeInUp 0.4s ease;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.toybox-empty-illustration {
+  width: 280px;
+  margin-bottom: 8px;
+}
+
+.toybox-empty-illustration svg {
+  width: 100%;
+  height: auto;
+}
+
+.toybox-empty-title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 26px;
+  font-weight: 900;
+  color: #255F83;
+  margin: 0 0 10px;
+  text-align: center;
+}
+
+.toybox-empty-desc {
+  color: #7a8aaa;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 28px;
+  line-height: 1.6;
+}
+
+.toybox-empty-btn {
+  background: #255F83;
+  color: #F7FFB4;
+  border: none;
+  border-radius: 30px;
+  padding: 13px 32px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.18s, box-shadow 0.18s;
+  box-shadow: 0 4px 16px rgba(37,95,131,0.2);
+}
+
+.toybox-empty-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37,95,131,0.3);
+}
+
 /* ── Table ── */
 .toybox-table {
   width: 100%;
@@ -73,7 +140,6 @@
 }
 
 .toybox-table tbody tr:last-child { border-bottom: none; }
-
 .toybox-table tbody tr:hover { background-color: #FAFFF0; }
 
 .toybox-table tbody td {
@@ -82,20 +148,6 @@
   font-size: 15px;
   font-weight: 600;
   vertical-align: middle;
-}
-
-/* ── Empty cell ── */
-.toybox-empty-cell {
-  text-align: center !important;
-  padding: 48px 20px !important;
-  color: #255F83 !important;
-  font-size: 16px !important;
-}
-
-.toybox-empty-cell a {
-  color: #255F83;
-  font-weight: 800;
-  text-decoration: underline;
 }
 
 /* ── Product cell ── */
@@ -280,15 +332,12 @@
 
 @media (max-width: 768px) {
   .toybox-section { padding: 100px 16px 40px; }
-
   .toybox-table thead th,
   .toybox-table tbody td { padding: 12px; font-size: 13px; }
-
   .product-image,
   .product-image-placeholder { width: 52px; height: 52px; }
-
   .qty-btn, .qty-input { width: 28px; height: 28px; font-size: 12px; }
-
   .toybox-footer { flex-direction: column; }
   .toybox-summary { min-width: unset; width: 100%; }
+  .toybox-empty-illustration { width: 220px; }
 }

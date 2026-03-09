@@ -21,6 +21,52 @@ const resolveImage = (src) => {
   return src;
 };
 
+const EmptyOrders = ({ onShop }) => (
+  <div className="mo-empty">
+    <div className="mo-empty-illustration">
+      <svg viewBox="0 0 320 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Background blobs */}
+        <ellipse cx="160" cy="210" rx="128" ry="36" fill="#CCFBF1" opacity="0.5"/>
+        <ellipse cx="55"  cy="65"  rx="45"  ry="45"  fill="#F7FFB4" opacity="0.5"/>
+        <ellipse cx="268" cy="72"  rx="30"  ry="30"  fill="#DECCFE" opacity="0.45"/>
+
+        {/* Package / box body */}
+        <rect x="80" y="110" width="160" height="110" rx="14" fill="white" stroke="#DECCFE" strokeWidth="3"/>
+        {/* Box top flap left */}
+        <path d="M80 110 L80 75 L155 75 L155 110" fill="#F7FFB4" stroke="#DECCFE" strokeWidth="2.5"/>
+        {/* Box top flap right */}
+        <path d="M165 75 L165 110 L240 110 L240 75" fill="#DECCFE" stroke="#b89ef8" strokeWidth="2.5"/>
+        {/* Tape strip across top */}
+        <rect x="145" y="68" width="30" height="48" rx="6" fill="#b89ef8" opacity="0.5"/>
+
+        {/* Box face — sad */}
+        <rect x="95" y="125" width="130" height="80" rx="10" fill="#F8F5FF"/>
+        <circle cx="135" cy="158" r="5" fill="#b89ef8"/>
+        <circle cx="185" cy="158" r="5" fill="#b89ef8"/>
+        <path d="M145 180 Q160 170 175 180" stroke="#b89ef8" strokeWidth="3" strokeLinecap="round" fill="none"/>
+
+        {/* Bow on top */}
+        <path d="M148 72 Q160 58 172 72" stroke="#EDC2C9" strokeWidth="3" fill="none" strokeLinecap="round"/>
+        <circle cx="160" cy="72" r="5" fill="#EDC2C9"/>
+
+        {/* Stars */}
+        <text x="18"  y="48"  fontSize="18" opacity="0.7">✦</text>
+        <text x="274" y="118" fontSize="14" opacity="0.6">✦</text>
+        <text x="255" y="185" fontSize="10" opacity="0.5">✦</text>
+
+        {/* Floating emojis */}
+        <text x="260" y="58"  fontSize="20">🧸</text>
+        <text x="20"  y="145" fontSize="17">🎁</text>
+        <text x="268" y="208" fontSize="15">⭐</text>
+        <text x="22"  y="210" fontSize="15">🎀</text>
+      </svg>
+    </div>
+    <h2 className="mo-empty-title">No orders yet!</h2>
+    <p className="mo-empty-desc">You haven't placed any orders.<br/>Start exploring our toy collection!</p>
+    <button className="mo-shop-btn" onClick={onShop}>Browse Toys 🧸</button>
+  </div>
+);
+
 function MyOrders() {
   const navigate = useNavigate();
   const token = typeof window !== "undefined" ? localStorage.getItem("customerToken") : null;
@@ -65,25 +111,20 @@ function MyOrders() {
 
       {/* Empty state */}
       {!loading && orders.length === 0 && !error && (
-        <div className="mo-empty">
-          <div className="mo-empty-icon">🛒</div>
-          <h2>No orders yet!</h2>
-          <p>You haven't placed any orders. Start exploring our toy collection!</p>
-          <button className="mo-shop-btn" onClick={() => navigate("/Alltoys")}>Browse Toys</button>
-        </div>
+        <EmptyOrders onShop={() => navigate("/Alltoys")} />
       )}
 
       {/* Orders list */}
       <div className="mo-list">
         {orders.map((order) => {
-          const status   = statusConfig[order.status] || statusConfig.pending;
-          const isOpen   = expandedOrder === order.id;
+          const status    = statusConfig[order.status] || statusConfig.pending;
+          const isOpen    = expandedOrder === order.id;
           const itemCount = order.OrderItems?.length || 0;
 
           return (
             <div key={order.id} className={`mo-card ${isOpen ? "mo-card--open" : ""}`}>
 
-              {/* Card header — always visible */}
+              {/* Card header */}
               <div className="mo-card-header" onClick={() => toggleOrder(order.id)}>
                 <div className="mo-card-left">
                   <div className="mo-order-number">
@@ -95,7 +136,6 @@ function MyOrders() {
                     <span>{itemCount} item{itemCount !== 1 ? "s" : ""}</span>
                   </div>
                 </div>
-
                 <div className="mo-card-right">
                   <span className="mo-status-badge" style={{ color: status.color, background: status.bg }}>
                     {status.icon} {status.label}
@@ -112,12 +152,12 @@ function MyOrders() {
                   {/* Status timeline */}
                   <div className="mo-timeline">
                     {["pending", "confirmed", "processing", "shipped", "delivered"].map((s, i) => {
-                      const steps   = ["pending","confirmed","processing","shipped","delivered"];
-                      const current = steps.indexOf(order.status);
+                      const steps     = ["pending","confirmed","processing","shipped","delivered"];
+                      const current   = steps.indexOf(order.status);
                       const isCancelled = order.status === "cancelled";
-                      const done    = !isCancelled && i <= current;
-                      const active  = !isCancelled && i === current;
-                      const cfg     = statusConfig[s];
+                      const done      = !isCancelled && i <= current;
+                      const active    = !isCancelled && i === current;
+                      const cfg       = statusConfig[s];
                       return (
                         <div key={s} className={`mo-step ${done ? "mo-step--done" : ""} ${active ? "mo-step--active" : ""} ${isCancelled ? "mo-step--cancelled" : ""}`}>
                           <div className="mo-step-dot">{done ? "✓" : cfg.icon}</div>
@@ -171,7 +211,6 @@ function MyOrders() {
                         <p className="mo-tracking">🔍 Tracking: <strong>{order.tracking_number}</strong></p>
                       )}
                     </div>
-
                     <div className="mo-detail-box">
                       <h4 className="mo-section-title">Order Summary</h4>
                       <div className="mo-summary-row">
