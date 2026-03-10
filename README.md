@@ -49,8 +49,8 @@
 ### 🏗️ Architecture Highlights
 - **RESTful API** — Clean, structured API endpoints for all operations
 - **Relational Data Model** — Well-architected MySQL schema with relational integrity
-- **Scalable Cart System** — Robust cart logic documented in [`CART_SYSTEM.md`](CART_SYSTEM.md)
-- **Data Architecture** — Comprehensive data modeling documented in [`DATA_ARCHITECTURE.md`](DATA_ARCHITECTURE.md)
+- **Scalable Cart System** — Robust cart logic 
+- **Data Architecture** — Comprehensive data modeling 
 
 ---
 
