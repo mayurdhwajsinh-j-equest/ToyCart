@@ -320,6 +320,50 @@ router.post('/categories', async (req, res, next) => {
   }
 });
 
+
+// ========== UPDATE CATEGORY ==========
+router.put('/categories/:id', async (req, res, next) => {
+  try {
+    const { name, description, image_url } = req.body;
+
+    const category = await Category.findByPk(req.params.id);
+    if (!category) {
+      return next(new AppError('Category not found', 404));
+    }
+
+    await category.update({
+      name:        name        || category.name,
+      description: description !== undefined ? description : category.description,
+      image_url:   image_url   || category.image_url,
+    });
+
+    res.json({ success: true, message: 'Category updated', category });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ========== DELETE CATEGORY ==========
+router.delete('/categories/:id', async (req, res, next) => {
+  try {
+    const category = await Category.findByPk(req.params.id);
+    if (!category) {
+      return next(new AppError('Category not found', 404));
+    }
+
+    const productCount = await Product.count({ where: { categoryId: req.params.id } });
+    if (productCount > 0) {
+      return next(new AppError(`Cannot delete — ${productCount} product(s) are assigned to this category. Reassign or delete them first.`, 400));
+    }
+
+    await category.destroy();
+
+    res.json({ success: true, message: 'Category deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
+});
+
 // ========== SALES REPORT ==========
 router.get('/reports/sales', async (req, res, next) => {
   try {

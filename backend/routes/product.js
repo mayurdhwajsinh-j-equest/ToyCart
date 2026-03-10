@@ -153,9 +153,9 @@ router.post('/', authMiddleware, adminMiddleware, uploadProductImages(), async (
       price,
       categoryId,
       stock,
-      is_featured
+      is_featured,
+      is_new        // ← add this
     } = req.body;
-
     // Validations
     if (!name || !price || !categoryId || stock === undefined) {
       if (req.files?.image?.[0]) deleteFile(`/uploads/products/${req.files.image[0].filename}`);

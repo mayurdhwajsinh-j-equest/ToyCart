@@ -224,6 +224,7 @@ class APIService {
     return data;
   }
 
+
   static async createAdminCategory(payload, token) {
     const data = await handleResponse(
       await fetch(`${API_BASE_URL}/admin/categories`, {
@@ -237,6 +238,32 @@ class APIService {
     );
     return data;
   }
+
+static async updateAdminCategory(id, payload, token) {
+  const data = await handleResponse(
+    await fetch(`${API_BASE_URL}/admin/categories/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    })
+  );
+  return data;
+}
+
+static async deleteAdminCategory(id, token) {
+  const data = await handleResponse(
+    await fetch(`${API_BASE_URL}/admin/categories/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+  );
+  return data;
+}
 
   static async createProduct(payload, token) {
     // Support both FormData (with file) and JSON payloads
