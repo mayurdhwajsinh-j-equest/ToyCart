@@ -42,11 +42,10 @@ function Navbar() {
                 .catch(() => setUserName("User"));
         };
         fetchProfile();
-        // Re-sync cart count whenever user logs in
         syncCart();
         window.addEventListener("profileUpdated", fetchProfile);
         return () => window.removeEventListener("profileUpdated", fetchProfile);
-    }, [isLoggedIn, token]);
+    }, [isLoggedIn, token, syncCart]);
 
     // Close search on outside click
     useEffect(() => {

@@ -239,29 +239,39 @@ router.put('/orders/:orderId/status', async (req, res, next) => {
 });
 
 // ========== GET ALL PRODUCTS ==========
+// ========== GET ALL PRODUCTS ==========
 router.get('/products', async (req, res, next) => {
   try {
-    const { category, page = 1, limit = 20, search, availability } = req.query;
+    const { category, page = 1, limit, search, availability } = req.query;
 
     const where = {};
-    if (category)     where.categoryId  = category;
-    if (search)       where.name        = { [Op.like]: `%${search}%` };
+    if (category)     where.categoryId   = category;
+    if (search)       where.name         = { [Op.like]: `%${search}%` };
     if (availability) where.availability = availability;
 
-    const offset = (parseInt(page) - 1) * parseInt(limit);
+    const parsedLimit = limit ? parseInt(limit) : null;
 
-    const { count, rows } = await Product.findAndCountAll({
+    const queryOptions = {
       where,
       include: [{ model: Category }],
       order: [['createdAt', 'DESC']],
-      limit: parseInt(limit),
-      offset
-    });
+    };
+
+    // Only paginate if a reasonable limit is passed (< 500)
+    if (parsedLimit && parsedLimit < 500) {
+      queryOptions.limit  = parsedLimit;
+      queryOptions.offset = (parseInt(page) - 1) * parsedLimit;
+    }
+
+    const { count, rows } = await Product.findAndCountAll(queryOptions);
 
     res.json({
       success: true,
       products: rows,
-      pagination: { total: count, pages: Math.ceil(count / parseInt(limit)) }
+      pagination: {
+        total: count,
+        pages: parsedLimit ? Math.ceil(count / parsedLimit) : 1
+      }
     });
   } catch (error) {
     next(error);

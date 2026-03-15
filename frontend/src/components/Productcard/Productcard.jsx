@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import "./Productcard.css";
 import coin from "../../assets/coin-icon.svg";
 import APIService from "../../services/api";
+import { useCart } from "../../hooks/useCart";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -20,11 +21,13 @@ function StarRating({ rating = 0, count = 0 }) {
 
 function Productcard({ id, ProductImage, ProductName, Price, rating = 0, reviewCount = 0, isNew = false }) {
     const token = typeof window !== "undefined" ? localStorage.getItem("customerToken") : null;
+    const { addToCart } = useCart();
 
     const [wishlisted, setWishlisted] = useState(false);
     const [wishlistLoading, setWishlistLoading] = useState(false);
+    const [addingToCart, setAddingToCart] = useState(false);
+    const [addedToCart, setAddedToCart] = useState(false);
 
-    // Check if product is already in wishlist on mount
     useEffect(() => {
         if (!token || !id) return;
         APIService.checkWishlist(id, token)
@@ -32,10 +35,29 @@ function Productcard({ id, ProductImage, ProductName, Price, rating = 0, reviewC
             .catch(() => { });
     }, [id, token]);
 
-    const handleAddToToybox = (e) => {
+    const handleAddToToybox = async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        window.location.href = `/Pdp/${id}`;
+
+        if (!token) {
+            window.location.href = "/login";
+            return;
+        }
+
+        try {
+            setAddingToCart(true);
+            await addToCart({ id });
+            setAddedToCart(true);
+            
+            // Show success state for 2 seconds
+            setTimeout(() => {
+                setAddedToCart(false);
+            }, 2000);
+        } catch (err) {
+            // Failed to add to cart
+        } finally {
+            setAddingToCart(false);
+        }
     };
 
     const handleWishlist = async (e) => {
@@ -68,29 +90,31 @@ function Productcard({ id, ProductImage, ProductName, Price, rating = 0, reviewC
     return (
         <Link to={`/Pdp/${id}`} className="product-card-link">
             <div className="product-card">
-                <div className="product-card__top">
-                    <div className="product-card__top-first">
-                        <div> {/* empty div to push wishlist right when no badge */}
-                            {isNew && <p className="badge">NEW IN</p>}
-                        </div>
-                        <button
-                            className={`wishlist-btn ${wishlisted ? "wishlist-btn--active" : ""}`}
-                            onClick={handleWishlist}
-                            disabled={wishlistLoading}
-                            title={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
-                        >
-                            {wishlisted ? "♥" : "♡"}
-                        </button>
-                    </div>
-                    <div className="product-card__top-second">
-                        <img
-                            src={getImageUrl(ProductImage)}
-                            alt={ProductName}
-                            className="product-img"
-                        />
-                        <button className="addToToybox" onClick={handleAddToToybox}>Add to toybox</button>
-                    </div>
+                {/* Image area — badge + wishlist sit inside here as absolute */}
+                <div className="product-card__top-second">
+                    {isNew && <span className="badge">NEW IN</span>}
+                    <button
+                        className={`wishlist-btn ${wishlisted ? "wishlist-btn--active" : ""}`}
+                        onClick={handleWishlist}
+                        disabled={wishlistLoading}
+                        title={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
+                    >
+                        {wishlisted ? "♥" : "♡"}
+                    </button>
+                    <img
+                        src={getImageUrl(ProductImage)}
+                        alt={ProductName}
+                        className="product-img"
+                    />
+                    <button 
+                        className={`addToToybox ${addingToCart ? 'adding' : ''} ${addedToCart ? 'added' : ''}`} 
+                        onClick={handleAddToToybox}
+                        disabled={addingToCart || addedToCart}
+                    >
+                        {addingToCart ? "Adding..." : addedToCart ? "✓ Added!" : "Add to toybox"}
+                    </button>
                 </div>
+
                 <div className="product-card__bottom">
                     <p className="product-name">{ProductName}</p>
                     <StarRating rating={rating} count={reviewCount} />
@@ -107,15 +131,8 @@ function Productcard({ id, ProductImage, ProductName, Price, rating = 0, reviewC
 export function SkeletonCard() {
     return (
         <div className="product-card skeleton-card">
-            <div className="product-card__top">
-                <div className="product-card__top-first">
-                    <div className="skeleton skeleton-badge" />
-                    <div className="skeleton skeleton-heart" />
-                </div>
-                <div className="product-card__top-second">
-                    <div className="skeleton skeleton-img" />
-                    <div className="skeleton skeleton-btn" />
-                </div>
+            <div className="product-card__top-second">
+                <div className="skeleton skeleton-img" />
             </div>
             <div className="product-card__bottom">
                 <div className="skeleton skeleton-name" />

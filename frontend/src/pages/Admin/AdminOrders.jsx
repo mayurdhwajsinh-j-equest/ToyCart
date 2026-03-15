@@ -15,6 +15,8 @@ const statusColors = {
 
 const allStatuses = ["All", "pending", "confirmed", "processing", "shipped", "delivered", "cancelled"];
 
+const PAGE_SIZE = 10;
+
 const AdminOrders = () => {
   const [orders,        setOrders]        = useState([]);
   const [search,        setSearch]        = useState("");
@@ -23,6 +25,9 @@ const AdminOrders = () => {
   const [loading,       setLoading]       = useState(true);
   const [error,         setError]         = useState("");
   const [updating,      setUpdating]      = useState(false);
+
+  // Pagination
+  const [currentPage,   setCurrentPage]   = useState(1);
 
   // ── Fetch orders ─────────────────────────────────────────
   const fetchOrders = async () => {
@@ -46,6 +51,40 @@ const AdminOrders = () => {
 
   useEffect(() => { fetchOrders(); }, [search, statusFilter]);
 
+  // Reset to page 1 when search or status filter changes
+  useEffect(() => { setCurrentPage(1); }, [search, statusFilter]);
+
+  // ── Pagination derived values ──
+  const totalPages      = Math.max(1, Math.ceil(orders.length / PAGE_SIZE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const paginatedOrders = orders.slice(
+    (safeCurrentPage - 1) * PAGE_SIZE,
+    safeCurrentPage * PAGE_SIZE
+  );
+
+  const goToPage = (page) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+  };
+
+  const getPageNumbers = () => {
+    const pages = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (safeCurrentPage > 3) pages.push("…");
+      for (
+        let i = Math.max(2, safeCurrentPage - 1);
+        i <= Math.min(totalPages - 1, safeCurrentPage + 1);
+        i++
+      ) pages.push(i);
+      if (safeCurrentPage < totalPages - 2) pages.push("…");
+      pages.push(totalPages);
+    }
+    return pages;
+  };
+
   // ── Update status ─────────────────────────────────────────
   const updateStatus = async (orderId, newStatus) => {
     setUpdating(true);
@@ -60,7 +99,6 @@ const AdminOrders = () => {
       });
       const data = await res.json();
       if (res.ok) {
-        // Update list + modal state locally (no full refetch needed)
         setOrders((prev) =>
           prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o))
         );
@@ -78,14 +116,13 @@ const AdminOrders = () => {
 
   // ── View order detail ─────────────────────────────────────
   const viewOrder = async (order) => {
-    // Fetch full order detail (includes OrderItems + Product names)
     try {
       const res  = await fetch(`${API_URL}/api/admin/orders/${order.id}`, {
         headers: { Authorization: `Bearer ${token()}` },
       });
       const data = await res.json();
       if (data.success) setSelectedOrder(data.order);
-      else setSelectedOrder(order); // fallback to list data
+      else setSelectedOrder(order);
     } catch {
       setSelectedOrder(order);
     }
@@ -124,50 +161,94 @@ const AdminOrders = () => {
       {loading ? (
         <div className="admin-loading">Loading orders...</div>
       ) : (
-        <div className="admin-table-wrap">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Order ID</th>
-                <th>Customer</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order) => (
-                <tr key={order.id}>
-                  <td className="order-id">#{order.id}</td>
-                  <td>
-                    <div>{order.User?.name || "—"}</div>
-                    <div className="sub-text">{order.User?.email}</div>
-                  </td>
-                  <td>₹{Number(order.total_amount).toLocaleString()}</td>
-                  <td>
-                    <span
-                      className="status-badge"
-                      style={{
-                        background: (statusColors[order.status] || "#94a3b8") + "22",
-                        color: statusColors[order.status] || "#94a3b8",
-                      }}
-                    >
-                      {order.status}
-                    </span>
-                  </td>
-                  <td>{new Date(order.createdAt).toLocaleDateString("en-IN")}</td>
-                  <td>
-                    <button className="admin-btn-edit" onClick={() => viewOrder(order)}>
-                      View
-                    </button>
-                  </td>
+        <>
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          {orders.length === 0 && <div className="empty-state">No orders found.</div>}
-        </div>
+              </thead>
+              <tbody>
+                {paginatedOrders.map((order) => (
+                  <tr key={order.id}>
+                    <td className="order-id">#{order.id}</td>
+                    <td>
+                      <div>{order.User?.name || "—"}</div>
+                      <div className="sub-text">{order.User?.email}</div>
+                    </td>
+                    <td>₹{Number(order.total_amount).toLocaleString()}</td>
+                    <td>
+                      <span
+                        className="status-badge"
+                        style={{
+                          background: (statusColors[order.status] || "#94a3b8") + "22",
+                          color: statusColors[order.status] || "#94a3b8",
+                        }}
+                      >
+                        {order.status}
+                      </span>
+                    </td>
+                    <td>{new Date(order.createdAt).toLocaleDateString("en-IN")}</td>
+                    <td>
+                      <button className="admin-btn-edit" onClick={() => viewOrder(order)}>
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {orders.length === 0 && <div className="empty-state">No orders found.</div>}
+          </div>
+
+          {/* ── Pagination ── */}
+          {totalPages > 1 && (
+            <div className="pagination-bar">
+              <span className="pagination-info">
+                Showing {(safeCurrentPage - 1) * PAGE_SIZE + 1}–{Math.min(safeCurrentPage * PAGE_SIZE, orders.length)} of {orders.length} orders
+              </span>
+              <div className="pagination-controls">
+                <button
+                  className="page-btn page-nav"
+                  onClick={() => goToPage(safeCurrentPage - 1)}
+                  disabled={safeCurrentPage === 1}
+                  title="Previous page"
+                >
+                  ‹
+                </button>
+
+                {getPageNumbers().map((page, idx) =>
+                  page === "…" ? (
+                    <span key={`ellipsis-${idx}`} className="page-ellipsis">…</span>
+                  ) : (
+                    <button
+                      key={page}
+                      className={`page-btn ${safeCurrentPage === page ? "active" : ""}`}
+                      onClick={() => goToPage(page)}
+                    >
+                      {page}
+                    </button>
+                  )
+                )}
+
+                <button
+                  className="page-btn page-nav"
+                  onClick={() => goToPage(safeCurrentPage + 1)}
+                  disabled={safeCurrentPage === totalPages}
+                  title="Next page"
+                >
+                  ›
+                </button>
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {/* Order Detail Modal */}
@@ -197,7 +278,6 @@ const AdminOrders = () => {
               </div>
             </div>
 
-            {/* Order Items */}
             <div className="order-items">
               <h4>Items</h4>
               {selectedOrder.OrderItems?.map((item, i) => (
@@ -212,7 +292,6 @@ const AdminOrders = () => {
               )}
             </div>
 
-            {/* Update Status */}
             <div className="order-status-update">
               <h4>Update Status</h4>
               <div className="status-btns">

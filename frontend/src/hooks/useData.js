@@ -17,7 +17,6 @@ export const useProducts = () => {
         setProducts(data);
       } catch (err) {
         setError(err.message);
-        console.error('Error loading products:', err);
       } finally {
         setLoading(false);
       }
@@ -43,7 +42,6 @@ export const useProductById = (id) => {
         setProduct(data);
       } catch (err) {
         setError(err.message);
-        console.error('Error loading product:', err);
       } finally {
         setLoading(false);
       }
@@ -71,7 +69,6 @@ export const useProductDetails = (id) => {
         setDetails(data);
       } catch (err) {
         setError(err.message);
-        console.error('Error loading product details:', err);
       } finally {
         setLoading(false);
       }

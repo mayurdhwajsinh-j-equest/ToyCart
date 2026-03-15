@@ -1,14 +1,66 @@
 require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 
-const { sequelize, User, Category, Product } = require('../config/db');
+const { Sequelize } = require('sequelize');
 const bcrypt = require('bcryptjs');
+
+// Initialize Sequelize directly without auto-sync
+const sequelize = new Sequelize(
+  process.env.DB_NAME || 'toycart',
+  process.env.DB_USER || 'root',
+  process.env.DB_PASSWORD || '',
+  {
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 3306,
+    dialect: 'mysql',
+    logging: false,
+  }
+);
+
+// Load models
+const User = require('../models/User')(sequelize);
+const Category = require('../models/Category')(sequelize);
+const Product = require('../models/Product')(sequelize);
+const Cart = require('../models/Cart')(sequelize);
+const Order = require('../models/Order')(sequelize);
+const OrderItem = require('../models/OrderItem')(sequelize);
+const Review = require('../models/Review')(sequelize);
+const WishList = require('../models/WishList')(sequelize);
+
+// Setup associations
+User.hasMany(Cart, { foreignKey: 'userId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+User.hasMany(Order, { foreignKey: 'userId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+User.hasMany(Review, { foreignKey: 'userId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+User.hasMany(WishList, { foreignKey: 'userId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+Cart.belongsTo(User, { foreignKey: 'userId' });
+Cart.belongsTo(Product, { foreignKey: 'productId' });
+User.hasMany(Review, { foreignKey: 'userId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+Review.belongsTo(User, { foreignKey: 'userId' });
+Review.belongsTo(Product, { foreignKey: 'productId' });
+Product.hasMany(Review, { foreignKey: 'productId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+User.hasMany(WishList, { foreignKey: 'userId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+WishList.belongsTo(User, { foreignKey: 'userId' });
+WishList.belongsTo(Product, { foreignKey: 'productId' });
+Category.hasMany(Product, { foreignKey: 'categoryId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+Product.belongsTo(Category, { foreignKey: 'categoryId' });
+Order.hasMany(OrderItem, { foreignKey: 'orderId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+Order.belongsTo(User, { foreignKey: 'userId' });
+OrderItem.belongsTo(Product, { foreignKey: 'productId' });
+OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
 
 const seedDatabase = async () => {
   try {
     console.log('🌱 Starting database seeding...');
 
-    // Sync database
-    await sequelize.sync({ force: true });
+    // Test connection
+    await sequelize.authenticate();
+    console.log('✅ Database connection established.');
+
+    // Drop all tables
+    await sequelize.drop();
+    console.log('🗑️  All tables dropped');
+
+    // Create all tables
+    await sequelize.sync();
     console.log('✅ Database synchronized');
 
     // Create categories

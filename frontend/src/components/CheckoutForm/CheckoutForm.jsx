@@ -3,8 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import returnicon from "../../assets/return-icon.svg";
 import APIService from "../../services/api";
+import { useCart } from "../../hooks/useCart";
 
-// ── Validation rules ──────────────────────────────────────────────
 const validators = {
     email: (v) => {
         if (!v.trim()) return "Email is required.";
@@ -83,6 +83,7 @@ function Field({ type = "text", placeholder, value, onChange, onBlur, error, ...
 // ─────────────────────────────────────────────────────────────────
 function CheckoutForm() {
     const navigate = useNavigate();
+    const { clearCart: contextClearCart } = useCart();
     const [form, setForm] = useState({
         email: "",
         phone: "",
@@ -103,6 +104,7 @@ function CheckoutForm() {
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [showThankYou, setShowThankYou] = useState(false);
 
     const token = typeof window !== "undefined" ? localStorage.getItem("customerToken") : null;
 
@@ -182,9 +184,21 @@ function CheckoutForm() {
 
             await APIService.placeOrder(payload, token);
             setSuccess("Order placed successfully!");
-            await APIService.clearCart(token);
+            setShowThankYou(true);
+            
+            // Clear cart from context (this updates navbar)
+            await contextClearCart();
             setCart({ items: [], summary: { total: 0 } });
-            setTimeout(() => navigate("/"), 1200);
+            
+            // Dispatch event to ensure navbar syncs
+            window.dispatchEvent(new Event("cartUpdated"));
+            
+            // Auto-dismiss thank you message after 3 seconds, then navigate to My Orders
+            setTimeout(() => {
+                setShowThankYou(false);
+            }, 3000);
+            
+            setTimeout(() => navigate("/my-orders"), 3900);
         } catch (err) {
             setError(err.message || "Could not place order.");
         } finally {
@@ -279,6 +293,17 @@ function CheckoutForm() {
                     </div>
                 </div>
             </div>
+
+            {/* Thank You Toast Message */}
+            {showThankYou && (
+                <div className="thank-you-toast">
+                    <div className="thank-you-content">
+                        <h3>Thank You! 🎉</h3>
+                        <p>Your order has been placed successfully!</p>
+                        <p className="thank-you-subtitle">We'll be in touch soon with delivery details.</p>
+                    </div>
+                </div>
+            )}
         </section>
     );
 }

@@ -23,26 +23,31 @@ const emptyGallery = [
   { file: null, preview: null, existing: null },
 ];
 
+const PAGE_SIZE = 10;
+
 const AdminProducts = () => {
-  const [products,           setProducts]           = useState([]);
-  const [categories,         setCategories]         = useState([]);
-  const [search,             setSearch]             = useState("");
-  const [filterCategory,     setFilterCategory]     = useState("All");
-  const [showModal,          setShowModal]          = useState(false);
-  const [showCategoryModal,  setShowCategoryModal]  = useState(false);
-  const [editingProduct,     setEditingProduct]     = useState(null);
-  const [form,               setForm]               = useState(emptyProduct);
-  const [gallery,            setGallery]            = useState(emptyGallery);
-  const [deleteConfirm,      setDeleteConfirm]      = useState(null);
-  const [deleteCatConfirm,   setDeleteCatConfirm]   = useState(null);
-  const [loading,            setLoading]            = useState(false);
-  const [error,              setError]              = useState("");
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [search, setSearch] = useState("");
+  const [filterCategory, setFilterCategory] = useState("All");
+  const [showModal, setShowModal] = useState(false);
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [form, setForm] = useState(emptyProduct);
+  const [gallery, setGallery] = useState(emptyGallery);
+  const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [deleteCatConfirm, setDeleteCatConfirm] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Category form state
-  const [categoryForm,       setCategoryForm]       = useState({ name: "", description: "" });
-  const [editingCategory,    setEditingCategory]    = useState(null); // null = adding, id = editing
-  const [categoryError,      setCategoryError]      = useState("");
-  const [categoryLoading,    setCategoryLoading]    = useState(false);
+  const [categoryForm, setCategoryForm] = useState({ name: "", description: "" });
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [categoryError, setCategoryError] = useState("");
+  const [categoryLoading, setCategoryLoading] = useState(false);
 
   const galleryRefs = [useRef(null), useRef(null), useRef(null)];
   const token = typeof window !== "undefined" ? localStorage.getItem("adminToken") : null;
@@ -58,7 +63,7 @@ const AdminProducts = () => {
       setLoading(true);
       setError("");
       const [prodRes, catRes] = await Promise.all([
-        APIService.getAdminProducts({}, token),
+        APIService.getAdminProducts({ limit: 1000 }, token),  
         APIService.getAdminCategories(token),
       ]);
       setProducts((prodRes.products || []).map((p) => ({
@@ -79,11 +84,46 @@ const AdminProducts = () => {
 
   useEffect(() => { loadData(); }, []);
 
+  // Reset to page 1 whenever search or category filter changes
+  useEffect(() => { setCurrentPage(1); }, [search, filterCategory]);
+
   const filtered = products.filter((p) => {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
     const matchCat = filterCategory === "All" || p.categoryId === Number(filterCategory);
     return matchSearch && matchCat;
   });
+
+  // ── Pagination derived values ──
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const paginatedProducts = filtered.slice(
+    (safeCurrentPage - 1) * PAGE_SIZE,
+    safeCurrentPage * PAGE_SIZE
+  );
+
+  const goToPage = (page) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+  };
+
+  // Build page number array with ellipsis, e.g. [1, '…', 4, 5, 6, '…', 12]
+  const getPageNumbers = () => {
+    const pages = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (safeCurrentPage > 3) pages.push("…");
+      for (
+        let i = Math.max(2, safeCurrentPage - 1);
+        i <= Math.min(totalPages - 1, safeCurrentPage + 1);
+        i++
+      ) pages.push(i);
+      if (safeCurrentPage < totalPages - 2) pages.push("…");
+      pages.push(totalPages);
+    }
+    return pages;
+  };
 
   // ── Product modal ──
   const openAdd = () => {
@@ -268,7 +308,7 @@ const AdminProducts = () => {
             </tr>
           </thead>
           <tbody>
-            {filtered.map((product) => (
+            {paginatedProducts.map((product) => (
               <tr key={product.id}>
                 <td>
                   <div className="product-cell">
@@ -299,6 +339,48 @@ const AdminProducts = () => {
         </table>
         {filtered.length === 0 && <div className="empty-state">No products found.</div>}
       </div>
+
+      {/* ── Pagination ── */}
+      {totalPages > 1 && (
+        <div className="pagination-bar">
+          <span className="pagination-info">
+            Showing {(safeCurrentPage - 1) * PAGE_SIZE + 1}–{Math.min(safeCurrentPage * PAGE_SIZE, filtered.length)} of {filtered.length} products
+          </span>
+          <div className="pagination-controls">
+            <button
+              className="page-btn page-nav"
+              onClick={() => goToPage(safeCurrentPage - 1)}
+              disabled={safeCurrentPage === 1}
+              title="Previous page"
+            >
+              ‹
+            </button>
+
+            {getPageNumbers().map((page, idx) =>
+              page === "…" ? (
+                <span key={`ellipsis-${idx}`} className="page-ellipsis">…</span>
+              ) : (
+                <button
+                  key={page}
+                  className={`page-btn ${safeCurrentPage === page ? "active" : ""}`}
+                  onClick={() => goToPage(page)}
+                >
+                  {page}
+                </button>
+              )
+            )}
+
+            <button
+              className="page-btn page-nav"
+              onClick={() => goToPage(safeCurrentPage + 1)}
+              disabled={safeCurrentPage === totalPages}
+              title="Next page"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* ════════════════════════════════════════════
           MANAGE CATEGORIES MODAL
@@ -430,7 +512,7 @@ const AdminProducts = () => {
             <div className="admin-form">
               <div style={{ fontSize: 48, marginBottom: 8 }}>🗂️</div>
               <h3>Delete Category?</h3>
-              <p>This will remove the category permanently.<br/>Products in this category may become uncategorized.</p>
+              <p>This will remove the category permanently.<br />Products in this category may become uncategorized.</p>
               <div className="modal-actions">
                 <button className="admin-btn-secondary" onClick={() => setDeleteCatConfirm(null)}>Cancel</button>
                 <button className="admin-btn-delete" onClick={() => handleDeleteCategory(deleteCatConfirm)}>Delete</button>

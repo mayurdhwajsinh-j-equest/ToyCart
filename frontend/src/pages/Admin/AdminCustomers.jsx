@@ -11,6 +11,8 @@ const statusColors = {
   cancelled:  "#ef4444",
 };
 
+const PAGE_SIZE = 10;
+
 const AdminCustomers = () => {
   const [search,        setSearch]        = useState("");
   const [customers,     setCustomers]     = useState([]);
@@ -19,6 +21,9 @@ const AdminCustomers = () => {
   const [detailLoading, setDetailLoading] = useState(false);
   const [error,         setError]         = useState("");
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+
+  // Pagination
+  const [currentPage,   setCurrentPage]   = useState(1);
 
   const token = typeof window !== "undefined" ? localStorage.getItem("adminToken") : null;
 
@@ -29,7 +34,6 @@ const AdminCustomers = () => {
       const params = {};
       if (search) params.search = search;
       const data = await APIService.getAdminCustomers(params, token);
-      // List endpoint doesn't return orders/spent — show — until detail is opened
       const list = (data.customers || []).map((c) => ({
         id:          c.id,
         name:        c.name,
@@ -47,10 +51,10 @@ const AdminCustomers = () => {
     }
   };
 
-  useEffect(() => {
-    loadCustomers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useEffect(() => { loadCustomers(); }, []);
+
+  // Reset to page 1 when search changes
+  useEffect(() => { setCurrentPage(1); }, [search]);
 
   const filtered = customers.filter(
     (c) =>
@@ -58,11 +62,42 @@ const AdminCustomers = () => {
       c.email.toLowerCase().includes(search.toLowerCase())
   );
 
+  // ── Pagination derived values ──
+  const totalPages        = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safeCurrentPage   = Math.min(currentPage, totalPages);
+  const paginatedCustomers = filtered.slice(
+    (safeCurrentPage - 1) * PAGE_SIZE,
+    safeCurrentPage * PAGE_SIZE
+  );
+
+  const goToPage = (page) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+  };
+
+  const getPageNumbers = () => {
+    const pages = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (safeCurrentPage > 3) pages.push("…");
+      for (
+        let i = Math.max(2, safeCurrentPage - 1);
+        i <= Math.min(totalPages - 1, safeCurrentPage + 1);
+        i++
+      ) pages.push(i);
+      if (safeCurrentPage < totalPages - 2) pages.push("…");
+      pages.push(totalPages);
+    }
+    return pages;
+  };
+
   const openCustomer = async (customer) => {
     try {
       setDetailLoading(true);
       setError("");
-      setSelected({ ...customer, orders: [], totalOrders: 0, totalSpend: 0 }); // open modal immediately
+      setSelected({ ...customer, orders: [], totalOrders: 0, totalSpend: 0 });
 
       const data = await APIService.getAdminCustomerDetail(customer.id, token);
 
@@ -87,7 +122,6 @@ const AdminCustomers = () => {
         orders,
       });
 
-      // Also update the table row with real counts
       setCustomers((prev) =>
         prev.map((c) =>
           c.id === customer.id
@@ -149,7 +183,7 @@ const AdminCustomers = () => {
             </tr>
           </thead>
           <tbody>
-            {filtered.map((customer) => (
+            {paginatedCustomers.map((customer) => (
               <tr key={customer.id}>
                 <td>
                   <div className="customer-cell">
@@ -183,6 +217,48 @@ const AdminCustomers = () => {
         </table>
         {filtered.length === 0 && !loading && <div className="empty-state">No customers found.</div>}
       </div>
+
+      {/* ── Pagination ── */}
+      {totalPages > 1 && (
+        <div className="pagination-bar">
+          <span className="pagination-info">
+            Showing {(safeCurrentPage - 1) * PAGE_SIZE + 1}–{Math.min(safeCurrentPage * PAGE_SIZE, filtered.length)} of {filtered.length} customers
+          </span>
+          <div className="pagination-controls">
+            <button
+              className="page-btn page-nav"
+              onClick={() => goToPage(safeCurrentPage - 1)}
+              disabled={safeCurrentPage === 1}
+              title="Previous page"
+            >
+              ‹
+            </button>
+
+            {getPageNumbers().map((page, idx) =>
+              page === "…" ? (
+                <span key={`ellipsis-${idx}`} className="page-ellipsis">…</span>
+              ) : (
+                <button
+                  key={page}
+                  className={`page-btn ${safeCurrentPage === page ? "active" : ""}`}
+                  onClick={() => goToPage(page)}
+                >
+                  {page}
+                </button>
+              )
+            )}
+
+            <button
+              className="page-btn page-nav"
+              onClick={() => goToPage(safeCurrentPage + 1)}
+              disabled={safeCurrentPage === totalPages}
+              title="Next page"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Customer Detail Modal */}
       {selected && (

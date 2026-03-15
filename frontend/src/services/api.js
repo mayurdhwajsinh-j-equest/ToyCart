@@ -28,7 +28,7 @@ class APIService {
       ? `${API_BASE_URL}/products?${searchParams}`
       : `${API_BASE_URL}/products`;
     const data = await handleResponse(await fetch(url));
-    return data.products || data; // ← handles both array and object response
+    return data;
   }
 
   // Get single product details
@@ -41,7 +41,6 @@ class APIService {
       // Backend returns: { success, product }
       return data.product;
     } catch (error) {
-      console.error('Error fetching product:', error);
       throw error;
     }
   }
@@ -54,7 +53,6 @@ class APIService {
       );
       return data.products || [];
     } catch (error) {
-      console.error('Error fetching featured products:', error);
       throw error;
     }
   }

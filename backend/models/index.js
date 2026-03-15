@@ -1,8 +1,5 @@
 const { Sequelize } = require('sequelize');
 
-// Initialize Sequelize with MySQL
-// Make sure to set these environment variables in your .env file:
-// DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
 const sequelize = new Sequelize(
   process.env.DB_NAME || 'toycart',
   process.env.DB_USER || 'root',
@@ -11,11 +8,10 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 3306,
     dialect: 'mysql',
-    logging: false, // Set to console.log for query logging
+    logging: false
   }
 );
 
-// Import models
 const User = require('./User')(sequelize);
 const Category = require('./Category')(sequelize);
 const Product = require('./Product')(sequelize);
@@ -25,8 +21,6 @@ const OrderItem = require('./OrderItem')(sequelize);
 const Review = require('./Review')(sequelize);
 const WishList = require('./WishList')(sequelize);
 
-
-// User associations
 User.hasMany(Cart, {
   foreignKey: 'userId',
   onDelete: 'CASCADE',
@@ -48,14 +42,12 @@ User.hasMany(WishList, {
   onUpdate: 'CASCADE',
 });
 
-// Category associations
 Category.hasMany(Product, {
   foreignKey: 'categoryId',
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
 
-// Product associations
 Product.belongsTo(Category, {
   foreignKey: 'categoryId',
 });

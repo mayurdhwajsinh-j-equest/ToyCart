@@ -244,3 +244,71 @@ input.input-error:focus {
   flex: 1;
 }
 
+/* Thank You Toast Message */
+.thank-you-toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  animation: slideInScale 0.4s ease-out;
+}
+
+.thank-you-content {
+  background: #FFFFFF;
+  border: 3px solid #255F83;
+  border-radius: 16px;
+  padding: 40px 50px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(37, 95, 131, 0.2);
+  min-width: 400px;
+}
+
+.thank-you-content h3 {
+  color: #255F83;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+}
+
+.thank-you-content p {
+  color: #333;
+  font-size: 16px;
+  margin: 8px 0;
+  font-weight: 500;
+}
+
+.thank-you-content .thank-you-subtitle {
+  color: #666;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+@keyframes slideInScale {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes slideOutScale {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
+/* Optional: Add fade out animation when dismissing */
+.thank-you-toast {
+  animation: slideInScale 0.4s ease-out, slideOutScale 0.4s ease-out 2.6s forwards;
+}
+
+

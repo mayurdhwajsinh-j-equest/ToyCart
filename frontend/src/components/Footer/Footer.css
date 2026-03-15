@@ -1,7 +1,6 @@
 .footer {
   background-color: #245b7c;
   color: #ffffff;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   flex-direction: column;
 }
@@ -157,6 +156,9 @@ body, html, #root {
 .footer-cta .footer-illustration img {
   width: 340px;
   height: 320px;
+  position: relative;
+  left : 100px;
+  bottom: -5px;
 }
 
 .footer-bottom {

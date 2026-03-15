@@ -23,7 +23,7 @@
 .moreToys-content .section-heading {
   display: flex;
   justify-content: space-between;
-  align-items: center;  
+  align-items: center;
 }
 
 .moreToys-content .section-heading h4 {
@@ -58,7 +58,7 @@
   transform: translateY(-2px);
 }
 
-/* ── Nav Buttons — exact same style, tooltip added ── */
+/* ── Nav Buttons ── */
 .nav-btn {
   position: relative;
   background: #255F83;
@@ -79,9 +79,13 @@
   filter: invert(1);
 }
 
-.nav-btn:hover:not(.disabled) {
+.nav-btn:hover:not(.disabled):not(:disabled) {
   background: #1a4460;
   transform: scale(1.08);
+}
+
+.nav-btn:active:not(.disabled):not(:disabled) {
+  transform: scale(0.95);
 }
 
 .nav-btn.disabled,
@@ -90,7 +94,7 @@
   cursor: not-allowed;
 }
 
-/* Tooltip label */
+/* Tooltip */
 .nav-btn::after {
   content: attr(data-tooltip);
   position: absolute;
@@ -110,7 +114,6 @@
   z-index: 10;
 }
 
-/* Arrow under tooltip */
 .nav-btn::before {
   content: "";
   position: absolute;
@@ -131,62 +134,14 @@
   transform: translateX(-50%) translateY(0);
 }
 
-/* ── Slider Track ── */
-.slider-track {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  transition: opacity 0.35s ease, transform 0.35s ease;
+/* ── Swiper ── */
+.checkout-swiper {
+  width: 100%;
+  padding: 10px 0 20px;
 }
 
-.slider-track.slide-next {
-  animation: slideOutLeft 0.35s forwards;
-}
-
-.slider-track.slide-prev {
-  animation: slideOutRight 0.35s forwards;
-}
-
-@keyframes slideOutLeft {
-  0%   { opacity: 1; transform: translateX(0); }
-  50%  { opacity: 0; transform: translateX(-40px); }
-  51%  { opacity: 0; transform: translateX(40px); }
-  100% { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slideOutRight {
-  0%   { opacity: 1; transform: translateX(0); }
-  50%  { opacity: 0; transform: translateX(40px); }
-  51%  { opacity: 0; transform: translateX(-40px); }
-  100% { opacity: 1; transform: translateX(0); }
-}
-
-/* ── Dot Indicators ── */
-.slider-dots {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 8px;
-}
-
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: none;
-  background: #a89fd4;
-  cursor: pointer;
-  padding: 0;
-  transition: background 0.25s, transform 0.25s;
-}
-
-.dot.active {
-  background: #255F83;
-  transform: scale(1.35);
-}
-
-.dot:hover:not(.active) {
-  background: #7b6ab8;
+.checkout-swiper .swiper-slide {
+  height: auto;
 }
 
 /* ── Skeleton Loading ── */
@@ -217,8 +172,9 @@
   padding: 40px 0;
 }
 
-/* ── Product Card width fix inside slider ── */
-.slider-track .product-card {
-  width: 100%;
-  max-width: 100%;
+/* ── Responsive ── */
+@media (max-width: 1200px) {
+  .slider-loading {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

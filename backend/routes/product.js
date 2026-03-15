@@ -2,7 +2,7 @@ const express = require('express');
 const { Op } = require('sequelize');
 const { Product, Category, Review, User } = require('../config/db');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
-const { uploadSingle, uploadProductImages } = require('../middleware/upload'); // ← added uploadProductImages
+const { uploadSingle, uploadProductImages } = require('../middleware/upload');
 const { AppError } = require('../utils/errorHandler');
 const fs = require('fs');
 const path = require('path');
@@ -14,7 +14,7 @@ const deleteFile = (filePath) => {
   if (filePath && filePath.startsWith('/uploads/products/')) {
     const fullPath = path.join(__dirname, '../' + filePath);
     fs.unlink(fullPath, (err) => {
-      if (err) console.log('Error deleting file:', err);
+      // File deletion errors are non-critical
     });
   }
 };
@@ -220,7 +220,6 @@ router.put('/:id', authMiddleware, adminMiddleware, uploadProductImages(), async
   try {
     const { id } = req.params;
     const { name, description, short_description, price, categoryId, stock, is_featured, is_new, keep_additional_images } = req.body;
-    console.log("is_new received:", is_new, typeof is_new);
 
     const product = await Product.findByPk(id);
     if (!product) {

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Wishlist.css";
 import APIService from "../../services/api";
+import { useCart } from "../../hooks/useCart";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -49,12 +50,14 @@ const EmptyWishlist = ({ onBrowse }) => (
 
 function Wishlist() {
     const navigate = useNavigate();
+    const { addToCart } = useCart();
     const token = typeof window !== "undefined" ? localStorage.getItem("customerToken") : null;
 
     const [items,    setItems]    = useState([]);
     const [loading,  setLoading]  = useState(true);
     const [error,    setError]    = useState("");
     const [removing, setRemoving] = useState(null);
+    const [addingToCart, setAddingToCart] = useState(null);
 
     useEffect(() => {
         if (!token) { navigate("/login"); return; }
@@ -86,8 +89,15 @@ function Wishlist() {
         }
     };
 
-    const handleAddToCart = (productId) => {
-        navigate(`/Pdp/${productId}`);
+    const handleAddToCart = async (product) => {
+        try {
+            setAddingToCart(product.id);
+            await addToCart(product);
+        } catch {
+            setError("Could not add item to cart.");
+        } finally {
+            setAddingToCart(null);
+        }
     };
 
     if (loading) return (
@@ -162,10 +172,10 @@ function Wishlist() {
                                 <p className="wl-price">₹{Number(product.price).toLocaleString()}</p>
                                 <button
                                     className={`wl-add-btn ${isOOS ? "wl-add-btn--disabled" : ""}`}
-                                    onClick={() => !isOOS && handleAddToCart(product.id)}
-                                    disabled={isOOS}
+                                    onClick={() => !isOOS && handleAddToCart(product)}
+                                    disabled={isOOS || addingToCart === product.id}
                                 >
-                                    {isOOS ? "Out of Stock" : "Add to Toybox"}
+                                    {addingToCart === product.id ? "Adding..." : isOOS ? "Out of Stock" : "Add to Toybox"}
                                 </button>
                             </div>
                         </div>

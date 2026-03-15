@@ -1,5 +1,9 @@
 import "./Checkout.css";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 import CheckoutForm from "../../components/CheckoutForm/CheckoutForm.jsx";
 import Actioncard from "../../components/Actioncard/Actioncard.jsx";
 import Productcard from "../../components/Productcard/Productcard.jsx";
@@ -7,59 +11,34 @@ import APIService from "../../services/api";
 import navprev from "../../assets/nav-prev.svg";
 import navnext from "../../assets/nav-next.svg";
 
-const VISIBLE_COUNT = 4;
-
 function Checkout() {
     const [products, setProducts] = useState([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
     const [loading, setLoading] = useState(false);
-    const [animating, setAnimating] = useState(false);
-    const [direction, setDirection] = useState(null); // "next" | "prev"
-    const sliderRef = useRef(null);
+
+    useEffect(() => {
+        // Sync cart when component mounts (in case it was cleared during checkout)
+        const handleCartUpdated = () => {
+            // This will trigger a re-render which shows updated cart
+        };
+        window.addEventListener("cartUpdated", handleCartUpdated);
+        return () => window.removeEventListener("cartUpdated", handleCartUpdated);
+    }, []);
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 setLoading(true);
-                const data = await APIService.getProducts(); // adjust if your method name differs
-                setProducts(data);
+                const data = await APIService.getProducts();
+                const list = Array.isArray(data) ? data : (data.products || []);
+                setProducts(list);
             } catch (err) {
-                console.error("Failed to load products:", err);
+                // Failed to load products
             } finally {
                 setLoading(false);
             }
         };
         fetchProducts();
     }, []);
-
-    const maxIndex = Math.max(0, products.length - VISIBLE_COUNT);
-
-    const handlePrev = () => {
-        if (animating || currentIndex === 0) return;
-        setDirection("prev");
-        setAnimating(true);
-        setTimeout(() => {
-            setCurrentIndex((prev) => Math.max(0, prev - VISIBLE_COUNT));
-            setAnimating(false);
-            setDirection(null);
-        }, 350);
-    };
-
-    const handleNext = () => {
-        if (animating || currentIndex >= maxIndex) return;
-        setDirection("next");
-        setAnimating(true);
-        setTimeout(() => {
-            setCurrentIndex((prev) => Math.min(maxIndex, prev + VISIBLE_COUNT));
-            setAnimating(false);
-            setDirection(null);
-        }, 350);
-    };
-
-    const visibleProducts = products.slice(currentIndex, currentIndex + VISIBLE_COUNT);
-
-    const totalDots = Math.ceil(products.length / VISIBLE_COUNT);
-    const activeDot = Math.floor(currentIndex / VISIBLE_COUNT);
 
     return (
         <>
@@ -71,22 +50,10 @@ function Checkout() {
                         <h4>More toys for you</h4>
                         <div className="heading-actions">
                             <a href="/Alltoys" className="see-all-btn">See all toys</a>
-                            <button
-                                className={`nav-btn nav-prev ${currentIndex === 0 ? "disabled" : ""}`}
-                                onClick={handlePrev}
-                                disabled={currentIndex === 0 || animating}
-                                aria-label="Previous products"
-                                data-tooltip="Previous"
-                            >
+                            <button className="nav-btn nav-prev checkout-prev-btn" aria-label="Previous products" data-tooltip="Previous">
                                 <img src={navprev} alt="nav prev" />
                             </button>
-                            <button
-                                className={`nav-btn nav-next ${currentIndex >= maxIndex ? "disabled" : ""}`}
-                                onClick={handleNext}
-                                disabled={currentIndex >= maxIndex || animating}
-                                aria-label="Next products"
-                                data-tooltip="Next"
-                            >
+                            <button className="nav-btn nav-next checkout-next-btn" aria-label="Next products" data-tooltip="Next">
                                 <img src={navnext} alt="nav next" />
                             </button>
                         </div>
@@ -94,21 +61,26 @@ function Checkout() {
 
                     {loading && (
                         <div className="slider-loading">
-                            {[...Array(VISIBLE_COUNT)].map((_, i) => (
+                            {[...Array(4)].map((_, i) => (
                                 <div key={i} className="skeleton-card" />
                             ))}
                         </div>
                     )}
 
                     {!loading && products.length > 0 && (
-                        <>
-                            <div
-                                ref={sliderRef}
-                                className={`slider-track ${animating ? `slide-${direction}` : ""}`}
-                            >
-                                {visibleProducts.map((product) => (
+                        <Swiper
+                            spaceBetween={10}
+                            slidesPerView={5}
+                            navigation={{
+                                prevEl: ".checkout-prev-btn",
+                                nextEl: ".checkout-next-btn",
+                            }}
+                            modules={[Navigation]}
+                            className="checkout-swiper"
+                        >
+                            {products.map((product) => (
+                                <SwiperSlide key={product.id}>
                                     <Productcard
-                                        key={product.id}
                                         id={product.id}
                                         ProductImage={
                                             product.image_url
@@ -120,31 +92,9 @@ function Checkout() {
                                         ProductName={product.name || product.ProductName}
                                         Price={product.price || product.Price}
                                     />
-                                ))}
-                            </div>
-
-                            {totalDots > 1 && (
-                                <div className="slider-dots">
-                                    {[...Array(totalDots)].map((_, i) => (
-                                        <button
-                                            key={i}
-                                            className={`dot ${i === activeDot ? "active" : ""}`}
-                                            onClick={() => {
-                                                if (animating) return;
-                                                setDirection(i > activeDot ? "next" : "prev");
-                                                setAnimating(true);
-                                                setTimeout(() => {
-                                                    setCurrentIndex(i * VISIBLE_COUNT);
-                                                    setAnimating(false);
-                                                    setDirection(null);
-                                                }, 350);
-                                            }}
-                                            aria-label={`Go to page ${i + 1}`}
-                                        />
-                                    ))}
-                                </div>
-                            )}
-                        </>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
                     )}
 
                     {!loading && products.length === 0 && (

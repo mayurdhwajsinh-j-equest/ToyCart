@@ -10,7 +10,7 @@
      Soft base   #F0EDFF  — page background
    ═══════════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
 
 :root {
   /* ── Brand Colors ── */
@@ -1444,3 +1444,87 @@
 }
 
 .chart-toggle-btn:hover:not(.active) { color: #255F83; } 
+
+
+/* ═══════════════════════════════════════════════════════════
+   PAGINATION
+   ═══════════════════════════════════════════════════════════ */
+
+.pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 18px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.pagination-info {
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.page-btn {
+  min-width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s;
+  padding: 0 6px;
+}
+
+.page-btn:hover:not(:disabled):not(.active) {
+  border-color: var(--ocean);
+  color: var(--ocean);
+  background: var(--ocean-dim);
+}
+
+.page-btn.active {
+  background: var(--ocean);
+  border-color: var(--ocean);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(37, 95, 131, 0.3);
+  cursor: default;
+}
+
+.page-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.page-nav {
+  font-size: 18px;
+  font-weight: 900;
+  min-width: 36px;
+}
+
+.page-ellipsis {
+  min-width: 28px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-muted);
+  pointer-events: none;
+  user-select: none;
+}

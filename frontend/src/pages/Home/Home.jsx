@@ -2,6 +2,10 @@ import "./Home.css";
 
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 import Callout from "../../components/Callout/Callout.jsx";
 import Textbox from "../../components/Textbox/Textbox.jsx";
 import Productcard from "../../components/Productcard/Productcard.jsx";
@@ -36,8 +40,6 @@ import marqueelogo2 from "../../../public/images/marquee-logo2.png";
 import marqueelogo3 from "../../../public/images/marquee-logo3.png";
 import marqueelogo4 from "../../../public/images/marquee-logo4.png";
 
-const VISIBLE_COUNT = 4;
-
 function Home() {
   const heroRef = useRef(null);
   const openBoxRef = useRef(null);
@@ -45,11 +47,6 @@ function Home() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  // Slider state
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [animating, setAnimating] = useState(false);
-  const [direction, setDirection] = useState(null);
 
   const scrollToOpenBox = () => {
     openBoxRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -74,34 +71,6 @@ function Home() {
     };
     fetchFeatured();
   }, []);
-
-  const maxIndex = Math.max(0, featuredProducts.length - VISIBLE_COUNT);
-
-  const handlePrev = () => {
-    if (animating || currentIndex === 0) return;
-    setDirection("prev");
-    setAnimating(true);
-    setTimeout(() => {
-      setCurrentIndex((prev) => Math.max(0, prev - VISIBLE_COUNT));
-      setAnimating(false);
-      setDirection(null);
-    }, 350);
-  };
-
-  const handleNext = () => {
-    if (animating || currentIndex >= maxIndex) return;
-    setDirection("next");
-    setAnimating(true);
-    setTimeout(() => {
-      setCurrentIndex((prev) => Math.min(maxIndex, prev + VISIBLE_COUNT));
-      setAnimating(false);
-      setDirection(null);
-    }, 350);
-  };
-
-  const visibleProducts = featuredProducts.slice(currentIndex, currentIndex + VISIBLE_COUNT);
-  const totalDots = Math.ceil(featuredProducts.length / VISIBLE_COUNT);
-  const activeDot = Math.floor(currentIndex / VISIBLE_COUNT);
 
   return (
     <>
@@ -224,56 +193,26 @@ function Home() {
         </div>
         <p className="time-for-toys__label">We categorise our toy collection by <a href="#" className="play-style">Play style</a> and <a href="#" className="age">Age</a></p>
         <div className="toys-grid">
-          <div className="toy-card" onClick={() => navigate("/Alltoys")}>
-            <img src={toyimg} alt="Toy 1" className="toy-image" />
-            <p>Pritend play</p>
-          </div>
-          <div className="toy-card" onClick={() => navigate("/Alltoys")}>
-            <img src={toyimg} alt="Toy 2" className="toy-image" />
-            <p>Construction</p>
-          </div>
-          <div className="toy-card" onClick={() => navigate("/Alltoys")}>
-            <img src={toyimg} alt="Toy 3" className="toy-image" />
-            <p>STEM</p>
-          </div>
-          <div className="toy-card" onClick={() => navigate("/Alltoys")}>
-            <img src={toyimg} alt="Toy 4" className="toy-image" />
-            <p>Messy</p>
-          </div>
-          <div className="toy-card" onClick={() => navigate("/Alltoys")}>
-            <img src={toyimg} alt="Toy 5" className="toy-image" />
-            <p>Open ended</p>
-          </div>
-          <div className="toy-card" onClick={() => navigate("/Alltoys")}>
-            <img src={toyimg} alt="Toy 6" className="toy-image" />
-            <p>Open ended</p>
-          </div>
+          <div className="toy-card" onClick={() => navigate("/Alltoys")}><img src={toyimg} alt="Toy 1" className="toy-image" /><p>Pritend play</p></div>
+          <div className="toy-card" onClick={() => navigate("/Alltoys")}><img src={toyimg} alt="Toy 2" className="toy-image" /><p>Construction</p></div>
+          <div className="toy-card" onClick={() => navigate("/Alltoys")}><img src={toyimg} alt="Toy 3" className="toy-image" /><p>STEM</p></div>
+          <div className="toy-card" onClick={() => navigate("/Alltoys")}><img src={toyimg} alt="Toy 4" className="toy-image" /><p>Messy</p></div>
+          <div className="toy-card" onClick={() => navigate("/Alltoys")}><img src={toyimg} alt="Toy 5" className="toy-image" /><p>Open ended</p></div>
+          <div className="toy-card" onClick={() => navigate("/Alltoys")}><img src={toyimg} alt="Toy 6" className="toy-image" /><p>Open ended</p></div>
         </div>
       </section>
 
-      {/* ── Customer Favourites with Slider ── */}
+      {/* ── Customer Favourites with Swiper ── */}
       <section className="customerFav-section">
         <div className="customerFav-content">
           <div className="section-heading">
             <h4>Customer favourites</h4>
             <div className="heading-actions">
               <a href="/Alltoys" className="see-all-btn">See all toys</a>
-              <button
-                className={`nav-btn nav-prev ${currentIndex === 0 ? "disabled" : ""}`}
-                onClick={handlePrev}
-                disabled={currentIndex === 0 || animating}
-                aria-label="Previous products"
-                data-tooltip="Previous"
-              >
+              <button className="nav-btn nav-prev swiper-prev-btn" aria-label="Previous" data-tooltip="Previous">
                 <img src={navprev} alt="nav prev" />
               </button>
-              <button
-                className={`nav-btn nav-next ${currentIndex >= maxIndex ? "disabled" : ""}`}
-                onClick={handleNext}
-                disabled={currentIndex >= maxIndex || animating}
-                aria-label="Next products"
-                data-tooltip="Next"
-              >
+              <button className="nav-btn nav-next swiper-next-btn" aria-label="Next" data-tooltip="Next">
                 <img src={navnext} alt="nav next" />
               </button>
             </div>
@@ -281,7 +220,7 @@ function Home() {
 
           {loading && (
             <div className="fav-slider-loading">
-              {[...Array(VISIBLE_COUNT)].map((_, i) => (
+              {[...Array(4)].map((_, i) => (
                 <div key={i} className="fav-skeleton-card" />
               ))}
             </div>
@@ -290,11 +229,19 @@ function Home() {
           {error && !loading && <p style={{ color: "#c00" }}>{error}</p>}
 
           {!loading && !error && featuredProducts.length > 0 && (
-            <>
-              <div className={`fav-slider-track ${animating ? `slide-${direction}` : ""}`}>
-                {visibleProducts.map((product) => (
+            <Swiper
+              spaceBetween={10}
+              slidesPerView={5}
+              navigation={{
+                prevEl: ".swiper-prev-btn",
+                nextEl: ".swiper-next-btn",
+              }}
+              modules={[Navigation]}
+              className="fav-swiper"
+            >
+              {featuredProducts.map((product) => (
+                <SwiperSlide key={product.id}>
                   <Productcard
-                    key={product.id}
                     id={product.id}
                     ProductImage={
                       product.image_url
@@ -308,31 +255,9 @@ function Home() {
                     rating={product.rating}
                     reviewCount={product.number_of_reviews}
                   />
-                ))}
-              </div>
-
-              {totalDots > 1 && (
-                <div className="fav-slider-dots">
-                  {[...Array(totalDots)].map((_, i) => (
-                    <button
-                      key={i}
-                      className={`dot ${i === activeDot ? "active" : ""}`}
-                      onClick={() => {
-                        if (animating) return;
-                        setDirection(i > activeDot ? "next" : "prev");
-                        setAnimating(true);
-                        setTimeout(() => {
-                          setCurrentIndex(i * VISIBLE_COUNT);
-                          setAnimating(false);
-                          setDirection(null);
-                        }, 350);
-                      }}
-                      aria-label={`Go to page ${i + 1}`}
-                    />
-                  ))}
-                </div>
-              )}
-            </>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           )}
 
           {!loading && !error && featuredProducts.length === 0 && (

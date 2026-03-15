@@ -39,7 +39,7 @@ const EmptyCart = () => (
 
 function ToyBox() {
     const navigate = useNavigate();
-    const { syncCart } = useCart(); // ← pull syncCart to keep navbar in sync
+    const { syncCart } = useCart();
 
     const [cartItems, setCartItems] = useState([]);
     const [loading,   setLoading]   = useState(false);

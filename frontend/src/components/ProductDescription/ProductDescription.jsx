@@ -1,7 +1,6 @@
 import "./ProductDescription.css";
 import { useState } from "react";
 import { useCart } from "../../hooks/useCart";
-import APIService from "../../services/api";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -32,8 +31,7 @@ function ProductDescription({ product, productId }) {
     }
     const pid = productId || 1;
     try {
-      await APIService.addToCart({ productId: pid, quantity: 1 }, token);
-      addToCart({ id: pid, ProductName: title, Price: price, ProductImage: mainImage });
+      await addToCart({ id: pid, ProductName: title, Price: price, ProductImage: mainImage });
       window.dispatchEvent(new Event("cartUpdated"));
     } catch (err) {
       window.alert(err.message || "Unable to add to cart. Please try again.");
